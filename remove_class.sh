@@ -1,0 +1,1 @@
+find /home/nightcrack/IdeaProjects/nix_10/ -name '*.class' -delete
