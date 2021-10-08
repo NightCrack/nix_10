@@ -9,5 +9,6 @@ public class Test {
     public void run() {
         System.out.println(TEXT);
         System.out.println(StringUtils.upperCase(TEXT));
+        System.out.println(new java.util.Date());
     }
 }
