@@ -1,4 +1,4 @@
-package nightcrack.lessonopt;
+package ua.com.alevel.lessonopt;
 
 import java.util.*;
 

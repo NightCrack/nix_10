@@ -1,4 +1,4 @@
-package nightcrack.separator;
+package ua.com.alevel.separator;
 
 import java.util.*;
 

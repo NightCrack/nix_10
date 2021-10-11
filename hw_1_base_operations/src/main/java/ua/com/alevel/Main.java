@@ -1,8 +1,8 @@
-package nightcrack;
+package ua.com.alevel;
 
 import java.util.Scanner;
-import nightcrack.separator.*;
-import nightcrack.lessonopt.*;
+import ua.com.alevel.separator.*;
+import ua.com.alevel.lessonopt.*;
 
 public class Main {
     public static void main(String[] args) {
