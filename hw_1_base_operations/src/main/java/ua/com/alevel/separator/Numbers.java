@@ -1,7 +1,7 @@
 package ua.com.alevel.separator;
 
-import java.util.*;
-import java.util.stream.*;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class Numbers {
     public void numbers () {
@@ -10,11 +10,9 @@ public class Numbers {
             menu();
             Scanner buffer = new Scanner(System.in); //creation of new object 'buffer' of type "Scanner"
             String userInput = buffer.nextLine();//invoking input command & saving value to "String" variable 'userInput'
-            switch (userInput) {
-                case "Q":
-                case "q": exit = 1;
-                break;
-            }
+           switch (userInput) {
+               case "Q", "q" -> exit = 1;
+           }
             //System.out.println(userInput);
             char[] inputCharArray = userInput.toCharArray();//converting var 'userInput' to "char" type array 'inputCharArray'
             /*System.out.println(inputCharArray.length);

@@ -14,25 +14,25 @@ public class Main {
         do{
             Scanner inputOpt = new Scanner(System.in);
             char opt = inputOpt.next().charAt(0);
-            switch(opt) {
-                case '1': numbers.numbers();
+            switch (opt) {
+                case '1' -> {
+                    numbers.numbers();
                     menu();
-                    break;
-                case '2': characters.characters();
+                }
+                case '2' -> {
+                    characters.characters();
                     menu();
-                    break;
-                case '3': schedule.schedule();
+                }
+                case '3' -> {
+                    schedule.schedule();
                     menu();
-                    break;
-                case 'q':
-                case 'Q': exit = 1;
-                    break;
-                default: System.out.print(  System.lineSeparator() +
-                                            "Input number from 1 to 3 to select task; input \"Q\" (or \"q\") to exit." +
-                                            System.lineSeparator() + "Your input: ");
-
+                }
+                case 'q', 'Q' -> exit = 1;
+                default -> System.out.print(System.lineSeparator() +
+                        "Input number from 1 to 3 to select task; input \"Q\" (or \"q\") to exit." +
+                        System.lineSeparator() + "Your input: ");
             }
-        } while (exit != 1);
+        } while (1 != exit);
     }
 
     private static void menu() {

@@ -10,10 +10,7 @@ public class Characters {
             Scanner buffer = new Scanner(System.in);
             String userInput = buffer.nextLine();
             switch (userInput) {
-                case "Q":
-                case "q":
-                    exit = 1;
-                    break;
+                case "Q", "q" -> exit = 1;
             }
             char[] inputCharArray = userInput.toCharArray();
             Arrays.sort(inputCharArray);
@@ -31,7 +28,7 @@ public class Characters {
                 }
             }
             System.out.println(inputCharArray[inputCharArray.length - 1] + ": " + symbolCount);
-        } while (exit != 1);
+        } while (1 != exit);
     }
 
     private static void menu() {

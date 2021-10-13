@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ua.com.alevel</groupId>
-    <artifactId>maven</artifactId>
+    <artifactId>base_operations</artifactId>
     <packaging>jar</packaging>
     <version>1.0</version>
-    <name>maven</name>
+    <name>base_operations</name>
 
     <properties>
         <java.version>17</java.version>
@@ -15,10 +15,8 @@
         <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
     </properties>
 
-    <dependencies/>
-
     <build>
-        <finalName>maven</finalName>
+        <finalName>base_operations</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
