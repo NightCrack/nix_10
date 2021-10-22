@@ -72,6 +72,66 @@ public final class ReverseString {
         }
     }
 
+    private static String reverse(char[] userChar) {
+
+        String userInput = String.valueOf(userChar);
+        if (userInput == "") {
+
+            return "Empty input";
+        } else {
+
+            String firstSymbol = String.valueOf(userInput.charAt(0));
+            String[] words = userInput.split(symbolRegex);
+            String[] symbols = userInput.split(wordRegex);
+            for (int wordPosition = 0; wordPosition < words.length; wordPosition++) {
+
+                char[] charArray = words[wordPosition].toCharArray();
+                char[] reversedCharArray = new char[charArray.length];
+                for (int character = 0; character < charArray.length; character++) {
+
+                    reversedCharArray[character] = charArray[charArray.length - character - 1];
+                }
+                words[wordPosition] = String.valueOf(reversedCharArray);
+            }
+            int length = 0;
+            if (((words.length == 0) && (symbols.length != 0))||((words.length != 0) && (symbols.length == 0))) {
+
+                length = words.length + symbols.length;
+            } else if ((words.length != 0) && (symbols.length != 0)) {
+
+                length = words.length + symbols.length - 1;
+            }
+            String[] reversedWordsArray = new String[length];
+            if (firstSymbol.matches(wordOnlyRegex)) {
+
+                for (int word = 0, finalWord = 0; word < words.length && finalWord < reversedWordsArray.length; word++, finalWord += 2) {
+
+                    reversedWordsArray[finalWord] = words[word];
+                }
+                for (int symbol = 1, finalWord = 1; symbol < symbols.length && finalWord < reversedWordsArray.length; symbol++, finalWord += 2) {
+
+                    reversedWordsArray[finalWord] = symbols[symbol];
+                }
+            } else {
+
+                for (int word = 1, finalWord = 1; word < words.length && finalWord < reversedWordsArray.length; word++, finalWord += 2) {
+
+                    reversedWordsArray[finalWord] = words[word];
+                }
+                for (int symbol = 0, finalWord = 0; symbol < symbols.length && finalWord < reversedWordsArray.length; symbol++, finalWord += 2) {
+
+                    reversedWordsArray[finalWord] = symbols[symbol];
+                }
+            }
+            StringBuilder finalString = new StringBuilder();
+            for (String word : reversedWordsArray) {
+
+                finalString.append(word);
+            }
+            return finalString.toString();
+        }
+    }
+
     public static String reverse(String userInput) {
 
         if (userInput == "") {
@@ -327,12 +387,7 @@ public final class ReverseString {
                                         symbolIndex = startIndex;
                                         char[] tempWordArray = new char[wordIndexes[1]];
                                         System.arraycopy(charUserInput, wordIndexes[0], tempWordArray, 0, tempWordArray.length);
-                                        char[] reversedCharArray = new char[tempWordArray.length];
-                                        for (int character = 0; character < tempWordArray.length; character++) {
-
-                                            reversedCharArray[character] = tempWordArray[tempWordArray.length - character - 1];
-                                        }
-                                        wordsArray[wordIndex - 1] = String.valueOf(reversedCharArray);
+                                        wordsArray[wordIndex - 1] = reverse(tempWordArray);
                                     }
                                 }
                             }
@@ -344,7 +399,6 @@ public final class ReverseString {
 
                             startEndIndex = 1;
                         }
-                        System.out.println("startEndIndex: " + startEndIndex + " wordsArray.length: " + wordsArray.length + " betweenArray.length: " + betweenArray.length);
                         String[] finalStringArray = new String[startEndIndex + wordsArray.length + betweenArray.length];
                         int index = 0;
                         if (!startString.isBlank()) {
@@ -358,10 +412,6 @@ public final class ReverseString {
 
                                 finalStringArray[finalArrayIndex] = wordsArray[wordsArrayIndex];
                             }
-                        }
-                        for (String word : finalStringArray) {
-
-                            System.out.println("finalStringArray[Index]: " + word);
                         }
                         if (betweenArray.length != 0) {
 
