@@ -5,6 +5,8 @@ import java.util.regex.*;
 
 public final class ReverseString {
 
+    private ReverseString () {};
+
     private static String symbolRegex = "[^\\w\\u0400-\\u04ff]+",
             wordRegex = "[\\w\\u0400-\\u04ff]+",
             wordOnlyRegex = "[\\w\\u0400-\\u04ff]++";
