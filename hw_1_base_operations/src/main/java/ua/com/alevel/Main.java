@@ -1,8 +1,10 @@
 package ua.com.alevel;
 
+import ua.com.alevel.lessonopt.Schedule;
+import ua.com.alevel.separator.Characters;
+import ua.com.alevel.separator.Numbers;
+
 import java.util.Scanner;
-import ua.com.alevel.separator.*;
-import ua.com.alevel.lessonopt.*;
 
 public class Main {
 
@@ -13,7 +15,7 @@ public class Main {
         Numbers numbers = new Numbers();
         Characters characters = new Characters();
         Schedule schedule = new Schedule();
-        do{
+        do {
 
             Scanner inputOpt = new Scanner(System.in);
             char opt = inputOpt.next().charAt(0);
@@ -50,6 +52,6 @@ public class Main {
                 System.lineSeparator() + "3: Classes schedule." +
                 System.lineSeparator() + System.lineSeparator() +
                 "Input \"Q\" (or \"q\") to exit." +
-                System.lineSeparator() + "Your input: " );
+                System.lineSeparator() + "Your input: ");
     }
 }
