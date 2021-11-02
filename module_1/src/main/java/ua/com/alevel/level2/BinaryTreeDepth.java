@@ -31,26 +31,26 @@ public class BinaryTreeDepth {
                 if (input.equals(EXIT_VALUE)) {
                     EVALUATOR = EXIT_VALUE;
                 } else {
-                    if(input.equals(RANDOMIZER_INITIATION)) {
+                    if (input.equals(RANDOMIZER_INITIATION)) {
                         treeDepth = (Generator.generateValue() + 1);
                     } else if (!checkIfNumber(input)) {
                         System.out.println("Incorrect input.");
                         continue;
                     }
-                    if(!input.equals(RANDOMIZER_INITIATION)){
+                    if (!input.equals(RANDOMIZER_INITIATION)) {
                         treeDepth = Integer.parseInt(input);
                     }
                     TreeNode[][] outTree = TreeNester.buildTree(treeDepth);
                     String[][] outTreeString = TreeNester.buildTreeToString(outTree);
                     for (int indexA = 0; indexA < outTreeString.length; indexA++) {
-                        System.out.print("Grade " + (indexA+1) + ": ");
+                        System.out.print("Grade " + (indexA + 1) + ": ");
                         for (int indexB = 0; indexB < outTreeString[indexA].length; indexB++) {
                             System.out.print(outTreeString[indexA][indexB] + " ");
                         }
                         System.out.println();
                     }
                     for (int index = 0; index < outTree[0].length; index++) {
-                        if(outTree[0][index] != null) {
+                        if (outTree[0][index] != null) {
                             System.out.println("Tree depth: " + Generator.getTreeDepth(outTree[0][index]));
                             break;
                         }

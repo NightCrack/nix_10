@@ -25,16 +25,16 @@ public class CheckParenthesis {
                 if (input.equals(EXIT_VALUE)) {
                     EVALUATOR = EXIT_VALUE;
                 } else {
-                    do{
+                    do {
                         int[] openedParenthesis = ParenthesisChecker.lastStartParenthesisIndex(input);
                         if (openedParenthesis[1] == -1) {
                             returnMessage = "String is allowable";
                         } else {
-                            int closingParenthesisIndex = ParenthesisChecker.nearestEndParenthesisIndex(input,openedParenthesis);
+                            int closingParenthesisIndex = ParenthesisChecker.nearestEndParenthesisIndex(input, openedParenthesis);
                             if (closingParenthesisIndex == -1) {
                                 returnMessage = "String is not allowable";
                             } else {
-                                input = ParenthesisChecker.cutOutSubstring(input,openedParenthesis[1],closingParenthesisIndex);
+                                input = ParenthesisChecker.cutOutSubstring(input, openedParenthesis[1], closingParenthesisIndex);
                             }
                         }
                     } while (returnMessage.equals(""));

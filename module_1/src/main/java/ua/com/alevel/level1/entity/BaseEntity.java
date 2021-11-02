@@ -1,6 +1,7 @@
 package ua.com.alevel.level1.entity;
 
 public abstract class BaseEntity {
+
     private long coordinateX;
     private long coordinateY;
 

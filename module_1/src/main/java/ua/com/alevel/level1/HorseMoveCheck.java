@@ -31,7 +31,7 @@ public class HorseMoveCheck {
             } else {
                 currentPosition = makeStepLoop(input, currentPosition);
             }
-        } while ( EVALUATOR != EXIT_VALUE);
+        } while (EVALUATOR.equals(EXIT_VALUE));
     }
 
     private HorseFigure setPositionLoop(String input) {
@@ -42,7 +42,7 @@ public class HorseMoveCheck {
             input = userInput.nextLine();
             return setPositionLoop(input);
         } else {
-            if(input.equals(EXIT_VALUE)) {
+            if (input.equals(EXIT_VALUE)) {
                 EVALUATOR = EXIT_VALUE;
             } else {
                 if (!Pattern.matches(REGEX_ALPHABETICAL + REGEX_NUMERICAL, input)) {
@@ -72,7 +72,7 @@ public class HorseMoveCheck {
     }
 
     private String horseCoordinatesToString(HorseFigure horseFigure) {
-        return horseFigure.getHorseCoordinateX()+horseFigure.getCoordinateY();
+        return horseFigure.getHorseCoordinateX() + horseFigure.getCoordinateY();
     }
 
     private HorseFigure makeStepLoop(String moveInput, HorseFigure position) {
@@ -98,7 +98,7 @@ public class HorseMoveCheck {
                     return movePosition;
                 }
             }
-            if(inputNext.equals(EXIT_VALUE)) {
+            if (inputNext.equals(EXIT_VALUE)) {
                 return null;
             } else {
                 System.out.println("Impossible move");
@@ -126,7 +126,7 @@ public class HorseMoveCheck {
         }
     }
 
-    private long positionModifier (int modifierNumber, char coordinateAxis) {
+    private long positionModifier(int modifierNumber, char coordinateAxis) {
         long[] position1 = {1, 2};
         long[] position2 = {2, 1};
         long[] position3 = {2, -1};
@@ -136,36 +136,46 @@ public class HorseMoveCheck {
         long[] position7 = {-2, 1};
         long[] position8 = {-1, 2};
         long[] workArray = new long[2];
-        switch(modifierNumber) {
-            case 1: workArray = position1;
+        switch (modifierNumber) {
+            case 1:
+                workArray = position1;
                 break;
-            case 2: workArray = position2;
+            case 2:
+                workArray = position2;
                 break;
-            case 3: workArray = position3;
+            case 3:
+                workArray = position3;
                 break;
-            case 4: workArray = position4;
+            case 4:
+                workArray = position4;
                 break;
-            case 5: workArray = position5;
+            case 5:
+                workArray = position5;
                 break;
-            case 6: workArray = position6;
+            case 6:
+                workArray = position6;
                 break;
-            case 7: workArray = position7;
+            case 7:
+                workArray = position7;
                 break;
-            case 8: workArray = position8;
+            case 8:
+                workArray = position8;
                 break;
         }
         long returnValue = 0;
-        switch(coordinateAxis) {
-            case 'X': returnValue = workArray[0];
+        switch (coordinateAxis) {
+            case 'X':
+                returnValue = workArray[0];
                 break;
-            case 'Y': returnValue = workArray[1];
+            case 'Y':
+                returnValue = workArray[1];
         }
         return returnValue;
     }
 
     private HorseFigure[] positionsSet(HorseFigure horseFigure) {
         HorseFigure[] setOfAlternatives = new HorseFigure[0];
-        for (int index = 0; index < 8; index++){
+        for (int index = 0; index < 8; index++) {
             HorseFigure alternativePositions = new HorseFigure();
             alternativePositions.setHorseCoordinateX(CoordinateEncoder.alphabeticalCoordinateGeneration(horseFigure.getCoordinateX() + positionModifier(index + 1, 'X')));
             alternativePositions.setCoordinateY(horseFigure.getCoordinateY() + positionModifier(index + 1, 'Y'));
@@ -176,5 +186,4 @@ public class HorseMoveCheck {
         }
         return setOfAlternatives;
     }
-
 }

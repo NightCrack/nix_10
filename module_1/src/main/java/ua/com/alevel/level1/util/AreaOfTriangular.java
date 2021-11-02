@@ -12,14 +12,14 @@ public final class AreaOfTriangular {
     private static BigDecimal sizeLine(Dot firstDot, Dot secondDot) {
         long distanceX = firstDot.getCoordinateX() - secondDot.getCoordinateX();
         long distanceY = firstDot.getCoordinateY() - secondDot.getCoordinateY();
-        BigDecimal lineSize = new BigDecimal(Math.sqrt((double) (distanceX*distanceX + distanceY*distanceY)));
+        BigDecimal lineSize = new BigDecimal(Math.sqrt((double) (distanceX * distanceX + distanceY * distanceY)));
         return lineSize;
     }
 
     public static BigDecimal getArea(Dot dotA, Dot dotB, Dot dotC) {
-        BigDecimal edgeA = sizeLine(dotA,dotB);
-        BigDecimal edgeB = sizeLine(dotA,dotC);
-        BigDecimal edgeC = sizeLine(dotB,dotC);
+        BigDecimal edgeA = sizeLine(dotA, dotB);
+        BigDecimal edgeB = sizeLine(dotA, dotC);
+        BigDecimal edgeC = sizeLine(dotB, dotC);
         BigDecimal subLine = (((edgeA.multiply(edgeA)).subtract(edgeB.multiply(edgeB))).add(edgeC.multiply(edgeC))).divide((edgeC.add(edgeC)), MathContext.DECIMAL32);
         BigDecimal height = ((edgeA.multiply(edgeA)).subtract(subLine.multiply(subLine))).sqrt(MathContext.DECIMAL32);
         BigDecimal area = (edgeC.multiply(height)).divide(BigDecimal.valueOf(2), MathContext.DECIMAL32);

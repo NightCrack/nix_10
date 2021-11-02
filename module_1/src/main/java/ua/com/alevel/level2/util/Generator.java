@@ -20,8 +20,6 @@ public final class Generator {
         }
         int left = getTreeDepth(root.getLeft());
         int right = getTreeDepth(root.getRight());
-        return Math.max(left,right) + 1;
+        return Math.max(left, right) + 1;
     }
-
-
 }

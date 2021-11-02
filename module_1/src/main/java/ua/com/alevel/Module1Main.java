@@ -26,16 +26,21 @@ public class Module1Main {
         System.out.println("Choose your level (from 1 to 3), or type "
                 + EXIT_VALUE + " to exit the program.");
         System.out.print("Your input: ");
-        switch(userInput.nextLine()) {
-            case "1": level1();
+        switch (userInput.nextLine()) {
+            case "1":
+                level1();
                 break;
-            case "2": level2();
+            case "2":
+                level2();
                 break;
-            case "3": level3();
+            case "3":
+                level3();
                 break;
-            case "0": EVALUATOR = EXIT_VALUE;
+            case "0":
+                EVALUATOR = EXIT_VALUE;
                 break;
-            default: System.out.println();
+            default:
+                System.out.println();
                 System.out.println("Wrong input.");
                 break;
         }
@@ -63,9 +68,11 @@ public class Module1Main {
                     new TriangularArea().check();
                     EVALUATOR = EXIT_VALUE;
                     break;
-                case "0": EVALUATOR = EXIT_VALUE;
+                case "0":
+                    EVALUATOR = EXIT_VALUE;
                     break;
-                default: System.out.println();
+                default:
+                    System.out.println();
                     System.out.println("Wrong input.");
                     System.out.print("Your input:");
                     break;
@@ -91,9 +98,11 @@ public class Module1Main {
                     new BinaryTreeDepth().check();
                     EVALUATOR = EXIT_VALUE;
                     break;
-                case "0": EVALUATOR = EXIT_VALUE;
+                case "0":
+                    EVALUATOR = EXIT_VALUE;
                     break;
-                default: System.out.println();
+                default:
+                    System.out.println();
                     System.out.println("Wrong input.");
                     System.out.print("Your input:");
                     break;

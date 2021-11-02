@@ -22,37 +22,36 @@ public class TriangularArea {
         do {
             System.out.print("Your input: ");
             String input = userInput.nextLine();
-            if(input.isBlank()) {
+            if (input.isBlank()) {
                 System.out.println("Your input is blank.");
             } else {
                 if (input.equals(EXIT_VALUE)) {
                     EVALUATOR = EXIT_VALUE;
                 } else {
                     String[] rivenDots = input.split(" ");
-                    if(rivenDots.length != 3) {
+                    if (rivenDots.length != 3) {
                         System.out.println("Wrong dots' amount. It must be 3 dots.");
                     } else {
                         Dot[] dotsArray = new Dot[3];
-                        for(int index = 0; index < rivenDots.length; index++) {
+                        for (int index = 0; index < rivenDots.length; index++) {
                             String[] rivenDotCoordinates = rivenDots[index].split(";");
-                            if(rivenDotCoordinates.length != 2) {
-                                System.out.println("Incorrect coordinates of dot" + (index+1));
+                            if (rivenDotCoordinates.length != 2) {
+                                System.out.println("Incorrect coordinates of dot" + (index + 1));
                             } else {
                                 dotsArray[index] = dotCheck(rivenDotCoordinates);
                             }
                         }
-                        if(dotsArray[0] != null && dotsArray[1] != null && dotsArray[2] !=null) {
+                        if (dotsArray[0] != null && dotsArray[1] != null && dotsArray[2] != null) {
                             System.out.println("The area is: " + AreaOfTriangular.getArea(dotsArray));
                         }
                     }
                 }
             }
-
-        } while (EVALUATOR != EXIT_VALUE);
+        } while (EVALUATOR.equals(EXIT_VALUE));
     }
 
     private Dot dotCheck(String partX, String partY) {
-        if(checkIfNumber(partX) && checkIfNumber(partY)) {
+        if (checkIfNumber(partX) && checkIfNumber(partY)) {
             Dot dot = new Dot();
             dot.setCoordinateX(Integer.parseInt(partX));
             dot.setCoordinateY(Integer.parseInt(partY));

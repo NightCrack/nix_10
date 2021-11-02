@@ -46,16 +46,16 @@ public class StringMain {
         System.out.println("StringMain.main");
         List<Person> persons = new ArrayList<>();
         Random random = new Random();
-        for(int i=0; i < 1_000; i++) {
+        for (int i = 0; i < 1_000; i++) {
             int r = random.nextInt(2);
             Person person = new Person();
-            person.setName( r == 0 ? NAME_1 : NAME_2);
+            person.setName(r == 0 ? NAME_1 : NAME_2);
             persons.add(person);
         }
         long count = persons
-                    .stream()
-                    .filter(person -> person.getName().equals(NAME_1))
-                    .count();
+                .stream()
+                .filter(person -> person.getName().equals(NAME_1))
+                .count();
         System.out.println(count);
 
     }

@@ -9,16 +9,14 @@ import java.util.Scanner;
 
 public class FigureController {
 
-    private final FiguresService figuresService = new FiguresService();
     private static final Scanner userInput = new Scanner(System.in);
-
     private static final String CREATE_VALUE = "new";
     private static final String UPDATE_VALUE = "upd";
     private static final String DELETE_VALUE = "del";
     private static final String FIND_ONE_VALUE = "one";
     private static final String FIND_ALL_VALUE = "all";
     private static final String EXIT_VALUE = "ext";
-
+    private final FiguresService figuresService = new FiguresService();
     private String breaker;
     private String id;
     private String name;
@@ -33,21 +31,16 @@ public class FigureController {
     private BigDecimal volume;
 
     public void execute() {
-
         do {
-
             menu();
             crud(userInput.nextLine());
-
         } while (!Objects.equals(breaker, EXIT_VALUE));
-
     }
 
     private void menu() {
-
         System.out.println();
         System.out.println("Make your choice:");
-        System.out.println("Create figure - enter '" + CREATE_VALUE + "';" );
+        System.out.println("Create figure - enter '" + CREATE_VALUE + "';");
         System.out.println("Update figure - enter '" + UPDATE_VALUE + "';");
         System.out.println("Delete figure - enter '" + DELETE_VALUE + "';");
         System.out.println("Find figure by ID - enter '" + FIND_ONE_VALUE + "';");
@@ -57,28 +50,32 @@ public class FigureController {
     }
 
     private void crud(String position) {
-
         switch (position) {
-
-            case CREATE_VALUE : create();
+            case CREATE_VALUE:
+                create();
                 break;
-            case UPDATE_VALUE: update();
+            case UPDATE_VALUE:
+                update();
                 break;
-            case DELETE_VALUE: delete();
+            case DELETE_VALUE:
+                delete();
                 break;
-            case FIND_ONE_VALUE: findById();
+            case FIND_ONE_VALUE:
+                findById();
                 break;
-            case FIND_ALL_VALUE: findAll();
+            case FIND_ALL_VALUE:
+                findAll();
                 break;
-            case EXIT_VALUE: breaker = EXIT_VALUE;
+            case EXIT_VALUE:
+                breaker = EXIT_VALUE;
                 break;
-            default : System.out.println();
+            default:
+                System.out.println();
                 System.out.println("Wrong input");
         }
     }
 
     private void create() {
-
         System.out.println();
         System.out.print("Enter figure's name: ");
         name = userInput.nextLine();
@@ -101,7 +98,6 @@ public class FigureController {
         System.out.print("Enter figure's volume: ");
         volumeString = userInput.nextLine();
         volume = new BigDecimal(volumeString);
-
         Figure figure = new Figure();
         figure.setName(name);
         figure.setShape(shape);
@@ -113,7 +109,6 @@ public class FigureController {
     }
 
     private void update() {
-
         System.out.println();
         System.out.print("Enter ID of figure to alter: ");
         id = userInput.nextLine();
@@ -140,7 +135,6 @@ public class FigureController {
         System.out.print("New volume: ");
         volumeString = userInput.nextLine();
         volume = new BigDecimal(volumeString);
-
         Figure figure = new Figure();
         figure.setId(id);
         figure.setName(name);
@@ -153,7 +147,6 @@ public class FigureController {
     }
 
     private void delete() {
-
         System.out.println();
         System.out.print("Enter ID of figure to delete: ");
         id = userInput.nextLine();
@@ -161,7 +154,6 @@ public class FigureController {
     }
 
     private void findById() {
-
         System.out.println();
         System.out.print("Enter figure's ID: ");
         id = userInput.nextLine();
@@ -171,18 +163,14 @@ public class FigureController {
     }
 
     private void findAll() {
-
         Figure[] figures = figuresService.findAll();
-        if((figures != null) && (figures.length != 0)) {
-            for(Figure figure: figures) {
-
+        if ((figures != null) && (figures.length != 0)) {
+            for (Figure figure : figures) {
                 if (figure != null) {
-
                     System.out.println("Figure: " + figure);
                 }
             }
         } else {
-
             System.out.println("The base is empty.");
         }
     }

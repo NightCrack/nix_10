@@ -23,10 +23,10 @@ public final class TreeNester {
         return parentNode;
     }
 
-    public static TreeNode[][] buildTree (int treeDepth) {
+    public static TreeNode[][] buildTree(int treeDepth) {
         BigDecimal amountOfBranchesPerNode = new BigDecimal("2");
         int numberOfElements = amountOfBranchesPerNode.pow(treeDepth).subtract(new BigDecimal(1)).intValue();
-        TreeNode[][] treeArray = new TreeNode [treeDepth][numberOfElements];
+        TreeNode[][] treeArray = new TreeNode[treeDepth][numberOfElements];
         int[][] treeElementIndexes = treeElementIndexes(treeArray.length);
         TreeNode parentNode = new TreeNode(Generator.generateValue());
         TreeNode currentParentNode;
@@ -63,9 +63,9 @@ public final class TreeNester {
 
     public static String[][] buildTreeToString(TreeNode[][] builtTreeArray) {
         int maxLength = 1;
-        for(int indexA = 0; indexA < builtTreeArray.length; indexA++) {
+        for (int indexA = 0; indexA < builtTreeArray.length; indexA++) {
             for (int indexB = 0; indexB < builtTreeArray[indexA].length; indexB++) {
-                if (builtTreeArray[indexA][indexB] != null){
+                if (builtTreeArray[indexA][indexB] != null) {
                     int currentLength = builtTreeArray[indexA][indexB].toString().length();
                     if (currentLength > maxLength) {
                         maxLength = currentLength;
@@ -73,14 +73,14 @@ public final class TreeNester {
                 }
             }
         }
-        int segmentLength = maxLength*2;
+        int segmentLength = maxLength * 2;
         String[][] returnArray = new String[builtTreeArray.length][builtTreeArray[0].length];
-        for(int indexA = 0; indexA < returnArray.length; indexA++) {
-            for(int indexB = 0; indexB < returnArray[indexA].length; indexB++) {
-                if (builtTreeArray[indexA][indexB] != null){
+        for (int indexA = 0; indexA < returnArray.length; indexA++) {
+            for (int indexB = 0; indexB < returnArray[indexA].length; indexB++) {
+                if (builtTreeArray[indexA][indexB] != null) {
                     returnArray[indexA][indexB] = rowSegmentBuilder(builtTreeArray[indexA][indexB].toString(), segmentLength);
                 } else {
-                    returnArray[indexA][indexB] = rowSegmentBuilder("",segmentLength);
+                    returnArray[indexA][indexB] = rowSegmentBuilder("", segmentLength);
                 }
             }
         }
@@ -91,9 +91,9 @@ public final class TreeNester {
         int[][] returnArray = new int[depth][treeWidth(depth)];
         for (int indexA = 0, multiplier = depth; indexA < returnArray.length; indexA++) {
             --multiplier;
-            int rowValueMultiplier = (int) Math.pow(2,multiplier);
-            for(int indexB = 0; indexB < returnArray[indexA].length; indexB++) {
-                int rowElementPosition = rowValueMultiplier*(2*indexB + 1);
+            int rowValueMultiplier = (int) Math.pow(2, multiplier);
+            for (int indexB = 0; indexB < returnArray[indexA].length; indexB++) {
+                int rowElementPosition = rowValueMultiplier * (2 * indexB + 1);
                 if (rowElementPosition <= returnArray[indexA].length) {
                     returnArray[indexA][indexB] = rowElementPosition;
                 } else {
@@ -115,6 +115,6 @@ public final class TreeNester {
         for (int index = 0; index < (segmentLength - inputValue.length()); index++) {
             nullBrick += " ";
         }
-        return nullBrick+inputValue;
+        return nullBrick + inputValue;
     }
 }
