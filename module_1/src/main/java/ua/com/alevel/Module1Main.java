@@ -7,6 +7,7 @@ import ua.com.alevel.level2.BinaryTreeDepth;
 import ua.com.alevel.level2.CheckParenthesis;
 import ua.com.alevel.level3.TheGameOfLife;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Module1Main {
@@ -15,13 +16,13 @@ public class Module1Main {
     private static final int EXIT_VALUE = 0;
     private static int EVALUATOR = 1;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException, IOException {
         do {
             screenTips();
         } while (EVALUATOR != EXIT_VALUE);
     }
 
-    private static void screenTips() {
+    private static void screenTips() throws InterruptedException, IOException {
         System.out.println();
         System.out.println("Choose your level (from 1 to 3), or type "
                 + EXIT_VALUE + " to exit the program.");
@@ -111,7 +112,7 @@ public class Module1Main {
         EVALUATOR = 1;
     }
 
-    private static void level3() {
+    private static void level3() throws InterruptedException, IOException {
         new TheGameOfLife().run();
     }
 
