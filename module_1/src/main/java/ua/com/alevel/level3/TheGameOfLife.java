@@ -49,6 +49,6 @@ public class TheGameOfLife {
                     }
                 }
             }
-        } while (!EVALUATOR.equals(EXIT_VALUE));
+        } while (EVALUATOR != EXIT_VALUE);
     }
 }

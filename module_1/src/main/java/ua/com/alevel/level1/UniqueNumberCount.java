@@ -46,6 +46,6 @@ public class UniqueNumberCount {
             } else {
                 System.out.println("Your input isn't containing numbers.");
             }
-        } while (!EVALUATOR.equals(EXIT_VALUE));
+        } while (EVALUATOR != EXIT_VALUE);
     }
 }

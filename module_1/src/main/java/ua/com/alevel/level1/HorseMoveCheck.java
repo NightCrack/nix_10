@@ -31,7 +31,7 @@ public class HorseMoveCheck {
             } else {
                 currentPosition = makeStepLoop(input, currentPosition);
             }
-        } while (EVALUATOR.equals(EXIT_VALUE));
+        } while (EVALUATOR != EXIT_VALUE);
     }
 
     private HorseFigure setPositionLoop(String input) {

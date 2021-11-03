@@ -47,7 +47,7 @@ public class TriangularArea {
                     }
                 }
             }
-        } while (EVALUATOR.equals(EXIT_VALUE));
+        } while (EVALUATOR != EXIT_VALUE);
     }
 
     private Dot dotCheck(String partX, String partY) {

@@ -41,6 +41,6 @@ public class CheckParenthesis {
                 }
             }
             System.out.println(returnMessage);
-        } while (!Objects.equals(EVALUATOR, EXIT_VALUE));
+        } while (EVALUATOR != EXIT_VALUE);
     }
 }

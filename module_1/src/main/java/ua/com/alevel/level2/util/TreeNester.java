@@ -111,9 +111,9 @@ public final class TreeNester {
     }
 
     private static String rowSegmentBuilder(String inputValue, int segmentLength) {
-        String nullBrick = " ";
+        String nullBrick = "-";
         for (int index = 0; index < (segmentLength - inputValue.length()); index++) {
-            nullBrick += " ";
+            nullBrick += "-";
         }
         return nullBrick + inputValue;
     }

@@ -7,7 +7,7 @@ public final class Generator {
     private Generator() { }
 
     public static int generateValue() {
-        return (int) (Math.random() * 9);
+        return (int) (Math.random() * 4);
     }
 
     public static int setBranchesAmount() {

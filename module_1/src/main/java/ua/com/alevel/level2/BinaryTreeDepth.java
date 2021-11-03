@@ -45,7 +45,7 @@ public class BinaryTreeDepth {
                     for (int indexA = 0; indexA < outTreeString.length; indexA++) {
                         System.out.print("Grade " + (indexA + 1) + ": ");
                         for (int indexB = 0; indexB < outTreeString[indexA].length; indexB++) {
-                            System.out.print(outTreeString[indexA][indexB] + " ");
+                            System.out.print(outTreeString[indexA][indexB] + "-");
                         }
                         System.out.println();
                     }
@@ -57,7 +57,7 @@ public class BinaryTreeDepth {
                     }
                 }
             }
-        } while (EVALUATOR.equals(EXIT_VALUE));
+        } while (EVALUATOR != EXIT_VALUE);
     }
 
     private boolean checkIfNumber(String userInput) {
