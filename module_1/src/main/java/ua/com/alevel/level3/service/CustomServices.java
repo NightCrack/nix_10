@@ -1,4 +1,4 @@
-package ua.com.alevel.level3.Service;
+package ua.com.alevel.level3.service;
 
 import java.io.IOException;
 

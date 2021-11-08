@@ -1,6 +1,6 @@
 package ua.com.alevel.level3;
 
-import ua.com.alevel.level3.Service.CustomServices;
+import ua.com.alevel.level3.service.CustomServices;
 import ua.com.alevel.level3.util.CustomUtils;
 
 import java.io.IOException;
