@@ -40,6 +40,8 @@
         <module>unit_5_test_logs</module>
         <module>unit_6_di_oop</module>
         <module>dinix</module>
+        <module>hw_4_logs_and_test</module>
+        <module>unit_8_exception</module>
     </modules>
 
 </project>
