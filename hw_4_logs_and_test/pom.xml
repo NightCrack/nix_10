@@ -21,7 +21,41 @@
         <qos.logback.version>1.2.6</qos.logback.version>
         <slf4j.version>1.7.32</slf4j.version>
         <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
+        <logs.folder>logs</logs.folder>
+        <logs.test.folder>test</logs.test.folder>
+        <logs.work.folder>work</logs.work.folder>
+        <ARCHIVED_LOG>archived</ARCHIVED_LOG>
+        <log.maxFileSize>1MB</log.maxFileSize>
+        <log.totalSizeCap>100MB</log.totalSizeCap>
+        <log.maxHistory>7</log.maxHistory>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>test</id>
+            <properties>
+                <log.path>${logs.folder}/${logs.test.folder}</log.path>
+                <log.info>${log.path}/info.log</log.info>
+                <log.warn>${log.path}/warn.log</log.warn>
+                <log.error>${log.path}/error.log</log.error>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>work</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <log.path>${logs.folder}/${logs.work.folder}</log.path>
+                <log.info>${log.path}/info.log</log.info>
+                <log.warn>${log.path}/warn.log</log.warn>
+                <log.error>${log.path}/error.log</log.error>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <!--        J-UNIT-->
@@ -57,6 +91,12 @@
 
     <build>
         <finalName>${project}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
