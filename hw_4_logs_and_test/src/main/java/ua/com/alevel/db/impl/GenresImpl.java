@@ -53,7 +53,7 @@ public class GenresImpl implements GenresDB {
     @Override
     public boolean delete(Integer id) {
         for (int position = 0; position < genres.length; position++) {
-            if (genres[position].getId().equals(id)) {
+            if ((genres[position] != null) && (genres[position].getId().equals(id))) {
                 for (; position < genres.length - 1; position++) {
                     genres[position] = genres[position + 1];
                 }

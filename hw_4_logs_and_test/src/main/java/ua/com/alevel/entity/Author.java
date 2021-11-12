@@ -13,36 +13,39 @@ public class Author extends BaseEntity {
     private String lastName;
     private Date dateOfBirth;
     private Date dateOfDeath;
-    private String[] bookIsbns = new String[arraySize];
+    private String[] isbn = new String[arraySize];
 
-    public String[] getBookIsbns() {
-        return bookIsbns;
+    public String[] getIsbns() {
+        if (isbn != null) {
+            return isbn;
+        }
+        return null;
     }
 
-    public void setBookIsbns(String[] bookIsbns) {
-        this.bookIsbns = bookIsbns;
+    public void setIsbn(String[] isbn) {
+        this.isbn = isbn;
     }
 
     public void addBook(String isbn) {
         int booksIsbnAmount = 0;
-        for (String value : bookIsbns) {
+        for (String value : this.isbn) {
             if (value != null) {
                 booksIsbnAmount++;
             }
         }
-        if (!(bookIsbns.length > booksIsbnAmount)) {
-            bookIsbns = Arrays.copyOf(bookIsbns, bookIsbns.length + arraySize);
+        if (!(this.isbn.length > booksIsbnAmount)) {
+            this.isbn = Arrays.copyOf(this.isbn, this.isbn.length + arraySize);
         }
-        bookIsbns[booksIsbnAmount] = isbn;
+        this.isbn[booksIsbnAmount] = isbn;
     }
 
     public boolean removeBook(String isbn) {
-        for (int position = 0; position < bookIsbns.length; position++) {
-            if (bookIsbns[position].equals(isbn)) {
-                for (; position < bookIsbns.length - 1; position++) {
-                    bookIsbns[position] = bookIsbns[position + 1];
+        for (int position = 0; position < this.isbn.length; position++) {
+            if ((this.isbn[position] != null) && (this.isbn[position].equals(isbn))) {
+                for (; position < this.isbn.length - 1; position++) {
+                    this.isbn[position] = this.isbn[position + 1];
                 }
-                bookIsbns = Arrays.copyOf(bookIsbns, (bookIsbns.length - 1));
+                this.isbn = Arrays.copyOf(this.isbn, (this.isbn.length - 1));
                 return true;
             }
         }
@@ -50,7 +53,10 @@ public class Author extends BaseEntity {
     }
 
     public String getFirstName() {
-        return firstName;
+        if (firstName != null) {
+            return firstName;
+        }
+        return null;
     }
 
     public void setFirstName(String firstName) {
@@ -58,7 +64,10 @@ public class Author extends BaseEntity {
     }
 
     public String getLastName() {
-        return lastName;
+        if (lastName != null) {
+            return lastName;
+        }
+        return null;
     }
 
     public void setLastName(String lastName) {
@@ -66,11 +75,17 @@ public class Author extends BaseEntity {
     }
 
     public String getFullName() {
-        return this.firstName + ' ' + this.lastName;
+        if ((firstName != null) && (lastName != null)) {
+            return this.firstName + ' ' + this.lastName;
+        }
+        return null;
     }
 
     public Date getDateOfBirth() {
-        return dateOfBirth;
+        if (dateOfBirth != null) {
+            return dateOfBirth;
+        }
+        return null;
     }
 
     public void setDateOfBirth(Date dateOfBirth) {
@@ -78,7 +93,10 @@ public class Author extends BaseEntity {
     }
 
     public Date getDateOfDeath() {
-        return dateOfDeath;
+        if (dateOfDeath != null) {
+            return dateOfDeath;
+        }
+        return null;
     }
 
     public void setDateOfDeath(Date dateOfDeath) {
@@ -87,10 +105,10 @@ public class Author extends BaseEntity {
 
     private String[] books() {
         String[] books = new String[0];
-        for (int index = 0; index < this.bookIsbns.length; index++) {
-            if (this.bookIsbns[index] != null) {
+        for (int index = 0; index < this.isbn.length; index++) {
+            if (this.isbn[index] != null) {
                 books = Arrays.copyOf(books, books.length + 1);
-                books[books.length - 1] = BooksImpl.getInstance().findById(this.bookIsbns[index]).toStringBrief();
+                books[books.length - 1] = BooksImpl.getInstance().findById(this.isbn[index]).toStringBrief();
             }
         }
         return books;

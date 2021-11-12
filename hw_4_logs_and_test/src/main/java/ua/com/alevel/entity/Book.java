@@ -68,7 +68,10 @@ public class Book extends BaseEntity {
     }
 
     public String getIsbn() {
-        return isbn;
+        if (isbn != null) {
+            return isbn;
+        }
+        return null;
     }
 
     public void setIsbn(String isbn) {
@@ -76,7 +79,10 @@ public class Book extends BaseEntity {
     }
 
     public Integer getGenreId() {
-        return genreId;
+        if (genreId != null) {
+            return genreId;
+        }
+        return null;
     }
 
     public void setGenreId(Integer genreId) {
@@ -84,7 +90,10 @@ public class Book extends BaseEntity {
     }
 
     public Integer[] getInstancesIds() {
-        return instancesIds;
+        if (instancesIds != null) {
+            return instancesIds;
+        }
+        return null;
     }
 
     public void setInstancesIds(Integer[] instancesIds) {
@@ -103,7 +112,10 @@ public class Book extends BaseEntity {
     }
 
     public String toStringBrief() {
-        return title;
+        if (title != null) {
+            return title;
+        }
+        return null;
     }
 
     public String toStringBriefWithName() {

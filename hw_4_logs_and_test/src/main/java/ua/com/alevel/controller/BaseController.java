@@ -10,12 +10,12 @@ import ua.com.alevel.service.impl.BookInstancesServiceImpl;
 import ua.com.alevel.service.impl.BooksServiceImpl;
 import ua.com.alevel.service.impl.GenresServiceImpl;
 import ua.com.alevel.util.CustomUtil;
+import ua.com.alevel.util.Populate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Date;
 
 public class BaseController {
 
@@ -157,19 +157,11 @@ public class BaseController {
             case OBJECT_FOUR_DELETE -> deleteBookInstance(reader);
             case OBJECT_FOUR_FIND_ONE -> findByIdBookInstance(reader);
             case OBJECT_FOUR_FIND_ALL -> findAllBookInstance(reader);
-            case POPULATE_VALUE -> populateBase(reader);
+            case POPULATE_VALUE -> Populate.PopulateBase(authorsService, genresService, booksService, bookInstancesService, 5);
             case MENU_VALUE -> messages("menu");
             case EXIT_VALUE -> breaker = EXIT_VALUE;
             default -> messages("badInput");
         }
-    }
-
-    private void populateBase(BufferedReader reader) {
-        int amountOfEntries = 5;
-        autoGenre(amountOfEntries);
-        autoAuthor(amountOfEntries);
-        autoBook(amountOfEntries);
-        autoBookInstance(amountOfEntries);
     }
 
     private void findAllBookInstance(BufferedReader reader) {
@@ -392,33 +384,6 @@ public class BaseController {
         }
     }
 
-    private void autoBookInstance(int amountOfEntries) {
-        for (int index = 0; index < amountOfEntries; index++) {
-            int entriesAmount = 0;
-            for (Book book : booksService.findAll()) {
-                if (book != null) {
-                    ++entriesAmount;
-                }
-            }
-            isbn = booksService.findAll()[(int) (Math.round(Math.random() * (entriesAmount - 1)))].getIsbn();
-            imprint = CustomUtil.nameOpt(CustomData.publisherPool()) + ", " + CustomUtil.year.format(CustomUtil.generateDate(authorsService.findById(booksService.findByIsbn(isbn).getAuthorId()).getDateOfBirth()));
-            status = CustomUtil.nameOpt(CustomData.bookStatusPool());
-            if (status.equals("Available")) {
-                dueBack = null;
-            } else {
-                Date now = new Date();
-                dueBack = CustomUtil.dateToString(new Date(now.getTime() + (long) (Math.random() * now.getTime())));
-            }
-            BookInstance bookInstance = new BookInstance();
-            bookInstance.setBookIsbn(isbn);
-            bookInstance.setImprint(imprint);
-            bookInstance.setStatus(status);
-            bookInstance.setDueBack(CustomUtil.setDate(dueBack));
-            bookInstancesService.create(bookInstance);
-            booksService.findByIsbn(isbn).addInstance(bookInstance.getId());
-        }
-    }
-
     private void findAllBook(BufferedReader reader) {
         System.out.println();
         if ((booksService.findAll() != null) && (booksService.findAll().length != 0)) {
@@ -632,51 +597,6 @@ public class BaseController {
         }
     }
 
-    private void autoBook(int amountOfEntries) {
-        for (int index = 0; index < amountOfEntries; index++) {
-            int entriesAmount = 0;
-            for (Author author : authorsService.findAll()) {
-                if (author != null) {
-                    ++entriesAmount;
-                }
-            }
-            authorId = authorsService.findAll()[(int) (Math.round(Math.random() * (entriesAmount - 1)))].getId();
-            String[] existingNames = new String[0];
-            String[] existingIsbns = new String[0];
-            for (int indexB = 0; indexB < booksService.findAll().length; indexB++) {
-                if (booksService.findAll()[indexB] != null) {
-                    existingNames = Arrays.copyOf(existingNames, existingNames.length + 1);
-                    existingIsbns = Arrays.copyOf(existingIsbns, existingIsbns.length + 1);
-                    existingNames[existingNames.length - 1] = booksService.findAll()[indexB].getTitle();
-                    existingIsbns[existingIsbns.length - 1] = booksService.findAll()[indexB].getIsbn();
-                }
-            }
-            title = CustomUtil.createUniqueName(existingNames, CustomData.bookTitlePool());
-            isbn = CustomUtil.createUniqueName(existingIsbns, CustomData.isbnPool());
-            entriesAmount = 0;
-            for (Genre genre : genresService.findAll()) {
-                if (genre != null) {
-                    ++entriesAmount;
-                }
-            }
-            genreId = genresService.findAll()[(int) (Math.round(Math.random() * (entriesAmount - 1)))].getId();
-            summary = "Book's summary.";
-            Book book = new Book();
-            book.setAuthorId(authorId);
-            book.setTitle(title);
-            book.setIsbn(isbn);
-            book.setGenreId(genreId);
-            book.setSummary(summary);
-            booksService.create(book);
-            if (authorId != null) {
-                authorsService.findById(authorId).addBook(isbn);
-            }
-            if (genreId != null) {
-                genresService.findById(genreId).addBook(isbn);
-            }
-        }
-    }
-
     private void findAllGenre(BufferedReader reader) {
         System.out.println();
         if ((genresService.findAll() != null) && (genresService.findAll().length != 0)) {
@@ -818,22 +738,6 @@ public class BaseController {
             }
         } catch (IOException exception) {
             System.out.println("problem: " + exception.getMessage());
-        }
-    }
-
-    private void autoGenre(int amountOfEntries) {
-        for (int indexA = 0; indexA < amountOfEntries; indexA++) {
-            String[] existedNames = new String[0];
-            for (int indexB = 0; indexB < genresService.findAll().length; indexB++) {
-                if (genresService.findAll()[indexB] != null) {
-                    existedNames = Arrays.copyOf(existedNames, existedNames.length + 1);
-                    existedNames[existedNames.length - 1] = genresService.findAll()[indexB].getName();
-                }
-            }
-            genreName = CustomUtil.createUniqueName(existedNames, CustomData.genreNamePool());
-            Genre genre = new Genre();
-            genre.setName(genreName);
-            genresService.create(genre);
         }
     }
 
@@ -1031,32 +935,6 @@ public class BaseController {
             }
         } catch (IOException exception) {
             System.out.println("problem: " + exception.getMessage());
-        }
-    }
-
-    private void autoAuthor(int amountOfEntries) {
-        for (int indexA = 0; indexA < amountOfEntries; indexA++) {
-            String[] existedFirstNames = new String[0];
-            String[] existedLastNames = new String[0];
-            for (int indexB = 0; indexB < authorsService.findAll().length; indexB++) {
-                if (authorsService.findAll()[indexB] != null) {
-                    existedFirstNames = Arrays.copyOf(existedFirstNames, existedFirstNames.length + 1);
-                    existedLastNames = Arrays.copyOf(existedLastNames, existedLastNames.length + 1);
-                    existedFirstNames[existedFirstNames.length - 1] = authorsService.findAll()[indexB].getFirstName();
-                    existedLastNames[existedLastNames.length - 1] = authorsService.findAll()[indexB].getLastName();
-                }
-            }
-
-            firstName = CustomUtil.createUniqueName(existedFirstNames, CustomData.firstNamePool());
-            lastName = CustomUtil.createUniqueName(existedLastNames, CustomData.lastNamePool());
-            Date birth = CustomUtil.generateDate();
-            Date death = CustomUtil.generateDate(birth);
-            Author author = new Author();
-            author.setFirstName(firstName);
-            author.setLastName(lastName);
-            author.setDateOfBirth(birth);
-            author.setDateOfDeath(death);
-            authorsService.create(author);
         }
     }
 }

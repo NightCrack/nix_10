@@ -95,11 +95,13 @@ public final class CustomUtil {
 
     public static String composeStringArray(String[] inputArray) {
         String returnString = "";
-        for (int index = 0; index < inputArray.length; index += 2) {
-            if ((index + 1) < inputArray.length) {
-                returnString += (valueEvaluator(inputArray[index]) + " / " + valueEvaluator(inputArray[index + 1])) + System.lineSeparator();
-            } else {
-                returnString += inputArray[index];
+        if (inputArray != null) {
+            for (int index = 0; index < inputArray.length; index += 2) {
+                if ((index + 1) < inputArray.length) {
+                    returnString += (valueEvaluator(inputArray[index]) + " / " + valueEvaluator(inputArray[index + 1])) + System.lineSeparator();
+                } else {
+                    returnString += inputArray[index];
+                }
             }
         }
         return returnString;
@@ -111,24 +113,6 @@ public final class CustomUtil {
         } else {
             return value;
         }
-    }
-
-    public static int lifespan(Date dateOfBirth, Date dateOfDeath) {
-        int lifespan = Integer.parseInt(year.format(dateOfDeath)) - Integer.parseInt(year.format(dateOfBirth)) - 1;
-        if ((Integer.parseInt(month.format(dateOfDeath)) >= Integer.parseInt(month.format(dateOfBirth))) &&
-                (Integer.parseInt(day.format(dateOfDeath)) >= Integer.parseInt(day.format(dateOfBirth)))) {
-            lifespan += 1;
-        }
-        return lifespan;
-    }
-
-    public static int lifespan(Date dateOfBirth) {
-        Date date = new Date();
-        return lifespan(dateOfBirth, date);
-    }
-
-    public static String composeDate(int month, int day, int year) {
-        return String.valueOf(month) + '.' + day + '.' + year;
     }
 
     public static Date generateDate() {
@@ -164,7 +148,16 @@ public final class CustomUtil {
 
     public static boolean checkUniqueName(String[] existingNamesArray, String nameToCheck) {
         for (int index = 0; index < existingNamesArray.length; index++) {
-            if (existingNamesArray[index].equals(nameToCheck)) {
+            if ((existingNamesArray[index] != null) && (existingNamesArray[index].equals(nameToCheck))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean checkUniqueId(Integer[] existingNamesArray, Integer nameToCheck) {
+        for (int index = 0; index < existingNamesArray.length; index++) {
+            if ((existingNamesArray[index] != null) && (existingNamesArray[index].equals(nameToCheck))) {
                 return false;
             }
         }
@@ -225,6 +218,22 @@ public final class CustomUtil {
 
     public static String nameOpt(String[] namesArray) {
         return namesArray[(int) (Math.round(Math.random() * (namesArray.length - 1)))];
+    }
+
+    public static String getNotNullString(String[] stringArray) {
+        String returnValue = stringArray[(int) ((stringArray.length - 1) * Math.random())];
+        if (returnValue == null) {
+            return getNotNullString(stringArray);
+        }
+        return returnValue;
+    }
+
+    public static Integer getNotNullInteger(Integer[] stringArray) {
+        Integer returnValue = stringArray[(int) ((stringArray.length - 1) * Math.random())];
+        if (returnValue == null) {
+            return getNotNullInteger(stringArray);
+        }
+        return returnValue;
     }
 
     public static String createUniqueName(String[] existingNamesPool, String[] newNamesPool) {

@@ -13,7 +13,10 @@ public class BookInstance extends BaseEntity {
     private Date dueBack;
 
     public String getIsbn() {
-        return bookIsbn;
+        if (bookIsbn != null) {
+            return bookIsbn;
+        }
+        return null;
     }
 
     public void setBookIsbn(String bookIsbn) {
@@ -21,7 +24,10 @@ public class BookInstance extends BaseEntity {
     }
 
     public String getImprint() {
-        return imprint;
+        if (imprint != null) {
+            return imprint;
+        }
+        return null;
     }
 
     public void setImprint(String imprint) {
@@ -29,7 +35,10 @@ public class BookInstance extends BaseEntity {
     }
 
     public String getStatus() {
-        return status;
+        if (status != null) {
+            return status;
+        }
+        return null;
     }
 
     public void setStatus(String status) {
@@ -37,7 +46,10 @@ public class BookInstance extends BaseEntity {
     }
 
     public Date getDueBack() {
-        return dueBack;
+        if (dueBack != null) {
+            return dueBack;
+        }
+        return null;
     }
 
     public void setDueBack(Date dueBack) {

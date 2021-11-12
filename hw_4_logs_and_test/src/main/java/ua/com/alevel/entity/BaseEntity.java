@@ -4,7 +4,10 @@ public abstract class BaseEntity {
     private Integer id;
 
     public Integer getId() {
-        return id;
+        if (id != null) {
+            return id;
+        }
+        return null;
     }
 
     public void setId(Integer id) {

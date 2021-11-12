@@ -46,7 +46,7 @@ public class AuthorsImpl implements AuthorsDB {
             current.setLastName(author.getLastName());
             current.setDateOfBirth(author.getDateOfBirth());
             current.setDateOfDeath(author.getDateOfDeath());
-            current.setBookIsbns(author.getBookIsbns());
+            current.setIsbn(author.getIsbns());
             return true;
         }
         return false;
@@ -56,7 +56,7 @@ public class AuthorsImpl implements AuthorsDB {
     @Override
     public boolean delete(Integer id) {
         for (int position = 0; position < authors.length; position++) {
-            if (authors[position].getId() == id) {
+            if ((authors[position] != null) && (authors[position].getId().equals(id))) {
                 for (; position < authors.length - 1; position++) {
                     authors[position] = authors[position + 1];
                 }

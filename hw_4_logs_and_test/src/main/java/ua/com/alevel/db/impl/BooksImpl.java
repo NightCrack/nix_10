@@ -68,7 +68,7 @@ public class BooksImpl implements BooksDB {
     @Override
     public boolean delete(String isbn) {
         for (int position = 0; position < books.length; position++) {
-            if (books[position].getIsbn().equals(isbn)) {
+            if ((books[position] != null) && (books[position].getIsbn().equals(isbn))) {
                 for (; position < books.length - 1; position++) {
                     books[position] = books[position + 1];
                 }

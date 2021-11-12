@@ -54,7 +54,7 @@ public class BookInstancesImpl implements BookInstancesDB {
     @Override
     public boolean delete(Integer id) {
         for (int position = 0; position < bookInstances.length; position++) {
-            if (bookInstances[position].getId() == id) {
+            if ((bookInstances[position] != null) && (bookInstances[position].getId().equals(id))) {
                 for (; position < bookInstances.length - 1; position++) {
                     bookInstances[position] = bookInstances[position + 1];
                 }
