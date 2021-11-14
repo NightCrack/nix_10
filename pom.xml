@@ -42,6 +42,7 @@
         <module>dinix</module>
         <module>hw_4_logs_and_test</module>
         <module>unit_8_exception</module>
+        <module>hw_5_collection</module>
     </modules>
 
 </project>
