@@ -44,6 +44,8 @@
 <!--        <module>unit_8_exception</module>-->
         <module>hw_5_collection</module>
         <module>hw_6_exception</module>
+        <module>module_two</module>
+        <module>unit_10_ionio</module>
     </modules>
 
 </project>
