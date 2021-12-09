@@ -1,8 +1,8 @@
 package ua.com.alevel.util;
 
-public final class DateGenerator {
+public final class GenerateDate {
 
-    private DateGenerator() {
+    private GenerateDate() {
     }
 
     private static int randomNumber() {

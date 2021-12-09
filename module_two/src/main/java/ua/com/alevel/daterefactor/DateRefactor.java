@@ -2,8 +2,8 @@ package ua.com.alevel.daterefactor;
 
 
 import ua.com.alevel.util.DateFormat;
-import ua.com.alevel.util.DateGenerator;
 import ua.com.alevel.util.FileOps;
+import ua.com.alevel.util.GenerateDate;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,9 +21,10 @@ public class DateRefactor {
     public void run() {
         FileOps.createDirs(FILE_DIR, INPUT_DIR, OUTPUT_DIR);
         FileOps.createFiles(INPUT_DIR + INPUT_FILE, OUTPUT_DIR + OUTPUT_FILE);
-        FileOps.write(INPUT_DIR + INPUT_FILE, "", false);
-        for (int i = 0; i < ENTRIES_NUMBER; i++) {
-            FileOps.write(INPUT_DIR + INPUT_FILE, DateGenerator.randomDateString() + System.lineSeparator(), true);
+        if (FileOps.isEmpty(INPUT_DIR + INPUT_FILE)) {
+            for (int i = 0; i < ENTRIES_NUMBER; i++) {
+                FileOps.write(INPUT_DIR + INPUT_FILE, GenerateDate.randomDateString() + System.lineSeparator(), true);
+            }
         }
         List<String> toPrint = new ArrayList<>();
         try {

@@ -1,14 +1,11 @@
 package ua.com.alevel.util;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public final class FileOps {
 
@@ -51,9 +48,17 @@ public final class FileOps {
         }
     }
 
-    public static List<String> read(String path) throws IOException {
+    public static <Element extends Collection<String>> Element read(String path) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
-        Stream<String> lines = bufferedReader.lines();
-        return lines.toList();
+        ArrayList<String> returnList = new ArrayList<>();
+        while (bufferedReader.ready()) {
+            returnList.add(bufferedReader.readLine());
+        }
+        return (Element) returnList;
+    }
+
+    public static boolean isEmpty(String path) {
+        File file = new File(path);
+        return (file.length() == 0);
     }
 }
