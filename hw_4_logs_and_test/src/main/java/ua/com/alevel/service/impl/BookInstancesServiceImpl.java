@@ -8,15 +8,14 @@ import ua.com.alevel.service.BookInstancesService;
 
 public class BookInstancesServiceImpl implements BookInstancesService {
 
+    private static final Logger LOGGER_INFO = LoggerFactory.getLogger("info");
+    private static boolean status;
     private final BookInstancesDAOImpl bookInstancesDAO = new BookInstancesDAOImpl();
-
     private long counterCreate = 0;
     private long counterUpdate = 0;
     private long counterDelete = 0;
     private long counterFindById = 0;
     private long counterFindAll = 0;
-    private static boolean status;
-    private static final Logger LOGGER_INFO = LoggerFactory.getLogger("info");
 
     @Override
     public void create(BookInstance bookInstance) {

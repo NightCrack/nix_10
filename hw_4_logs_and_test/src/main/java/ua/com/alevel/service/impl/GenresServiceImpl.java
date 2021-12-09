@@ -8,15 +8,14 @@ import ua.com.alevel.service.GenresService;
 
 public class GenresServiceImpl implements GenresService {
 
+    private static final Logger LOGGER_INFO = LoggerFactory.getLogger("info");
+    private static boolean status;
     private final GenresDAOImpl genresDAO = new GenresDAOImpl();
-
     private long counterCreate = 0;
     private long counterUpdate = 0;
     private long counterDelete = 0;
     private long counterFindById = 0;
     private long counterFindAll = 0;
-    private static boolean status;
-    private static final Logger LOGGER_INFO = LoggerFactory.getLogger("info");
 
     @Override
     public void create(Genre genre) {

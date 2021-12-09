@@ -3,7 +3,8 @@ package ua.com.alevel.level3.util;
 
 public final class CustomUtils {
 
-    private CustomUtils() { }
+    private CustomUtils() {
+    }
 
     public static int[][] buildRandom(int amountOfRows, int amountOfElements) {
         int[][] returnMatrix = new int[amountOfRows][amountOfElements];

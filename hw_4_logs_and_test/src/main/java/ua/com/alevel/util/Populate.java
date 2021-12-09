@@ -27,7 +27,8 @@ public final class Populate {
     private static String dueBack;
     private static String genreName;
 
-    private Populate() { }
+    private Populate() {
+    }
 
     public static void PopulateBase(AuthorsServiceImpl authorsService, GenresServiceImpl genresService, BooksServiceImpl booksService, BookInstancesServiceImpl bookInstancesService, int amountOfEntries) {
         autoGenre(amountOfEntries, genresService);

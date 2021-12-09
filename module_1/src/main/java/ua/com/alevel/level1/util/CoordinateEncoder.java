@@ -8,7 +8,8 @@ public final class CoordinateEncoder {
     private static final char startLetter = 'A';
     private static final long numberSystemSize = 26;
 
-    private CoordinateEncoder() { }
+    private CoordinateEncoder() {
+    }
 
     public static String alphabeticalCoordinateGeneration(long input) {
         long quotient = 1;

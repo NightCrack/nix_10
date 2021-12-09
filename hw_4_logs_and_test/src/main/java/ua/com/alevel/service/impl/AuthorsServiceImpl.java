@@ -8,15 +8,14 @@ import ua.com.alevel.service.AuthorsService;
 
 public class AuthorsServiceImpl implements AuthorsService {
 
+    private static final Logger LOGGER_INFO = LoggerFactory.getLogger("info");
+    private static boolean status;
+    private final AuthorsDAOImpl authorsDAO = new AuthorsDAOImpl();
     private long counterCreate = 0;
     private long counterUpdate = 0;
     private long counterDelete = 0;
     private long counterFindById = 0;
     private long counterFindAll = 0;
-    private static boolean status;
-    private static final Logger LOGGER_INFO = LoggerFactory.getLogger("info");
-
-    private final AuthorsDAOImpl authorsDAO = new AuthorsDAOImpl();
 
     @Override
     public void create(Author author) {

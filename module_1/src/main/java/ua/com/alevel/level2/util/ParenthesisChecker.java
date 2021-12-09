@@ -5,7 +5,8 @@ public final class ParenthesisChecker {
     private static String[] startSymbol = new String[]{"(", "[", "{"};
     private static String[] endSymbol = new String[]{")", "]", "}"};
 
-    private ParenthesisChecker() { }
+    private ParenthesisChecker() {
+    }
 
     public static int[] lastStartParenthesisIndex(String userInput) {
         int[] criteriaLastIndexArray = new int[startSymbol.length];

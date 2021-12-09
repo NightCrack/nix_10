@@ -7,7 +7,8 @@ import java.math.MathContext;
 
 public final class AreaOfTriangular {
 
-    private AreaOfTriangular() { }
+    private AreaOfTriangular() {
+    }
 
     private static BigDecimal sizeLine(Dot firstDot, Dot secondDot) {
         long distanceX = firstDot.getCoordinateX() - secondDot.getCoordinateX();

@@ -10,7 +10,8 @@ public final class ReverseString {
     private static final String wordRegex = "[\\w\\u0400-\\u04ff]+";
     private static final String wordOnlyRegex = "[\\w\\u0400-\\u04ff]++";
 
-    private ReverseString() { }
+    private ReverseString() {
+    }
 
     private static boolean numberCheckup(String userInput) {
         char[] inputCharArray = userInput.toCharArray();

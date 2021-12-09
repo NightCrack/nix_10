@@ -2,7 +2,6 @@ package ua.com.alevel.level2;
 
 import ua.com.alevel.level2.util.ParenthesisChecker;
 
-import java.util.Objects;
 import java.util.Scanner;
 
 public class CheckParenthesis {

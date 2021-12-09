@@ -6,7 +6,8 @@ import java.math.BigDecimal;
 
 public final class TreeNester {
 
-    private TreeNester() { }
+    private TreeNester() {
+    }
 
     private static TreeNode nestNode(TreeNode parentNode) {
         TreeNode newNode = new TreeNode(Generator.generateValue());

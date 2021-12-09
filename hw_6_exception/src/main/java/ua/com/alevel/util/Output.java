@@ -38,6 +38,7 @@ public final class Output {
     };
     private int inputFormatOpt = 1;
     private int outputFormatOpt = 1;
+
     private Output() {
     }
 

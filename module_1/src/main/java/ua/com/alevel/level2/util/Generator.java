@@ -4,7 +4,8 @@ import ua.com.alevel.level2.entity.TreeNode;
 
 public final class Generator {
 
-    private Generator() { }
+    private Generator() {
+    }
 
     public static int generateValue() {
         return (int) (Math.random() * 4);
