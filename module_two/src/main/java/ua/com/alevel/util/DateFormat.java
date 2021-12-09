@@ -1,5 +1,6 @@
 package ua.com.alevel.util;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public final class DateFormat {
@@ -70,7 +71,18 @@ public final class DateFormat {
         return day.intValue() <= months[month.intValue() - 1];
     }
 
-    public static String convertDate(String input) {
+    public static ArrayList<String> convertDate(String input) {
+        ArrayList<String> matchedDates = StringEdit
+                .parseMatchedValue(input, StringEdit
+                        .regExBuilder(regExBuilder(1), regExBuilder(2), regExBuilder(3)));
+        ArrayList<String> convertedDates = new ArrayList<>();
+        for (String date : matchedDates) {
+            convertedDates.add(reformat(date));
+        }
+        return convertedDates;
+    }
+
+    private static String reformat(String input) {
         int dateFormat = inputCheck(input);
         switch (dateFormat) {
             case 1 -> {

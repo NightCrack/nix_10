@@ -1,7 +1,5 @@
 package ua.com.alevel.util;
 
-import ua.com.alevel.data.CustomData;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -16,15 +14,18 @@ public class StringEdit {
     private StringEdit() {
     }
 
-    public static ArrayList<String> parseName(String input) {
+    public static String regExBuilder(String... args) {
         StringBuilder regExpression = new StringBuilder();
-        for (int index = 0; index < CustomData.firstNamePool().length; index++) {
-            regExpression.append("(").append(CustomData.firstNamePool()[index]).append(")");
-            if (index < (CustomData.firstNamePool().length - 1)) {
+        for (int index = 0; index < args.length; index++) {
+            regExpression.append("(").append(args[index]).append(")");
+            if (index < (args.length - 1)) {
                 regExpression.append("|");
             }
         }
-        String regEx = regExpression.toString();
+        return regExpression.toString();
+    }
+
+    public static ArrayList<String> parseMatchedValue(String input, String regEx) {
         Matcher check = Pattern.compile(regEx).matcher(input);
         ArrayList<String> output = new ArrayList<>();
         while (check.find()) {
@@ -33,7 +34,7 @@ public class StringEdit {
         return output;
     }
 
-    public static String uniqueName(String path) {
+    public static String uniqueName(String path, String... regExParams) {
         ArrayList<String> input = new ArrayList<>();
         try {
             input = read(path);
@@ -43,7 +44,7 @@ public class StringEdit {
         ArrayList<String> parsedNames;
         Map<String, Integer> nameOccurrence = new LinkedHashMap<>();
         for (String line : input) {
-            parsedNames = StringEdit.parseName(line);
+            parsedNames = StringEdit.parseMatchedValue(line, regExBuilder(regExParams));
             for (String name : parsedNames) {
                 if (nameOccurrence.containsKey(name)) {
                     nameOccurrence.replace(name, nameOccurrence.get(name) + 1);

@@ -34,13 +34,16 @@ public class DateRefactor {
         }
         FileOps.write(OUTPUT_DIR + OUTPUT_FILE, "", false);
         for (String string : toPrint) {
-            if (DateFormat.convertDate(string) != null) {
-                FileOps.write(OUTPUT_DIR + OUTPUT_FILE, DateFormat.convertDate(string) + System.lineSeparator(), true);
+            for (String date : DateFormat.convertDate(string)) {
+                FileOps.write(OUTPUT_DIR + OUTPUT_FILE, date + System.lineSeparator(), true);
             }
         }
         System.out.println();
         System.out.println("Input location: " + System.getProperty("user.dir") + "/" + INPUT_DIR + INPUT_FILE);
         System.out.println("Output location: " + System.getProperty("user.dir") + "/" + OUTPUT_DIR + OUTPUT_FILE);
+        System.out.println("RegEx for manual search: (([1-9]([0-9]{0,3})?)/((0[1-9])|(1[0-2]))/((0[1-9])|([1-2][0-9])|(3[0,1])))|" +
+                "(((0[1-9])|([1-2][0-9])|(3[0,1]))/((0[1-9])|(1[0-2]))/([1-9]([0-9]{0,3})?))|" +
+                "(((0[1-9])|(1[0-2]))-((0[1-9])|([1-2][0-9])|(3[0,1]))-([1-9]([0-9]{0,3})?))");
     }
 
 
