@@ -30,7 +30,7 @@
         <!--        <module>base_operations</module>-->
         <module>hw_1_base_operations</module>
         <!--        <module>unit_1_compile/maven</module>-->
-        <module>unit_2_strings</module>
+        <!--        <module>unit_2_strings</module>-->
         <module>hw_2_strings</module>
         <module>hw_2_strings/library</module>
         <!--        <module>unit_3_start_oop</module>-->
@@ -38,14 +38,16 @@
         <module>hw_3_start_oop</module>
         <!--        <module>unit_4_next_oop</module>-->
         <!--        <module>unit_5_test_logs</module>-->
-        <!--        <module>unit_6_di_oop</module>-->
+<!--        <module>unit_6_di_oop</module>-->
         <!--        <module>dinix</module>-->
         <module>hw_4_logs_and_test</module>
         <!--        <module>unit_8_exception</module>-->
         <module>hw_5_collection</module>
         <module>hw_6_exception</module>
         <module>module_two</module>
-<!--        <module>unit_10_ionio</module>-->
+        <module>hw_7_ionio</module>
+        <module>custom_framework</module>
+        <!--        <module>unit_10_ionio</module>-->
     </modules>
 
 </project>
