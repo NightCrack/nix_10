@@ -2,12 +2,10 @@ package ua.com.alevel.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.dto.book.BookRequestDto;
 import ua.com.alevel.dto.book.BookResponseDto;
+import ua.com.alevel.dto.department.DepartmentResponseDto;
 import ua.com.alevel.facade.AuthorFacade;
 import ua.com.alevel.facade.BookFacade;
 import ua.com.alevel.facade.GenreFacade;
@@ -53,13 +51,20 @@ public class BookController implements BaseController<BookRequestDto, String> {
     }
 
     @Override
-    public String deleteEntity(String s) {
-        return null;
+    @GetMapping("/delete/{isbn}")
+    public String deleteEntity(@PathVariable String isbn) {
+        bookFacade.delete(isbn);
+        return "redirect:/books";
+
     }
 
     @Override
-    public String getEntityDetails(String s, Model model) {
-        return null;
+    @GetMapping("/details/{isbn}")
+    public String getEntityDetails(@PathVariable String isbn, Model model) {
+        BookResponseDto dto = bookFacade.findById(isbn);
+        model.addAttribute("book", dto);
+        return "pages/books/books_details";
+
     }
 }
 

@@ -14,29 +14,27 @@
     <div class="row">
         <div class="col-12">
             <div class="card mb-2 mt-2">
-                <div class="card-header">
-                    Details Department
-                </div>
+                <div class="card-header"> Details: Department</div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <tr>
-                            <th>id</th>
+                            <th>ID:</th>
                             <td th:text="${department.getId()}"></td>
                         </tr>
                         <tr>
-                            <th>type</th>
+                            <th>Type:</th>
                             <td th:text="${department.getDepartmentType()}"></td>
                         </tr>
                         <tr>
-                            <th>name</th>
+                            <th>Name:</th>
                             <td th:text="${department.getName()}"></td>
                         </tr>
                         <tr>
-                            <th>created</th>
+                            <th>Created:</th>
                             <td th:text="${#calendars.format(department.getCreated(),'dd MMMM yyyy')}"></td>
                         </tr>
                         <tr>
-                            <th>updated</th>
+                            <th>Updated:</th>
                             <td th:text="${#calendars.format(department.getUpdated(),'dd MMMM yyyy')}"></td>
                         </tr>
                     </table>

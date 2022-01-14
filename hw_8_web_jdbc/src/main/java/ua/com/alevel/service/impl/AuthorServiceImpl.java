@@ -8,6 +8,7 @@ import ua.com.alevel.repository.BookRepository;
 import ua.com.alevel.repository.GenreRepository;
 import ua.com.alevel.service.AuthorService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,16 +39,24 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void delete(Long id) {
+        Author defaultAuthor;
+        Optional<Author> optionalAuthor = authorRepository.findAll()
+                .stream()
+                .filter(entry -> (entry.getFirstName() + " " + entry.getLastName())
+                        .equals("Un Defined"))
+                .findFirst();
+        if (optionalAuthor.isEmpty()) {
+            Author author = new Author();
+            author.setFirstName("Un");
+            author.setLastName("Defined");
+            author.setDateOfBirth(new Date(0));
+            author.setDateOfDeath(new Date(0));
+            authorRepository.save(author);
+            defaultAuthor = author;
+        } else {
+            defaultAuthor = optionalAuthor.get();
+        }
         if (authorRepository.existsById(id)) {
-            Author defaultAuthor = authorRepository.findAll()
-                    .stream()
-                    .filter(entry -> entry
-                            .getFirstName()
-                            .equals("Un") &&
-                            entry
-                                    .getLastName()
-                                    .equals("Defined"))
-                    .toList().get(0);
             Author author = authorRepository.findById(id).get();
             List<Book> books = author.getBooks();
             books = books.stream().peek(entry -> entry.setAuthor(defaultAuthor)).toList();

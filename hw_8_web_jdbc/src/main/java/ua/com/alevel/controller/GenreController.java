@@ -2,10 +2,8 @@ package ua.com.alevel.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import ua.com.alevel.dto.bookInstance.BookInstanceResponseDto;
 import ua.com.alevel.dto.genre.GenreRequestDto;
 import ua.com.alevel.dto.genre.GenreResponseDto;
 import ua.com.alevel.facade.GenreFacade;
@@ -47,27 +45,18 @@ public class GenreController implements BaseController<GenreRequestDto, Long> {
     }
 
     @Override
-    public String deleteEntity(Long aLong) {
-        return null;
+    @GetMapping("/delete/{id}")
+    public String deleteEntity(@PathVariable Long id) {
+        genreFacade.delete(id);
+        return "redirect:/genres";
+
     }
 
     @Override
-    public String getEntityDetails(Long aLong, Model model) {
-        return null;
+    @GetMapping("/details/{id}")
+    public String getEntityDetails(@PathVariable Long id, Model model) {
+        GenreResponseDto dto = genreFacade.findById(id);
+        model.addAttribute("genre",dto);
+        return "pages/genres/genres_details";
     }
-//
-//    @GetMapping("/delete/{id}")
-//    public String deleteDepartment(@PathVariable Long id) {
-//        departmentFacade.delete(id);
-//        return "redirect:/departments";
-//
-//    }
-//
-//    @GetMapping("/details/{id}")
-//    public String getDepartmentDetails(@PathVariable Long id, Model model) {
-//        DepartmentResponseDto dto = departmentFacade.findById(id);
-//        model.addAttribute("department",dto);
-//        return "pages/departments/departments_details";
-//
-//    }
 }

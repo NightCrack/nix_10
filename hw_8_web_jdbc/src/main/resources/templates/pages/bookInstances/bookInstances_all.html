@@ -24,6 +24,8 @@
                             <th>Title</th>
                             <th>Imprint</th>
                             <th>Status</th>
+                            <th>Created</th>
+                            <th>Updated</th>
                             <th>Details</th>
                             <th>Delete</th>
                         </tr>
@@ -34,17 +36,17 @@
                             <td th:text="${bookInstance.getBook().getName()}"></td>
                             <td th:text="${bookInstance.getImprint()}"></td>
                             <td th:text="${bookInstance.getStatus().name()}"></td>
+                            <td th:text="${#calendars.format(bookInstance.getCreated(),'dd MMMM yyyy')}"></td>
+                            <td th:text="${#calendars.format(bookInstance.getUpdated(),'dd MMMM yyyy')}"></td>
                             <td>
                                 <a class="btn btn-primary"
                                    th:href="@{'/bookInstances/details/' + ${bookInstance.getId()}}"
-                                   type="button"
-                                >Details</a>
+                                   type="button">Details</a>
                             </td>
                             <td>
                                 <a class="btn btn-danger"
                                    th:href="@{'/bookInstances/delete/' + ${bookInstance.getId()}}"
-                                   type="button"
-                                >Delete</a>
+                                   type="button">Delete</a>
                             </td>
                         </tr>
                         </tbody>

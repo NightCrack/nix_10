@@ -10,8 +10,10 @@ import ua.com.alevel.repository.BookInstanceRepository;
 import ua.com.alevel.repository.BookRepository;
 import ua.com.alevel.repository.GenreRepository;
 import ua.com.alevel.service.BookService;
+import ua.com.alevel.type.GenreType;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,13 +54,53 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void delete(String isbn) {
-        if (bookRepository.existsById(isbn)) {
-            Book defaultBook = bookRepository.findAll()
+        Book defaultBook;
+        Optional<Book> optionalBook = bookRepository.findAll()
+                .stream()
+                .filter(entry -> entry
+                        .getName()
+                        .equals("Undefined"))
+                .findFirst();
+        if (optionalBook.isEmpty()) {
+            Book book = new Book();
+            book.setIsbn("Undefined");
+            book.setName("Undefined");
+            Optional<Genre> optionalGenre = genreRepository.findAll()
                     .stream()
                     .filter(entry -> entry
-                            .getName()
-                            .equals("Undefined"))
-                    .toList().get(0);
+                            .getGenreType()
+                            .equals(GenreType.Undefined))
+                    .findFirst();
+            if (optionalGenre.isEmpty()) {
+                Genre genre = new Genre();
+                genre.setGenreType(GenreType.Undefined);
+                genreRepository.save(genre);
+                book.setGenre(genre);
+            } else {
+                book.setGenre(optionalGenre.get());
+            }
+            Optional<Author> optionalAuthor = authorRepository.findAll()
+                    .stream()
+                    .filter(entry -> (entry.getFirstName() + " " + entry.getLastName())
+                            .equals("Un Defined"))
+                    .findFirst();
+            if (optionalAuthor.isEmpty()) {
+                Author author = new Author();
+                author.setFirstName("Un");
+                author.setLastName("Defined");
+                author.setDateOfBirth(new Date(0));
+                author.setDateOfDeath(new Date(0));
+                authorRepository.save(author);
+                book.setAuthor(author);
+            } else {
+                book.setAuthor(optionalAuthor.get());
+            }
+            bookRepository.save(book);
+            defaultBook = book;
+        } else {
+            defaultBook = optionalBook.get();
+        }
+        if (bookRepository.existsById(isbn)) {
             Book book = bookRepository.findById(isbn).get();
             List<BookInstance> bookInstances = book.getBookInstances();
             bookInstances = bookInstances.stream().peek(bookInstance -> bookInstance.setBook(defaultBook)).toList();

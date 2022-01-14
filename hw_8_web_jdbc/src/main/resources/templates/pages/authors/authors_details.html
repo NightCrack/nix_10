@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" layout:decorate="~{layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <title>Details Author</title>
 </head>
 <body>
+
+<div layout:fragment="content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-2 mt-2">
+                <div class="card-header">Details: Author</div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>First name:</th>
+                            <td th:text="${author.getFirstName()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Last name:</th>
+                            <td th:text="${author.getLastName()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Birth date:</th>
+                            <td th:text="${#calendars.format(author.getDateOfBirth(), 'dd MMMM yyyy')}"></td>
+                        </tr>
+                        <tr>
+                            <th>Death date:</th>
+                            <td th:text="${#calendars.format(author.getDateOfDeath(), 'dd MMMM yyyy')}"></td>
+                        </tr>
+                    </table>
+                    <table class="table table-sl table-hover">
+                        <thead>
+                        <tr>
+                            <th>Books</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="book : ${author.getBooks()}">
+                            <td><a th:text="${book.getName()}"
+                                   th:href="@{'/books/details/' + ${book.getIsbn()}}"></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>

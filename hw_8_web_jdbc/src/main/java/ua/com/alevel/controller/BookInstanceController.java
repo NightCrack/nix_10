@@ -2,10 +2,7 @@ package ua.com.alevel.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.dto.bookInstance.BookInstanceRequestDto;
 import ua.com.alevel.dto.bookInstance.BookInstanceResponseDto;
 import ua.com.alevel.facade.BookFacade;
@@ -16,7 +13,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/bookInstances")
-
 public class BookInstanceController implements BaseController<BookInstanceRequestDto, Long> {
 
     private final BookInstanceFacade bookInstanceFacade;
@@ -52,12 +48,18 @@ public class BookInstanceController implements BaseController<BookInstanceReques
     }
 
     @Override
-    public String deleteEntity(Long aLong) {
-        return null;
+    @GetMapping("/delete/{id}")
+    public String deleteEntity(@PathVariable Long id) {
+        bookInstanceFacade.delete(id);
+        return "redirect:/bookInstances";
+
     }
 
     @Override
-    public String getEntityDetails(Long aLong, Model model) {
-        return null;
+    @GetMapping("/details/{id}")
+    public String getEntityDetails(@PathVariable Long id, Model model) {
+        BookInstanceResponseDto dto = bookInstanceFacade.findById(id);
+        model.addAttribute("bookInstance",dto);
+        return "pages/bookInstances/bookInstances_details";
     }
 }

@@ -2,12 +2,10 @@ package ua.com.alevel.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.dto.author.AuthorRequestDto;
 import ua.com.alevel.dto.author.AuthorResponseDto;
+import ua.com.alevel.dto.department.DepartmentResponseDto;
 import ua.com.alevel.facade.AuthorFacade;
 
 import java.util.List;
@@ -45,12 +43,19 @@ public class AuthorController implements BaseController<AuthorRequestDto, Long> 
     }
 
     @Override
-    public String deleteEntity(Long aLong) {
-        return null;
+    @GetMapping("/delete/{id}")
+    public String deleteEntity(@PathVariable Long id) {
+        authorFacade.delete(id);
+        return "redirect:/authors";
+
     }
 
     @Override
-    public String getEntityDetails(Long aLong, Model model) {
-        return null;
+    @GetMapping("/details/{id}")
+    public String getEntityDetails(@PathVariable Long id, Model model) {
+        AuthorResponseDto dto = authorFacade.findById(id);
+        model.addAttribute("author", dto);
+        return "pages/authors/authors_details";
+
     }
 }

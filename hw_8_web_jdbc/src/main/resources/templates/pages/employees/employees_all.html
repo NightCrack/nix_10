@@ -25,6 +25,7 @@
                             <th>Age</th>
                             <th>Department id</th>
                             <th>Created</th>
+                            <th>Updated</th>
                             <th>Details</th>
                             <th>Delete</th>
                         </tr>
@@ -37,6 +38,7 @@
                             <td th:text="${employee.getAge()}"></td>
                             <td th:text="${employee.getDepartment().getId()}"></td>
                             <td th:text="${#calendars.format(employee.getCreated(),'dd MMMM yyyy')}"></td>
+                            <td th:text="${#calendars.format(employee.getUpdated(),'dd MMMM yyyy')}"></td>
                             <td>
                                 <a class="btn btn-primary" th:href="@{'/employees/details/' + ${employee.getId()}}"
                                    type="button">Details</a>

@@ -1,10 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" layout:decorate="~{layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <title>Details Book</title>
 </head>
 <body>
+
+<div layout:fragment="content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-2 mt-2">
+                <div class="card-header">Details: Book</div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>Title:</th>
+                            <td th:text="${book.getName()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Author:</th>
+                            <td><a th:text="${book.getAuthor().getFirstName() +
+                            ' ' + book.getAuthor().getLastName()}"
+                                   th:href="@{'/authors/details/' + ${book.getAuthor().getId()}}"></a></td>
+                        </tr>
+                        <tr>
+                            <th>ISBN:</th>
+                            <td th:text="${book.getIsbn()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Summary:</th>
+                            <td th:text="${book.getSummary()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Genre:</th>
+                            <td><a th:text="${book.getGenre().getGenreType().name()}"
+                                   th:href="@{'/genres/details/' + ${book.getGenre().getId()}}"></a></td>
+                        </tr>
+                    </table>
+                    <table class="table table-sm table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="bookInstance,column : ${book.getBookInstances()}">
+                            <td><a th:text="${bookInstance.getId()}"
+                                   th:href="@{'/bookInstances/details/' + ${bookInstance.getId()}}"></a></td>
+                            <td th:text="${bookInstance.getStatus().name()}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>

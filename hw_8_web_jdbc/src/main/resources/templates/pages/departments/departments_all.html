@@ -24,6 +24,7 @@
                             <th>Name</th>
                             <th>Type</th>
                             <th>Created</th>
+                            <th>Updated</th>
                             <th>Details</th>
                             <th>Delete</th>
                         </tr>
@@ -33,24 +34,17 @@
                             <td th:text="${column.count}"></td>
                             <td th:text="${department.getName()}"></td>
                             <td th:text="${department.getDepartmentType().name()}"></td>
-                            <td
-                                    th:text="${#calendars.format(department.getCreated(),'dd MMMM yyyy')}"
-                            ></td>
+                            <td th:text="${#calendars.format(department.getCreated(),'dd MMMM yyyy')}"></td>
+                            <td th:text="${#calendars.format(department.getUpdated(),'dd MMMM yyyy')}"></td>
                             <td>
-                                <a
-                                        class="btn btn-primary"
-                                        th:href="@{'/departments/details/' + ${department.getId()}}"
-                                        type="button"
-                                >Details</a
-                                >
+                                <a class="btn btn-primary"
+                                   th:href="@{'/departments/details/' + ${department.getId()}}"
+                                   type="button">Details</a>
                             </td>
                             <td>
-                                <a
-                                        class="btn btn-danger"
-                                        th:href="@{'/departments/delete/' + ${department.getId()}}"
-                                        type="button"
-                                >Delete</a
-                                >
+                                <a class="btn btn-danger"
+                                   th:href="@{'/departments/delete/' + ${department.getId()}}"
+                                   type="button">Delete</a>
                             </td>
                         </tr>
                         </tbody>

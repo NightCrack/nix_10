@@ -2,10 +2,7 @@ package ua.com.alevel.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.dto.employee.EmployeeRequestDto;
 import ua.com.alevel.dto.employee.EmployeeResponseDto;
 import ua.com.alevel.facade.EmployeeFacade;
@@ -45,12 +42,18 @@ public class EmployeeController implements BaseController<EmployeeRequestDto, Lo
     }
 
     @Override
-    public String deleteEntity(Long aLong) {
-        return null;
+    @GetMapping("/delete/{id}")
+    public String deleteEntity(@PathVariable Long id) {
+        employeeFacade.delete(id);
+        return "redirect:/employees";
+
     }
 
     @Override
-    public String getEntityDetails(Long aLong, Model model) {
-        return null;
+    @GetMapping("/details/{id}")
+    public String getEntityDetails(@PathVariable Long id, Model model) {
+        EmployeeResponseDto dto = employeeFacade.findById(id);
+        model.addAttribute("employee", dto);
+        return "pages/employees/employees_details";
     }
 }

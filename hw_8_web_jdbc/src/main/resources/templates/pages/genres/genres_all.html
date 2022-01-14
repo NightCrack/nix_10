@@ -22,6 +22,8 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
+                            <th>Created</th>
+                            <th>Updated</th>
                             <th>Details</th>
                             <th>Delete</th>
                         </tr>
@@ -30,21 +32,17 @@
                         <tr th:each="genre, column : ${genres}">
                             <td th:text="${column.count}"></td>
                             <td th:text="${genre.getGenreType().name()}"></td>
+                            <td th:text="${#calendars.format(genre.getCreated(),'dd MMMM yyyy')}"></td>
+                            <td th:text="${#calendars.format(genre.getUpdated(),'dd MMMM yyyy')}"></td>
                             <td>
-                                <a
-                                        class="btn btn-primary"
-                                        th:href="@{'/genres/details/' + ${genre.getId()}}"
-                                        type="button"
-                                >Details</a
-                                >
+                                <a class="btn btn-primary"
+                                   th:href="@{'/genres/details/' + ${genre.getId()}}"
+                                   type="button">Details</a>
                             </td>
                             <td>
-                                <a
-                                        class="btn btn-danger"
-                                        th:href="@{'/genres/delete/' + ${genre.getId()}}"
-                                        type="button"
-                                >Delete</a
-                                >
+                                <a class="btn btn-danger"
+                                   th:href="@{'/genres/delete/' + ${genre.getId()}}"
+                                   type="button">Delete</a>
                             </td>
                         </tr>
                         </tbody>

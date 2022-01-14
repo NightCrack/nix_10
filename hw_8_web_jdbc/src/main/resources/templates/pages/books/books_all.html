@@ -23,6 +23,8 @@
                             <th>#</th>
                             <th>Title</th>
                             <th>Author</th>
+                            <th>Created</th>
+                            <th>Updated</th>
                             <th>Details</th>
                             <th>Delete</th>
                         </tr>
@@ -32,17 +34,17 @@
                             <td th:text="${column.count}"></td>
                             <td th:text="${book.getName()}"></td>
                             <td th:text="${book.getAuthor().getFirstName() + ' ' + book.getAuthor().getLastName()}"></td>
+                            <td th:text="${#calendars.format(book.getCreated(),'dd MMMM yyyy')}"></td>
+                            <td th:text="${#calendars.format(book.getUpdated(),'dd MMMM yyyy')}"></td>
                             <td>
                                 <a class="btn btn-primary"
                                    th:href="@{'/books/details/' + ${book.getIsbn()}}"
-                                   type="button"
-                                >Details</a>
+                                   type="button">Details</a>
                             </td>
                             <td>
                                 <a class="btn btn-danger"
                                    th:href="@{'/books/delete/' + ${book.getIsbn()}}"
-                                   type="button"
-                                >Delete</a>
+                                   type="button">Delete</a>
                             </td>
                         </tr>
                         </tbody>

@@ -43,13 +43,22 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public void delete(Long id) {
+        Genre defaultGenre;
+        Optional<Genre> optionalGenre = genreRepository.findAll()
+                .stream()
+                .filter(entry -> entry
+                        .getGenreType()
+                        .equals(GenreType.Undefined))
+                .findFirst();
+        if(optionalGenre.isEmpty()) {
+            Genre genre = new Genre();
+            genre.setGenreType(GenreType.Undefined);
+            genreRepository.save(genre);
+            defaultGenre = genre;
+        } else {
+            defaultGenre = optionalGenre.get();
+        }
         if (genreRepository.existsById(id)) {
-            Genre defaultGenre = genreRepository.findAll()
-                    .stream()
-                    .filter(entry -> entry
-                            .getGenreType()
-                            .equals(GenreType.Undefined))
-                    .toList().get(0);
             Genre genre = genreRepository.findById(id).get();
             List<Book> books = bookRepository.findAllByGenre(genre);
             books = books.stream().peek(book -> book.setGenre(defaultGenre)).toList();
