@@ -45,6 +45,16 @@ public class ServicesTest {
         Populate.PopulateBase(authorsService, genresService, booksService, bookInstancesService, amountOfEntries);
     }
 
+    @AfterAll
+    public static void clear() {
+        for (Author author : authorsService.findAll()) {
+            authorsService.delete(author.getId());
+        }
+        for (Genre genre : genresService.findAll()) {
+            genresService.delete(genre.getId());
+        }
+    }
+
     @Order(1)
     @Test
     public void shouldBeAuthorCreate() {
@@ -205,17 +215,6 @@ public class ServicesTest {
         Assertions.assertEquals(lengthBeforeRemoval - 1, authorsService.findAll().size());
         Assertions.assertNull(authorsService.findById(author.getId()));
     }
-
-    @AfterAll
-    public static void clear() {
-        for (Author author : authorsService.findAll()) {
-            authorsService.delete(author.getId());
-        }
-        for (Genre genre : genresService.findAll()) {
-            genresService.delete(genre.getId());
-        }
-    }
-
 
     private Author generateAuthor() {
         Author author = new Author();

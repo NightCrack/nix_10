@@ -38,7 +38,7 @@
         <module>hw_3_start_oop</module>
         <!--        <module>unit_4_next_oop</module>-->
         <!--        <module>unit_5_test_logs</module>-->
-<!--        <module>unit_6_di_oop</module>-->
+        <!--        <module>unit_6_di_oop</module>-->
         <!--        <module>dinix</module>-->
         <module>hw_4_logs_and_test</module>
         <!--        <module>unit_8_exception</module>-->
@@ -47,6 +47,7 @@
         <module>module_two</module>
         <module>hw_7_ionio</module>
         <module>custom_framework</module>
+        <module>hw_8_web_jdbc</module>
         <!--        <module>unit_10_ionio</module>-->
     </modules>
 

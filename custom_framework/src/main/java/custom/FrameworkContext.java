@@ -21,11 +21,10 @@ public final class FrameworkContext {
     private final Map<Class<?>, Object> interfaceImplementations = new HashMap<>();
     private final Map<String, String> tablePaths = new HashMap<>();
     private final FrameworkSearcher frameworkSearcher;
+    private final String fileSeparator = FileSystems.getDefault().getSeparator();
     private Set<Class<?>> serviceInterfaces;
     private BeanFactory beanFactory;
     private Set<Class<?>> controllerInterfaces;
-
-    private final String fileSeparator = FileSystems.getDefault().getSeparator();
 
     public FrameworkContext(Class<?> mainClass) {
         frameworkSearcher = new FrameworkSearcher(mainClass);

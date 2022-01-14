@@ -6,7 +6,6 @@ import custom.util.ResourcesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.com.alevel.dao.AuthorsDAO;
-import ua.com.alevel.dao.impl.AuthorsDAOImpl;
 import ua.com.alevel.entity.Author;
 import ua.com.alevel.service.AuthorsService;
 
