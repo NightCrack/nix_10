@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        layout:decorate="~{layout}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="utf-8"/>
+    <title>Departments</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-2 mt-2">
+                <div class="card-header">All Genres</div>
+                <div class="card-body">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Details</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="genre, column : ${genres}">
+                            <td th:text="${column.count}"></td>
+                            <td th:text="${genre.getGenreType().name()}"></td>
+                            <td>
+                                <a
+                                        class="btn btn-primary"
+                                        th:href="@{'/genres/details/' + ${genre.getId()}}"
+                                        type="button"
+                                >Details</a
+                                >
+                            </td>
+                            <td>
+                                <a
+                                        class="btn btn-danger"
+                                        th:href="@{'/genres/delete/' + ${genre.getId()}}"
+                                        type="button"
+                                >Delete</a
+                                >
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

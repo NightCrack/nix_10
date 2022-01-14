@@ -1,0 +1,27 @@
+2022-01-14 06:29: 42.060  WARN 1615909 --- [nio-8080-exec-3] .w.s.m.s.DefaultHandlerExceptionResolver: Resolved [
+org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 2 errors
+<EOL>Field error in object 'book' on field 'author': rejected value [1]; codes [
+methodInvocation.book.author,
+methodInvocation.author, methodInvocation.ua.com.alevel.entity.Author, methodInvocation
+]; arguments
+[
+org.springframework.context.support.DefaultMessageSourceResolvable: codes [book.author, author]; arguments [];
+default message [author]
+]; default message [
+Property 'author' threw exception; nested exception is
+java.lang.NullPointerException: Cannot invoke "ua.com.alevel.repository.AuthorRepository.findAll()" because
+"this.authorRepository" is null
+]
+<EOL>Field error in object 'book' on field 'genre': rejected value [1]; codes [
+methodInvocation.book.genre,
+methodInvocation.genre, methodInvocation.ua.com.alevel.entity.Genre, methodInvocation
+]; arguments
+[
+org.springframework.context.support.DefaultMessageSourceResolvable: codes [book.genre, genre]; arguments [];
+default message [genre]
+]; default message [
+Property 'genre' threw exception; nested exception is
+java.lang.NullPointerException: Cannot invoke "ua.com.alevel.repository.GenreRepository.findAll()" because
+"this.genreRepository" is null
+]
+]

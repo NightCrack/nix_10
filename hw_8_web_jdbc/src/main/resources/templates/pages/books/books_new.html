@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        layout:decorate="~{layout}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="utf-8"/>
+    <title>New Book</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mt-2">
+                <div class="card-header">
+                    <h4>New Book</h4>
+                </div>
+                <div class="card-body">
+                    <form action="#" method="post" th:action="@{/books/new}" th:object="${book}">
+                        <div class="form-group">
+                            <label for="genre">Genre</label>
+                            <select class="form-control"
+                                    id="genre"
+                                    placeholder="Book's genre"
+                                    th:field="*{genreId}">
+                                <option th:each="genre : ${genres}"
+                                        th:text="${genre.getGenreType().name()}"
+                                        th:value="${genre.getId()}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="author">Author</label>
+                            <select class="form-control"
+                                    id="author"
+                                    name="Book's author"
+                                    th:field="*{authorId}">
+                                <option th:each="author : ${authors}"
+                                        th:text="${author.getFirstName() + ' ' +author.getLastName()}"
+                                        th:value="${author.getId()}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input aria-describedby="title"
+                                   class="form-control"
+                                   id="title"
+                                   placeholder="Book's title"
+                                   th:field="*{name}"
+                                   type="text"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="isbn">ISBN</label>
+                            <input aria-describedby="isbn"
+                                   class="form-control"
+                                   id="isbn"
+                                   placeholder="Book's ISBN"
+                                   th:field="*{isbn}"
+                                   type="text"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="summary">Summary</label>
+                            <input aria-describedby="summary"
+                                   class="form-control"
+                                   id="summary"
+                                   placeholder="Book's summary"
+                                   th:field="*{summary}"
+                                   type="text"/>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
