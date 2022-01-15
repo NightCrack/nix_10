@@ -12,7 +12,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/authors")
-public class AuthorController implements BaseController<AuthorRequestDto, Long> {
+public class AuthorController implements BaseController<AuthorRequestDto, Long, Object> {
 
     private final AuthorFacade authorFacade;
 
@@ -26,6 +26,11 @@ public class AuthorController implements BaseController<AuthorRequestDto, Long> 
         List<AuthorResponseDto> authors = authorFacade.findAll();
         model.addAttribute("authors", authors);
         return "pages/authors/authors_all";
+    }
+
+    @Override
+    public String findAllByEntity(Object o, Model model) {
+        return null;
     }
 
     @Override

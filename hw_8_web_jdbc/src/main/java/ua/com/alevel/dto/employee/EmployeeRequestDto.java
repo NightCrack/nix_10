@@ -9,6 +9,13 @@ public final class EmployeeRequestDto extends RequestWithIdDto {
     private Integer age;
     private Long departmentId;
 
+    public EmployeeRequestDto() {
+    }
+
+    public EmployeeRequestDto(Long departmentId) {
+        this.departmentId = departmentId;
+    }
+
     public String getFirstName() {
         return firstName;
     }

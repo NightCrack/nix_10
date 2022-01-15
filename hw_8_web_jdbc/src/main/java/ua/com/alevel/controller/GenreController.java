@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/genres")
-public class GenreController implements BaseController<GenreRequestDto, Long> {
+public class GenreController implements BaseController<GenreRequestDto, Long, Object> {
 
     private final GenreFacade genreFacade;
 
@@ -27,6 +27,11 @@ public class GenreController implements BaseController<GenreRequestDto, Long> {
         List<GenreResponseDto> genres = genreFacade.findAll();
         model.addAttribute("genres", genres);
         return "pages/genres/genres_all";
+    }
+
+    @Override
+    public String findAllByEntity(Object o, Model model) {
+        return null;
     }
 
     @Override

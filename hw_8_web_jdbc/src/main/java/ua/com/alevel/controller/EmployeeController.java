@@ -11,7 +11,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/employees")
-public class EmployeeController implements BaseController<EmployeeRequestDto, Long> {
+public class EmployeeController implements DependentController<EmployeeRequestDto, Long, Long> {
 
     private final EmployeeFacade employeeFacade;
 
@@ -28,9 +28,21 @@ public class EmployeeController implements BaseController<EmployeeRequestDto, Lo
     }
 
     @Override
-    @GetMapping("/new")
+    @GetMapping("/departments/{departmentId}")
+    public String findAllByEntity(@PathVariable Long departmentId, Model model) {
+        model.addAttribute("employees", employeeFacade.findAllByDepartment(departmentId));
+        return "/pages/employees/employees_all";
+    }
+
+    @Override
     public String redirectToNewEntityPage(Model model) {
-        model.addAttribute("employee", new EmployeeRequestDto());
+        return null;
+    }
+
+    @Override
+    @GetMapping("/new/{departmentId}")
+    public String redirectToNewEntityPageWithParentId(@PathVariable Long departmentId, Model model) {
+        model.addAttribute("employee", new EmployeeRequestDto(departmentId));
         return "pages/employees/employees_new";
     }
 

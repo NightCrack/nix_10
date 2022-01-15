@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorate="~{layout}"
-      xmlns="http://www.w3.org/1999/xhtml"
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org">
+      layout:decorate="~{layout}">
 <head>
     <meta charset="utf-8">
-    <title>Details Department</title>
+    <title>Details Employee</title>
 </head>
 <body>
 
@@ -14,36 +14,42 @@
     <div class="row">
         <div class="col-12">
             <div class="card mb-2 mt-2">
-                <div class="card-header"> Details: Department</div>
+                <div class="card-header"> Details: Employee</div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <tr>
-                            <th>ID:</th>
-                            <td th:text="${department.getId()}"></td>
+                            <th>ID</th>
+                            <td th:text="${employee.getId()}"></td>
                         </tr>
                         <tr>
-                            <th>Type:</th>
-                            <td th:text="${department.getDepartmentType()}"></td>
+                            <th>First name</th>
+                            <td th:text="${employee.getFirstName()}"></td>
                         </tr>
                         <tr>
-                            <th>Name:</th>
-                            <td th:text="${department.getName()}"></td>
+                            <th>Last name</th>
+                            <td th:text="${employee.getLastName()}"></td>
                         </tr>
                         <tr>
-                            <th>Created:</th>
-                            <td th:text="${#calendars.format(department.getCreated(),'dd MMMM yyyy')}"></td>
+                            <th>Age</th>
+                            <td th:text="${employee.getAge()}"></td>
                         </tr>
                         <tr>
-                            <th>Updated:</th>
-                            <td th:text="${#calendars.format(department.getUpdated(),'dd MMMM yyyy')}"></td>
+                            <th>Department ID</th>
+                            <td th:text="${employee.getDepartment().getId()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Department type</th>
+                            <td th:text="${employee.getDepartment().getDepartmentType()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Created</th>
+                            <td th:text="${#calendars.format(employee.getCreated(),'dd MMMM yyyy')}"></td>
+                        </tr>
+                        <tr>
+                            <th>Updated</th>
+                            <td th:text="${#calendars.format(employee.getUpdated(),'dd MMMM yyyy')}"></td>
                         </tr>
                     </table>
-                    <hr>
-                    <a class="btn btn-primary" th:href="@{'/employees/departments/' + ${department.getId()}}"
-                       type="button">Show all employees</a>
-                    <hr>
-                    <a class="btn btn-primary" th:href="@{'/employees/new/' + ${department.getId()}}" type="button">Create
-                        new employee</a>
                 </div>
             </div>
         </div>

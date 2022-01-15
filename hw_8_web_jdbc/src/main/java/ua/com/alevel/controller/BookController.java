@@ -14,7 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/books")
-public class BookController implements BaseController<BookRequestDto, String> {
+public class BookController implements BaseController<BookRequestDto, String, Long> {
 
     private final BookFacade bookFacade;
     private final GenreFacade genreFacade;
@@ -32,6 +32,11 @@ public class BookController implements BaseController<BookRequestDto, String> {
         List<BookResponseDto> books = bookFacade.findAll();
         model.addAttribute("books", books);
         return "pages/books/books_all";
+    }
+
+    @Override
+    public String findAllByEntity(Long o, Model model) {
+        return null;
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/departments")
-public class DepartmentController implements BaseController<DepartmentRequestDto, Long> {
+public class DepartmentController implements BaseController<DepartmentRequestDto, Long, Object> {
 
     private final DepartmentFacade departmentFacade;
 
@@ -26,6 +26,11 @@ public class DepartmentController implements BaseController<DepartmentRequestDto
         List<DepartmentResponseDto> departments = departmentFacade.findAll();
         model.addAttribute("departments", departments);
         return "pages/departments/departments_all";
+    }
+
+    @Override
+    public String findAllByEntity(Object o, Model model) {
+        return null;
     }
 
     @Override

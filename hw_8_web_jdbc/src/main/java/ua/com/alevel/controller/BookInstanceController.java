@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/bookInstances")
-public class BookInstanceController implements BaseController<BookInstanceRequestDto, Long> {
+public class BookInstanceController implements BaseController<BookInstanceRequestDto, Long, Object> {
 
     private final BookInstanceFacade bookInstanceFacade;
     private final BookFacade bookFacade;
@@ -29,6 +29,11 @@ public class BookInstanceController implements BaseController<BookInstanceReques
         List<BookInstanceResponseDto> bookInstances = bookInstanceFacade.findAll();
         model.addAttribute("bookInstances", bookInstances);
         return "pages/bookInstances/bookInstances_all";
+    }
+
+    @Override
+    public String findAllByEntity(Object o, Model model) {
+        return null;
     }
 
     @Override
