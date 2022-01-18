@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{fragments/data_table}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<div class="col-12">
+
+    <div layout:fragment="data_table_content">
+
+        <div class="container">
+            <tr th:each="client,column : ${pageData.getItems()}">
+                <td th:text="${column.count}"></td>
+                <td th:text="${client.getName()}"></td>
+                <td th:text="${client.getEmail()}"></td>
+                <td th:text="${client.getAccountCount()}"></td>
+                <td>
+                    <a class="btn btn-outline-secondary" th:href="@{'/clients/details/' + ${client.getId()}}"
+                       type="button">Details</a>
+                </td>
+                <td>
+                    <a class="btn btn-outline-secondary" th:href="@{'/clients/update/' + ${client.getId()}}"
+                       type="button">Update</a>
+                </td>
+                <td>
+                    <a class="btn btn-outline-danger" th:href="@{'/clients/delete/' + ${client.getId()}}"
+                       type="button">Delete</a>
+                </td>
+            </tr>
+        </div>
+
+        <div class="card mt-2 mb-2">
+            <div class="card-footer">
+                <div class="bottom">
+                    <a class="btn btn-outline-success" th:href="@{'/clients/new'}" type="button">Add</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

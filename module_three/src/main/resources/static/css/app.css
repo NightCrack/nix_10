@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Numans');
+
+html, body {
+    background: url('https://upload.wikimedia.org/wikipedia/commons/2/21/Pink_sunset.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+    font-family: 'Numans', fantasy;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+a.nav-item.nav-link {
+    color: yellow;
+}
+
+.sort {
+    cursor: pointer;
+    margin-right: 2em;
+}
+

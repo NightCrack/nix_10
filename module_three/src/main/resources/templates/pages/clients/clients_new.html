@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>New Client</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mt-2" style="background-color: #ffe69c;">
+                <div class="card-header">
+                    <h4>New Client</h4>
+                </div>
+                <div class="card-body">
+                    <form action="#" method="post" th:action="@{/clients/create}" th:object="${client}">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input aria-describedby="fullName" class="form-control" id="fullName"
+                                   placeholder="Enter client's full name"
+                                   th:field="*{fullName}" th:required="required"
+                                   type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input aria-describedby="email" class="form-control" id="email"
+                                   placeholder="Enter client email"
+                                   th:field="*{email}" th:required="required"
+                                   type="email">
+                        </div>
+                        <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

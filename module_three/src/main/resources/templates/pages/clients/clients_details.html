@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Client Details</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-2 mt-2">
+                <div class="card-header">Client details</div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>Name</th>
+                            <td th:text="${client.getName()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td th:text="${client.getEmail()}"></td>
+                        </tr>
+                        <tr>
+                            <th>All accounts</th>
+                            <td>
+                                <ul th:each="account : ${accounts}">
+                                    <li>
+                                        <a class="btn btn-lg" role="button" style="color: #0aa2c0;"
+                                           th:href="@{'/accounts/details/' + ${account.getKey()}}"
+                                           th:text="${account.getValue()}">Details</a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                    <a class="btn btn-outline-success" th:href="@{'/accounts/new/'+${client.getId()}}" type="button">Add
+                        new
+                        account</a>
+                    <a class="btn btn-outline-dark" th:href="@{'/clients/download/'+${client.getId()}}"
+                       type="button">Download interactions
+                        history</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

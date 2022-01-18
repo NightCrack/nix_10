@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{fragments/data_table}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Accounts</title>
+</head>
+<body>
+
+<div layout:fragment="data_table_content">
+
+    <tr th:each="account,column : ${pageData.getItems()}">
+        <td th:text="${column.count}"></td>
+        <td th:text="${account.getId()}"></td>
+        <td th:text="${account.getAccountName()}"></td>
+        <td th:text="${account.getBalance()}"></td>
+        <td th:text="${account.getClientEmail()}"></td>
+        <td>
+            <a class="btn btn-outline-secondary" th:href="@{'/accounts/details/' + ${account.getId()}}" type="button">Details</a>
+        </td>
+        <td>
+            <a class="btn btn-outline-secondary" th:href="@{'/actions/new/' + ${account.getId()}}" type="button">Interact</a>
+        </td>
+        <td>
+            <a class="btn btn-outline-danger" th:href="@{'/accounts/delete/' + ${account.getId()}}"
+               type="button">Delete</a>
+        </td>
+    </tr>
+
+</div>
+
+</body>
+</html>
