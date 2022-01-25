@@ -5,7 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.dto.book.BookRequestDto;
 import ua.com.alevel.dto.book.BookResponseDto;
-import ua.com.alevel.dto.department.DepartmentResponseDto;
 import ua.com.alevel.facade.AuthorFacade;
 import ua.com.alevel.facade.BookFacade;
 import ua.com.alevel.facade.GenreFacade;

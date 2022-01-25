@@ -50,7 +50,7 @@ public class GenreServiceImpl implements GenreService {
                         .getGenreType()
                         .equals(GenreType.Undefined))
                 .findFirst();
-        if(optionalGenre.isEmpty()) {
+        if (optionalGenre.isEmpty()) {
             Genre genre = new Genre();
             genre.setGenreType(GenreType.Undefined);
             genreRepository.save(genre);

@@ -3,7 +3,6 @@ package ua.com.alevel.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ua.com.alevel.dto.bookInstance.BookInstanceResponseDto;
 import ua.com.alevel.dto.genre.GenreRequestDto;
 import ua.com.alevel.dto.genre.GenreResponseDto;
 import ua.com.alevel.facade.GenreFacade;
@@ -61,7 +60,7 @@ public class GenreController implements BaseController<GenreRequestDto, Long, Ob
     @GetMapping("/details/{id}")
     public String getEntityDetails(@PathVariable Long id, Model model) {
         GenreResponseDto dto = genreFacade.findById(id);
-        model.addAttribute("genre",dto);
+        model.addAttribute("genre", dto);
         return "pages/genres/genres_details";
     }
 }

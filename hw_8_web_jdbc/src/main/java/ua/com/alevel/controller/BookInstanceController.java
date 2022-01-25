@@ -64,7 +64,7 @@ public class BookInstanceController implements BaseController<BookInstanceReques
     @GetMapping("/details/{id}")
     public String getEntityDetails(@PathVariable Long id, Model model) {
         BookInstanceResponseDto dto = bookInstanceFacade.findById(id);
-        model.addAttribute("bookInstance",dto);
+        model.addAttribute("bookInstance", dto);
         return "pages/bookInstances/bookInstances_details";
     }
 }

@@ -45,9 +45,11 @@
         <module>hw_5_collection</module>
         <module>hw_6_exception</module>
         <module>module_two</module>
+        <module>module_three</module>
         <module>hw_7_ionio</module>
         <module>custom_framework</module>
         <module>hw_8_web_jdbc</module>
+        <module>final</module>
         <!--        <module>unit_10_ionio</module>-->
     </modules>
 
