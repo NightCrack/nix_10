@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Details Author</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-2 mt-2">
+                <div class="card-header">Details: Author</div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>First Name:</th>
+                            <td th:text="${author.getFirstName()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Last Name:</th>
+                            <td th:text="${author.getLastName()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Birth date:</th>
+                            <td th:text="${#calendars.format(author.getBirthDate(), 'dd MMMMM y')}"></td>
+                        </tr>
+                        <tr>
+                            <th>Death date:</th>
+                            <td th:text="${#calendars.format(author.getDeathDate(), 'dd MMMMM y')}"></td>
+                        </tr>
+                        <tr>
+                            <th>Lifespan:</th>
+                            <td th:text="'(' + ${author.getLifespan(author.getBirthDate(), author.getDeathDate())} + ' years)'"></td>
+                        </tr>
+                    </table>
+                    <table class="table table-sl table-hover">
+                        <thead>
+                        <tr>
+                            <th>Books</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="book : ${books}">
+                            <td><a th:href="@{'/books/details/' + ${book.getIsbn()}}"
+                                   th:text="${book.getTitle()}"></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

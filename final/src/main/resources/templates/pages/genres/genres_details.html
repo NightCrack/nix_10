@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Details Genre</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-2 mt-2">
+                <div class="card-header">Details: Genre</div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>Name:</th>
+                            <td th:text="${genre.getGenreType().name()}"></td>
+                        </tr>
+                    </table>
+                    <table class="table table-sm table-hover">
+                        <thead>
+                        <tr>
+                            <th>Books</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="book : ${books}">
+                            <td>
+                                <a th:href="@{'/books/details/' + ${book.getIsbn()}}"
+                                   th:text="${book.getTitle()}"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

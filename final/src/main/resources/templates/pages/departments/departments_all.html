@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="~{fragments/data_table}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Departments</title>
+</head>
+<body>
+<div layout:fragment="data_table_content">
+    <tr th:each="department,column : ${pageData.getItems()}">
+        <td th:text="${column.count}"></td>
+        <td th:text="${department.getName()}"></td>
+        <td th:text="${department.getDepartmentType().name()}"></td>
+        <td><a th:href="@{'/employees/?departmentId=' + ${department.getId()}}"
+               th:text="${department.getEmployeesCount()}"
+               type="button"
+               class="btn btn-link">all employees by department</a>
+        </td>
+        <td><a th:href="@{'/authors/details/' + ${author.getId()}}"
+               type="button"
+               class="btn btn-primary">Details</a>
+        </td>
+        <td><a th:href="@{'/authors/delete/' + ${author.getId()}}"
+               type="button"
+               class="btn btn-danger">Delete</a>
+        </td>
+    </tr>
+</div>
+</body>
+</html>

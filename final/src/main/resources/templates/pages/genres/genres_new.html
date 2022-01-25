@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="~{layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>New Genre</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mt-2">
+                <div class="card-header">
+                    <h4>New Genre</h4>
+                </div>
+                <div class="card-body">
+                    <form action="#"
+                          method="post"
+                          th:action="@{/genres/new}"
+                          th:object="${genre}">
+                        <div class="form-group">
+                            <label>Select</label>
+                            <select class="form-control"
+                                    id="type"
+                                    th:field="*{type}">
+                                <option th:each="type : ${types}"
+                                        th:text="${type}"
+                                        th:value="${type}"></option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

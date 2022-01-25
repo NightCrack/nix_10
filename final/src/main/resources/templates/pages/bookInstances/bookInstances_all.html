@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="~{fragments/data_table}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>BookInstances</title>
+</head>
+<body>
+<div layout:fragment="data_table_content">
+    <tr th:each="bookInstance,column : ${pageData.getItems()}">
+        <td th:text="${column.count}"></td>
+        <td th:text="${bookInstance.getBook().getTitle()}"></td>
+        <td th:text="${bookInstance.getStatus().name()}"></td>
+        <td th:text="${#temporals.format(bookInstance.getDueBack(),'dd-MMM-yyyy')}"></td>
+        <td><a class="btn btn-primary"
+               th:href="@{'/bookInstances/details/' + ${bookInstance.getId()}}"
+               type="button">Details</a>
+        </td>
+        <td><a class="btn btn-danger"
+               th:href="@{'/bookInstances/delete/' + ${bookInstance.getId()}}"
+               type="button">Delete</a>
+        </td>
+    </tr>
+</div>
+</body>
+</html>

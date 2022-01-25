@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Details Book</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-2 mt-2">
+                <div class="card-header">Details: Book</div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>ISBN:</th>
+                            <td th:text="${book.getIsbn()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Title:</th>
+                            <td th:text="${book.getTitle()}"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img th:src="@{${book.getImageUrl()}}" width="100" height="200"/>
+                            </td>
+                        <tr>
+                            <th>Publication date:</th>
+                            <td th:text="${#dates.year(book.getPublicationDate())}"></td>
+                        </tr>
+                        <tr>
+                            <th>Pages number:</th>
+                            <td th:text="${book.getPagesNumber()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Instances:</th>
+                            <td th:text="${instances}"></td>
+                        </tr>
+                        <tr>
+                            <th>Summary:</th>
+                            <td th:text="${book.getSummary()}"></td>
+                        </tr>
+                    </table>
+                    <table class="table table-sm table-hover">
+                        <thead>
+                        <tr>
+                            <th>Authors:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="author,column : ${authors}">
+                            <td><a th:href="@{'/authors/details/' + ${author.getId()}}"
+                                   th:text="${author.getFirstName() + ' ' + author.getLastName()}"></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-hover">
+                        <thead>
+                        <tr>
+                            <th>Genres:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="genre,column : ${genres}">
+                            <td><a th:href="@{'/genres/details/' + ${genre.getId()}}"
+                                   th:text="${genre.getGenreType()}"></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
