@@ -1,11 +1,14 @@
 package ua.com.alevel.view.controller.impl;
 
+import com.neovisionaries.i18n.CountryCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+import ua.com.alevel.facade.BookFacade;
+import ua.com.alevel.type.StatusType;
 import ua.com.alevel.view.controller.DependentController;
 import ua.com.alevel.view.dto.request.BookInstanceRequestDto;
 import ua.com.alevel.view.dto.response.BookInstanceResponseDto;
@@ -17,6 +20,7 @@ import ua.com.alevel.view.dto.response.PageData;
 public class BookInstanceController extends BaseControllerImpl<BookInstanceRequestDto, Long> implements DependentController<BookInstanceRequestDto, Long, String> {
 
     private final BookInstanceFacade bookInstanceFacade;
+    private final BookFacade bookFacade;
     private final HeaderName[] columnNames = new HeaderName[]{
             new HeaderName("#", null, null),
             new HeaderName("Book title", null, null),
@@ -26,8 +30,9 @@ public class BookInstanceController extends BaseControllerImpl<BookInstanceReque
             new HeaderName("Delete", null, null)
     };
 
-    public BookInstanceController(BookInstanceFacade bookInstanceFacade) {
+    public BookInstanceController(BookInstanceFacade bookInstanceFacade, BookFacade bookFacade) {
         this.bookInstanceFacade = bookInstanceFacade;
+        this.bookFacade = bookFacade;
     }
 
     @Override
@@ -57,9 +62,10 @@ public class BookInstanceController extends BaseControllerImpl<BookInstanceReque
     @Override
     @GetMapping("/new")
     public String redirectToNewEntityPage(Model model, WebRequest request) {
-//        model.addAttribute("bookInstance", new BookInstanceRequestDto());
-//        model.addAttribute("books", bookFacade.findAll());
-//        model.addAttribute("statuses", StatusType.values());
+        model.addAttribute("bookInstance", new BookInstanceRequestDto());
+        model.addAttribute("books", bookFacade.findAll(request));
+        model.addAttribute("statuses", StatusType.values());
+        model.addAttribute("countryCodes", CountryCode.values());
         return "pages/bookInstances/bookInstances_new";
     }
 

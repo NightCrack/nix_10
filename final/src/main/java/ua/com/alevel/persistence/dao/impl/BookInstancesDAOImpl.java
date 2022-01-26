@@ -10,9 +10,7 @@ import ua.com.alevel.persistence.entity.Book;
 import ua.com.alevel.persistence.entity.BookInstance;
 import ua.com.alevel.type.StatusType;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +26,7 @@ public class BookInstancesDAOImpl extends BaseDaoImpl implements BookInstancesDA
         this.jpaConfig = jpaConfig;
     }
 
+    private static final String CREATE_BOOK_INSTANCE_QUERY = "insert into book_instances values (default,?,?,?,?,?,?,?,?,?)";
     private final String FIND_ALL_BOOK_INSTANCES_QUERY =
             "select id, bi.created, bi.updated, bi.visible, " +
                     "imprint, publishing_date, country_code, due_back, " +
@@ -37,8 +36,23 @@ public class BookInstancesDAOImpl extends BaseDaoImpl implements BookInstancesDA
                     "inner join books as b on bi.book_id = b.isbn ";
 
     @Override
-    public void create(CustomResultSet<BookInstance> entity) {
-
+    public void create(CustomResultSet<BookInstance> customResultSet) {
+        BookInstance bookInstance = customResultSet.getEntity();
+        try (PreparedStatement preparedStatement = jpaConfig.getConnection().prepareStatement(CREATE_BOOK_INSTANCE_QUERY)) {
+            int index = 0;
+            preparedStatement.setTimestamp(++index, Timestamp.from(bookInstance.getCreated()));
+            preparedStatement.setTimestamp(++index, Timestamp.from(bookInstance.getUpdated()));
+            preparedStatement.setBoolean(++index, bookInstance.getVisible());
+            preparedStatement.setString(++index, bookInstance.getImprint());
+            preparedStatement.setLong(++index, bookInstance.getPublishingDate().getTime());
+            preparedStatement.setString(++index, bookInstance.getCountryCode().name());
+            preparedStatement.setTimestamp(++index, Timestamp.from(bookInstance.getDueBack()));
+            preparedStatement.setString(++index, bookInstance.getStatus().name());
+            preparedStatement.setString(++index, bookInstance.getBook().getIsbn());
+            preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            System.out.println("exception = " + exception);
+        }
     }
 
     @Override
@@ -118,7 +132,7 @@ public class BookInstancesDAOImpl extends BaseDaoImpl implements BookInstancesDA
     private BookInstance convertResultSetToBookInstance(ResultSet resultSet) throws SQLException {
         long id = resultSet.getLong("bi.id");
         String imprint = resultSet.getString("bi.imprint");
-        String publishingDate = resultSet.getString("bi.publishing_date");
+        Long publishingDate = resultSet.getLong("bi.publishing_date");
         String countryCodeName = resultSet.getString("bi.country_code");
         Instant dueBack = resultSet.getTimestamp("bi.due_back").toInstant();
         String status = resultSet.getString("bi.status");
@@ -155,7 +169,7 @@ public class BookInstancesDAOImpl extends BaseDaoImpl implements BookInstancesDA
         bookInstance.setUpdated(instanceUpdated);
         bookInstance.setVisible(instanceVisible);
         bookInstance.setBook(book);
-        bookInstance.setPublishingDate(publishingDate);
+        bookInstance.setPublishingDate(new Date(publishingDate));
         bookInstance.setCountryCode(countryCode);
         bookInstance.setImprint(imprint);
         bookInstance.setStatus(statusType);

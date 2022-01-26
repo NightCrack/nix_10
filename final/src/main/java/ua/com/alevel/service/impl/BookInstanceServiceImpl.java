@@ -25,12 +25,10 @@ public class BookInstanceServiceImpl implements BookInstanceService {
     }
 
     @Override
-    public void create(CustomResultSet<BookInstance> bookInstance) {
-//        if (booksDAO.existsById(bookInstance.getBook().getIsbn())) {
-//            bookInstance.getBook().getBookInstances().add(bookInstance);
-//            bookInstancesDAO.create(bookInstance);
-//            booksDAO.update(bookInstance.getBook());
-//        }
+    public void create(CustomResultSet<BookInstance> resultSet) {
+        if (resultSet.getEntity().getBook() != null) {
+            bookInstancesDAO.create(resultSet);
+        }
     }
 
     @Override

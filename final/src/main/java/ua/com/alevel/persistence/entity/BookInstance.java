@@ -2,19 +2,33 @@ package ua.com.alevel.persistence.entity;
 
 import com.neovisionaries.i18n.CountryCode;
 import ua.com.alevel.type.StatusType;
+import ua.com.alevel.view.dto.request.BookInstanceRequestDto;
+import ua.com.alevel.view.dto.response.BookResponseDto;
 
+import java.sql.Date;
 import java.time.Instant;
-import java.util.Date;
 
 
 public final class BookInstance extends WithIdEntity {
 
     private String imprint;
-    private String publishingDate;
+    private Date publishingDate;
     private CountryCode countryCode;
     private Instant dueBack;
     private StatusType status;
     private Book book;
+
+    public BookInstance() {
+    }
+
+    public BookInstance(BookInstanceRequestDto requestDto, Book book) {
+        imprint = requestDto.getImprint();
+        publishingDate = requestDto.getPublishingDate();
+        countryCode = requestDto.getCountryCode();
+        dueBack = requestDto.getDueBack();
+        status = requestDto.getStatus();
+        this.book = book;
+    }
 
     public Book getBook() {
         return book;
@@ -32,11 +46,11 @@ public final class BookInstance extends WithIdEntity {
         this.imprint = imprint;
     }
 
-    public String getPublishingDate() {
+    public Date getPublishingDate() {
         return publishingDate;
     }
 
-    public void setPublishingDate(String publishingDate) {
+    public void setPublishingDate(Date publishingDate) {
         this.publishingDate = publishingDate;
     }
 

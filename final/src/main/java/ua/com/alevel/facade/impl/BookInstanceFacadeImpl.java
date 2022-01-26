@@ -2,22 +2,18 @@ package ua.com.alevel.facade.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
+import ua.com.alevel.facade.BookInstanceFacade;
+import ua.com.alevel.persistence.dao.impl.CustomResultSet;
 import ua.com.alevel.persistence.datatable.DataTableRequest;
 import ua.com.alevel.persistence.datatable.DataTableResponse;
-import ua.com.alevel.persistence.entity.Author;
+import ua.com.alevel.persistence.entity.Book;
+import ua.com.alevel.persistence.entity.BookInstance;
+import ua.com.alevel.service.BookInstanceService;
+import ua.com.alevel.service.BookService;
 import ua.com.alevel.util.WebRequestUtil;
 import ua.com.alevel.util.WebResponseUtil;
 import ua.com.alevel.view.dto.request.BookInstanceRequestDto;
-import ua.com.alevel.view.dto.request.PageAndSizeData;
-import ua.com.alevel.view.dto.request.SortData;
-import ua.com.alevel.view.dto.response.AuthorResponseDto;
 import ua.com.alevel.view.dto.response.BookInstanceResponseDto;
-import ua.com.alevel.persistence.entity.Book;
-import ua.com.alevel.persistence.entity.BookInstance;
-import ua.com.alevel.facade.BookInstanceFacade;
-import ua.com.alevel.service.BookInstanceService;
-import ua.com.alevel.service.BookService;
-import ua.com.alevel.view.dto.response.BookResponseDto;
 import ua.com.alevel.view.dto.response.PageData;
 
 import java.util.List;
@@ -35,15 +31,9 @@ public class BookInstanceFacadeImpl implements BookInstanceFacade {
 
     @Override
     public void create(BookInstanceRequestDto bookInstanceRequestDto) {
-//        Book book = bookService.findById(bookInstanceRequestDto.getBookId());
-//        if (book != null) {
-//            BookInstance bookInstance = new BookInstance();
-//            bookInstance.setBook(book);
-//            bookInstance.setImprint(bookInstanceRequestDto.getImprint());
-//            bookInstance.setDueBack(bookInstanceRequestDto.getDueBack());
-//            bookInstance.setStatus(bookInstanceRequestDto.getStatus());
-//            bookInstanceService.create(bookInstance);
-//        }
+        Book book = bookService.findById(bookInstanceRequestDto.getBookIsbn());
+        BookInstance bookInstance = new BookInstance(bookInstanceRequestDto, book);
+        bookInstanceService.create(new CustomResultSet<>(bookInstance, null));
     }
 
     @Override

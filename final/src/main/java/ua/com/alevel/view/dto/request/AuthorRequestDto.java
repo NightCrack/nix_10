@@ -30,7 +30,7 @@ public class AuthorRequestDto extends RequestWithIdDto {
     }
 
     public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateFormatting(dateOfBirth);
+        this.dateOfBirth = toSqlDate(dateOfBirth);
     }
 
     public Date getDateOfDeath() {
@@ -38,6 +38,6 @@ public class AuthorRequestDto extends RequestWithIdDto {
     }
 
     public void setDateOfDeath(String dateOfDeath) {
-        this.dateOfDeath = dateFormatting(dateOfDeath);
+        this.dateOfDeath = toSqlDate(dateOfDeath);
     }
 }

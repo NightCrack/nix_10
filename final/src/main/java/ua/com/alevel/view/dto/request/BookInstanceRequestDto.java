@@ -3,13 +3,13 @@ package ua.com.alevel.view.dto.request;
 import com.neovisionaries.i18n.CountryCode;
 import ua.com.alevel.type.StatusType;
 
+import java.sql.Date;
 import java.time.Instant;
-import java.util.Date;
 
 public class BookInstanceRequestDto extends RequestWithIdDto {
 
     private String imprint;
-    private String publishingDate;
+    private Date publishingDate;
     private CountryCode countryCode;
     private Instant dueBack;
     private StatusType status;
@@ -31,12 +31,12 @@ public class BookInstanceRequestDto extends RequestWithIdDto {
         this.imprint = imprint;
     }
 
-    public String getPublishingDate() {
+    public Date getPublishingDate() {
         return publishingDate;
     }
 
     public void setPublishingDate(String publishingDate) {
-        this.publishingDate = publishingDate;
+        this.publishingDate = toSqlDate(publishingDate);
     }
 
     public CountryCode getCountryCode() {
@@ -51,8 +51,8 @@ public class BookInstanceRequestDto extends RequestWithIdDto {
         return dueBack;
     }
 
-    public void setDueBack(Instant dueBack) {
-        this.dueBack = dueBack;
+    public void setDueBack(String dueBack) {
+        this.dueBack = toInstant(dueBack);
     }
 
     public StatusType getStatus() {

@@ -5,12 +5,13 @@ import ua.com.alevel.persistence.entity.Book;
 import ua.com.alevel.persistence.entity.BookInstance;
 import ua.com.alevel.type.StatusType;
 
+import java.sql.Date;
 import java.time.Instant;
 
 public class BookInstanceResponseDto extends ResponseWithIdDto {
 
     private String imprint;
-    private String publishingDate;
+    private Date publishingDate;
     private CountryCode countryCode;
     private Instant dueBack;
     private StatusType status;
@@ -22,7 +23,7 @@ public class BookInstanceResponseDto extends ResponseWithIdDto {
         countryCode = bookInstance.getCountryCode();
         dueBack = bookInstance.getDueBack();
         status = bookInstance.getStatus();
-        if(bookInstance.getBook() != null) {
+        if (bookInstance.getBook() != null) {
             book = bookInstance.getBook();
         }
         this.setId(bookInstance.getId());
@@ -39,11 +40,11 @@ public class BookInstanceResponseDto extends ResponseWithIdDto {
         this.imprint = imprint;
     }
 
-    public String getPublishingDate() {
+    public Date getPublishingDate() {
         return publishingDate;
     }
 
-    public void setPublishingDate(String publishingDate) {
+    public void setPublishingDate(Date publishingDate) {
         this.publishingDate = publishingDate;
     }
 

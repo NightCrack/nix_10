@@ -61,7 +61,7 @@ public class BookRequestDto extends RequestDto {
     }
 
     public void setPublicationDate(String publicationDate) {
-        this.publicationDate = dateFormatting(publicationDate);
+        this.publicationDate = toSqlDate(publicationDate);
     }
 
     public Integer getPagesNumber() {

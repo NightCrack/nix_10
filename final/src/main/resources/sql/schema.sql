@@ -3,14 +3,6 @@ create database jdbc;
 use jdbc;
 
 create table authors (
--- private Long id;
--- private Instant created;
--- private Instant updated;
--- private Boolean visible;
--- private String firstName;
--- private String lastName;
--- private String birthDate;
--- private String deathDate;
  id bigint auto_increment primary key,
  created timestamp(6) null,
  updated timestamp(6) null,
@@ -22,11 +14,6 @@ create table authors (
 );
 
 create table genres (
--- private Instant created;
--- private Instant updated;
--- private Boolean visible;
--- private Long id;
--- private GenreType genreType;
  id bigint auto_increment primary key,
  created timestamp(6) null,
  updated timestamp(6) null,
@@ -35,15 +22,6 @@ create table genres (
 );
 
 create table books (
--- private String isbn;
--- private Instant created;
--- private Instant updated;
--- private Boolean visible;
--- private String imageUrl;
--- private String title;
--- private String publicationDate;
--- private Integer pagesNumber;
--- private String summary;
  isbn varchar(255) not null primary key,
  created timestamp(6) null,
  updated timestamp(6) null,
@@ -56,23 +34,12 @@ create table books (
 );
 
 create table book_instances (
--- private Long id;
--- private Instant created;
--- private Instant updated;
--- private Boolean visible;
--- private String imprint;
--- private String publishingDate;
--- private CountryCode countryCode;
--- private Instant dueBack;
--- private StatusType status;
--- private Book book;
-
  id bigint auto_increment primary key,
  created timestamp(6) null,
  updated timestamp(6) null,
  visible bit null,
  imprint varchar(255) not null,
- publishing_date varchar(255) not null,
+ publishing_date bigint not null,
  country_code varchar(255) not null,
  due_back timestamp(6) null,
  status varchar(255) not null,
@@ -81,13 +48,6 @@ create table book_instances (
 );
 
 create table departments (
--- private Long id;
--- private Instant created;
--- private Instant updated;
--- private Boolean visible;
--- private DepartmentType departmentType;
--- private String name;
-
  id bigint auto_increment primary key,
  created timestamp(6) null,
  updated timestamp(6) null,
@@ -97,15 +57,6 @@ create table departments (
 );
 
 create table employees (
--- private Long id;
--- private Instant created;
--- private Instant updated;
--- private Boolean visible;
--- private String firstName;
--- private String lastName;
--- private Integer age;
--- private Department department;
-
  id bigint auto_increment primary key,
  created timestamp(6) null,
  updated timestamp(6) null,

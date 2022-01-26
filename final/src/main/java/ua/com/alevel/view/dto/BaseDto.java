@@ -7,6 +7,8 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
 public abstract class BaseDto {
@@ -21,9 +23,15 @@ public abstract class BaseDto {
         }
     }
 
-    public Date dateFormatting(String stringDate) {
+    public Date toSqlDate(String stringDate) {
         Date localDate = Date.valueOf(stringDate);
         return localDate;
+    }
+
+    public Instant toInstant(String stringDate) {
+        LocalDate date = LocalDate.parse(stringDate);
+        Instant instant = date.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        return instant;
     }
 
     public String getLifespan(Date birthDate, Date deathDate) {
