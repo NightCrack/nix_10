@@ -14,32 +14,32 @@
         <td th:text="${column.count}"></td>
         <td th:text="${book.getIsbn()}"></td>
         <td>
-            <img th:src="@{${book.getImageUrl()}}" width="45" height="45"/>
+            <img height="45" th:src="@{${book.getImageUrl()}}" width="45"/>
         </td>
         <td th:text="${book.getTitle()}"></td>
         <td th:text="${#dates.year(book.getPublicationDate())}"></td>
-        <td><a th:href="@{'/authors/?bookIsbn=' + ${book.getIsbn()}}"
+        <td><a class="btn btn-link"
+               th:href="@{'/authors/?bookIsbn=' + ${book.getIsbn()}}"
                th:text="${book.getAuthorsCount()}"
-               type="button"
-               class="btn btn-link">all authors by book</a>
+               type="button">all authors by book</a>
         </td>
-        <td><a th:href="@{'/genres/?bookIsbn=' + ${book.getIsbn()}}"
+        <td><a class="btn btn-link"
+               th:href="@{'/genres/?bookIsbn=' + ${book.getIsbn()}}"
                th:text="${book.getGenresCount()}"
-               type="button"
-               class="btn btn-link">all genres by book</a>
+               type="button">all genres by book</a>
         </td>
-        <td><a th:href="@{'/bookInstances/?bookIsbn=' + ${book.getIsbn()}}"
+        <td><a class="btn btn-link"
+               th:href="@{'/bookInstances/?bookIsbn=' + ${book.getIsbn()}}"
                th:text="${book.getBookInstancesCount()}"
-               type="button"
-               class="btn btn-link">all bookInstances by book</a>
+               type="button">all bookInstances by book</a>
         </td>
-        <td><a th:href="@{'/books/details/' + ${book.getIsbn()}}"
-               type="button"
-               class="btn btn-primary">Details</a>
+        <td><a class="btn btn-primary"
+               th:href="@{'/books/details/' + ${book.getIsbn()}}"
+               type="button">Details</a>
         </td>
-        <td><a th:href="@{'/books/delete/' + ${book.getIsbn()}}"
-               type="button"
-               class="btn btn-danger">Delete</a>
+        <td><a class="btn btn-danger"
+               th:href="@{'/books/delete/' + ${book.getIsbn()}}"
+               type="button">Delete</a>
         </td>
     </tr>
 </div>

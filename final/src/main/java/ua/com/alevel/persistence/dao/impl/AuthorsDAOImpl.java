@@ -6,6 +6,7 @@ import ua.com.alevel.persistence.dao.AuthorsDAO;
 import ua.com.alevel.persistence.datatable.DataTableRequest;
 import ua.com.alevel.persistence.datatable.DataTableResponse;
 import ua.com.alevel.persistence.entity.Author;
+import ua.com.alevel.util.CustomResultSet;
 
 import java.sql.Date;
 import java.sql.*;
@@ -16,20 +17,18 @@ import java.util.*;
 public class AuthorsDAOImpl extends BaseDaoImpl implements AuthorsDAO {
 
     private final JpaConfig jpaConfig;
-
-    public AuthorsDAOImpl(JpaConfig jpaConfig) {
-        super(jpaConfig);
-        this.jpaConfig = jpaConfig;
-    }
-
-    private static final String CREATE_AUTHOR_QUERY = "insert into authors values (default,?,?,?,?,?,?,?)";
-    private static final String FIND_ALL_AUTHORS_QUERY =
+    private final String CREATE_AUTHOR_QUERY = "insert into authors values (default,?,?,?,?,?,?,?)";
+    private final String DELETE_AUTHOR_QUERY = "delete from authors where id = ";
+    private final String FIND_ALL_AUTHORS_QUERY =
             "select id, created, updated, visible, " +
                     "first_name, last_name, birth_date, " +
                     "death_date, count(ab.book_isbn) " +
                     "as books from authors as au " +
                     "left join author_book as ab on" +
                     " au.id = ab.author_id ";
+    public AuthorsDAOImpl(JpaConfig jpaConfig) {
+        this.jpaConfig = jpaConfig;
+    }
 
     @Override
     public void create(CustomResultSet<Author> customResultSet) {
@@ -55,25 +54,18 @@ public class AuthorsDAOImpl extends BaseDaoImpl implements AuthorsDAO {
     }
 
     @Override
-    public void delete(Long aLong) {
-
+    public void delete(Long id) {
+        deleteByCriteria(jpaConfig, "authors", "id", id);
     }
 
     @Override
     public boolean existsById(Long id) {
-        try (ResultSet resultSet = jpaConfig.getStatement().executeQuery("select count(*) as number from authors where id =" + id)) {
-            if (resultSet.next()) {
-                return resultSet.getInt("number") == 1;
-            }
-        } catch (SQLException exception) {
-            System.out.println("exception = " + exception);
-        }
-        return false;
+        return super.existsById(jpaConfig, "authors", "id", id);
     }
 
     @Override
     public Author findById(Long id) {
-        try (ResultSet resultSet = jpaConfig.getStatement().executeQuery(FIND_ALL_AUTHORS_QUERY + "where id ="+ id)) {
+        try (ResultSet resultSet = jpaConfig.getStatement().executeQuery(FIND_ALL_AUTHORS_QUERY + "where id =" + id)) {
             if (resultSet.next()) {
                 return convertResultSetToAuthor(resultSet).getEntity();
             }
@@ -112,7 +104,7 @@ public class AuthorsDAOImpl extends BaseDaoImpl implements AuthorsDAO {
 
     @Override
     public int count() {
-        return count("authors");
+        return count(jpaConfig, "authors");
     }
 
     private CustomResultSet<Author> convertResultSetToAuthor(ResultSet resultSet) throws SQLException {

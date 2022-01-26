@@ -3,18 +3,17 @@ package ua.com.alevel.facade.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
 import ua.com.alevel.facade.GenreFacade;
-import ua.com.alevel.persistence.dao.impl.CustomResultSet;
 import ua.com.alevel.persistence.datatable.DataTableRequest;
 import ua.com.alevel.persistence.datatable.DataTableResponse;
 import ua.com.alevel.persistence.entity.Genre;
 import ua.com.alevel.service.GenreService;
+import ua.com.alevel.util.CustomResultSet;
 import ua.com.alevel.util.WebRequestUtil;
 import ua.com.alevel.util.WebResponseUtil;
 import ua.com.alevel.view.dto.request.GenreRequestDto;
 import ua.com.alevel.view.dto.response.GenreResponseDto;
 import ua.com.alevel.view.dto.response.PageData;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service

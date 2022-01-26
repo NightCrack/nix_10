@@ -5,12 +5,12 @@ import java.util.List;
 
 public class PageData<RES extends ResponseDto> {
 
+    private final int[] pageSizeItems;
     private int currentPage;
     private int pageSize;
     private int totalPageSize;
     private int itemsSize;
     private List<RES> items;
-    private final int[] pageSizeItems;
     private boolean showFirst;
     private boolean showPrevious;
     private boolean showNext;
@@ -34,7 +34,7 @@ public class PageData<RES extends ResponseDto> {
     }
 
     public void initPaginationState() {
-        totalPageSize = (int) Math.ceil((double) itemsSize/ (double) pageSize);
+        totalPageSize = (int) Math.ceil((double) itemsSize / (double) pageSize);
         this.showFirst = currentPage != 1;
         this.showPrevious = currentPage - 1 != 0;
         this.showLast = currentPage < totalPageSize;

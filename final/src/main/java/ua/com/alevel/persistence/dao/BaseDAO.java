@@ -1,9 +1,9 @@
 package ua.com.alevel.persistence.dao;
 
-import ua.com.alevel.persistence.dao.impl.CustomResultSet;
 import ua.com.alevel.persistence.datatable.DataTableRequest;
 import ua.com.alevel.persistence.datatable.DataTableResponse;
 import ua.com.alevel.persistence.entity.BaseEntity;
+import ua.com.alevel.util.CustomResultSet;
 
 public interface BaseDAO<ENTITY extends BaseEntity, ID> {
 

@@ -22,7 +22,7 @@ create table genres (
 );
 
 create table books (
- isbn varchar(255) not null primary key,
+ isbn varchar(255) not null unique primary key,
  created timestamp(6) null,
  updated timestamp(6) null,
  visible bit null,
@@ -44,42 +44,21 @@ create table book_instances (
  due_back timestamp(6) null,
  status varchar(255) not null,
  book_id varchar(255) not null,
- foreign key (book_id) references books (isbn) on delete cascade
-);
-
-create table departments (
- id bigint auto_increment primary key,
- created timestamp(6) null,
- updated timestamp(6) null,
- visible bit null,
- department_type varchar(255) not null,
- name varchar(255) not null
-);
-
-create table employees (
- id bigint auto_increment primary key,
- created timestamp(6) null,
- updated timestamp(6) null,
- visible bit null,
- first_name varchar(255) not null,
- last_name varchar(255) null,
- age int not null,
- department_id bigint not null,
- foreign key (department_id) references departments (id) on delete cascade
+ foreign key (book_id) references books(isbn) on delete cascade
 );
 
 create table author_book (
  author_id bigint not null,
  book_isbn varchar(255) not null,
  primary key (author_id, book_isbn),
- foreign key (book_isbn) references books (isbn),
- foreign key (author_id) references authors (id) on delete cascade
+ foreign key (book_isbn) references books (isbn) on delete cascade,
+ foreign key (author_id) references authors(id) on delete cascade
 );
 
 create table genre_book (
  genre_id bigint not null,
  book_isbn varchar(255) not null,
  primary key (genre_id, book_isbn),
- foreign key (book_isbn) references books (isbn),
- foreign key (genre_id) references genres (id)
+ foreign key (book_isbn) references books (isbn) on delete cascade,
+ foreign key (genre_id) references genres(id) on delete cascade
 );

@@ -9,18 +9,18 @@ public abstract class BaseEntity {
     private Instant updated;
     private Boolean visible;
 
+    public BaseEntity() {
+        this.created = Instant.now();
+        this.updated = this.created;
+        this.visible = true;
+    }
+
     public Boolean getVisible() {
         return visible;
     }
 
     public void setVisible(Boolean visible) {
         this.visible = visible;
-    }
-
-    public BaseEntity() {
-        this.created = Instant.now();
-        this.updated = this.created;
-        this.visible = true;
     }
 
     public void preUpdate() {

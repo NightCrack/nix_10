@@ -9,6 +9,7 @@ import ua.com.alevel.persistence.datatable.DataTableResponse;
 import ua.com.alevel.persistence.entity.Book;
 import ua.com.alevel.persistence.entity.BookInstance;
 import ua.com.alevel.type.StatusType;
+import ua.com.alevel.util.CustomResultSet;
 
 import java.sql.*;
 import java.time.Instant;
@@ -20,13 +21,7 @@ import java.util.List;
 public class BookInstancesDAOImpl extends BaseDaoImpl implements BookInstancesDAO {
 
     private final JpaConfig jpaConfig;
-
-    public BookInstancesDAOImpl(JpaConfig jpaConfig) {
-        super(jpaConfig);
-        this.jpaConfig = jpaConfig;
-    }
-
-    private static final String CREATE_BOOK_INSTANCE_QUERY = "insert into book_instances values (default,?,?,?,?,?,?,?,?,?)";
+    private final String CREATE_BOOK_INSTANCE_QUERY = "insert into book_instances values (default,?,?,?,?,?,?,?,?,?)";
     private final String FIND_ALL_BOOK_INSTANCES_QUERY =
             "select id, bi.created, bi.updated, bi.visible, " +
                     "imprint, publishing_date, country_code, due_back, " +
@@ -34,6 +29,9 @@ public class BookInstancesDAOImpl extends BaseDaoImpl implements BookInstancesDA
                     "image_url, title, publication_date, pages_number, " +
                     "summary from book_instances as bi " +
                     "inner join books as b on bi.book_id = b.isbn ";
+    public BookInstancesDAOImpl(JpaConfig jpaConfig) {
+        this.jpaConfig = jpaConfig;
+    }
 
     @Override
     public void create(CustomResultSet<BookInstance> customResultSet) {
@@ -61,13 +59,13 @@ public class BookInstancesDAOImpl extends BaseDaoImpl implements BookInstancesDA
     }
 
     @Override
-    public void delete(Long aLong) {
-
+    public void delete(Long id) {
+        deleteByCriteria(jpaConfig, "book_instances", "id", id);
     }
 
     @Override
-    public boolean existsById(Long aLong) {
-        return false;
+    public boolean existsById(Long id) {
+        return super.existsById(jpaConfig, "book_instances", "id", id);
     }
 
     @Override
@@ -107,7 +105,7 @@ public class BookInstancesDAOImpl extends BaseDaoImpl implements BookInstancesDA
 
     @Override
     public int count() {
-        return count("book_instances");
+        return count(jpaConfig, "book_instances");
     }
 
     @Override

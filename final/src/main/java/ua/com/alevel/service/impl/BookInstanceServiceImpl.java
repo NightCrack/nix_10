@@ -3,11 +3,11 @@ package ua.com.alevel.service.impl;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.persistence.dao.BookInstancesDAO;
 import ua.com.alevel.persistence.dao.BooksDAO;
-import ua.com.alevel.persistence.dao.impl.CustomResultSet;
 import ua.com.alevel.persistence.datatable.DataTableRequest;
 import ua.com.alevel.persistence.datatable.DataTableResponse;
 import ua.com.alevel.persistence.entity.BookInstance;
 import ua.com.alevel.service.BookInstanceService;
+import ua.com.alevel.util.CustomResultSet;
 import ua.com.alevel.util.WebResponseUtil;
 
 import java.util.Collections;
@@ -40,13 +40,9 @@ public class BookInstanceServiceImpl implements BookInstanceService {
 
     @Override
     public void delete(Long id) {
-//        if (bookInstancesDAO.existsById(id)) {
-//            BookInstance bookInstance = bookInstancesDAO.findById(id);
-//            Book book = bookInstance.getBook();
-//            book.getBookInstances().remove(bookInstance);
-//            booksDAO.update(book);
-//            bookInstancesDAO.delete(id);
-//        }
+        if (bookInstancesDAO.existsById(id)) {
+            bookInstancesDAO.delete(id);
+        }
     }
 
     @Override
@@ -58,7 +54,7 @@ public class BookInstanceServiceImpl implements BookInstanceService {
     public DataTableResponse<BookInstance> findAll(DataTableRequest request) {
         DataTableResponse<BookInstance> dataTableResponse = bookInstancesDAO.findAll(request);
         int count = bookInstancesDAO.count();
-        WebResponseUtil.initDataTableResponse(request,dataTableResponse,count);
+        WebResponseUtil.initDataTableResponse(request, dataTableResponse, count);
         return dataTableResponse;
     }
 

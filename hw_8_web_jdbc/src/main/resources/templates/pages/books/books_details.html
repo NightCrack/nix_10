@@ -23,9 +23,9 @@
                         </tr>
                         <tr>
                             <th>Author:</th>
-                            <td><a th:text="${book.getAuthor().getFirstName() +
-                            ' ' + book.getAuthor().getLastName()}"
-                                   th:href="@{'/authors/details/' + ${book.getAuthor().getId()}}"></a></td>
+                            <td><a th:href="@{'/authors/details/' + ${book.getAuthor().getId()}}"
+                                   th:text="${book.getAuthor().getFirstName() +
+                            ' ' + book.getAuthor().getLastName()}"></a></td>
                         </tr>
                         <tr>
                             <th>ISBN:</th>
@@ -37,8 +37,8 @@
                         </tr>
                         <tr>
                             <th>Genre:</th>
-                            <td><a th:text="${book.getGenre().getGenreType().name()}"
-                                   th:href="@{'/genres/details/' + ${book.getGenre().getId()}}"></a></td>
+                            <td><a th:href="@{'/genres/details/' + ${book.getGenre().getId()}}"
+                                   th:text="${book.getGenre().getGenreType().name()}"></a></td>
                         </tr>
                     </table>
                     <table class="table table-sm table-hover">
@@ -50,8 +50,8 @@
                         </thead>
                         <tbody>
                         <tr th:each="bookInstance,column : ${book.getBookInstances()}">
-                            <td><a th:text="${bookInstance.getId()}"
-                                   th:href="@{'/bookInstances/details/' + ${bookInstance.getId()}}"></a></td>
+                            <td><a th:href="@{'/bookInstances/details/' + ${bookInstance.getId()}}"
+                                   th:text="${bookInstance.getId()}"></a></td>
                             <td th:text="${bookInstance.getStatus().name()}"></td>
                         </tr>
                         </tbody>

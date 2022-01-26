@@ -6,6 +6,7 @@ import ua.com.alevel.persistence.dao.BooksDAO;
 import ua.com.alevel.persistence.datatable.DataTableRequest;
 import ua.com.alevel.persistence.datatable.DataTableResponse;
 import ua.com.alevel.persistence.entity.Book;
+import ua.com.alevel.util.CustomResultSet;
 
 import java.sql.*;
 import java.time.Instant;
@@ -18,26 +19,22 @@ import java.util.Map;
 public class BooksDAOImpl extends BaseDaoImpl implements BooksDAO {
 
     private final JpaConfig jpaConfig;
-
+    private final String CREATE_BOOK_QUERY = "insert into books values (?,?,?,?,?,?,?,?,?)";
+    private final String FIND_BOOK_QUERY = "select * from books where isbn = '";
+    private final String FIND_ALL_BOOKS_QUERY =
+            "select isbn, b.created, b.updated, b.visible, " +
+                    "image_url, title, publication_date, pages_number, " +
+                    "summary, count(distinct author_id) as authors, " +
+                    "count(distinct genre_id) as genres, " +
+                    "count(distinct bi.id) as instances from " +
+                    "(books as b left join author_book as ab on " +
+                    "(b.isbn = ab.book_isbn) left join genre_book " +
+                    "as gb on (b.isbn = gb.book_isbn)) " +
+                    "left join book_instances as bi on " +
+                    "(b.isbn = bi.book_id or bi.book_id is null) ";
     public BooksDAOImpl(JpaConfig jpaConfig) {
-        super(jpaConfig);
         this.jpaConfig = jpaConfig;
     }
-
-    private static final String CREATE_BOOK_QUERY = "insert into books values (?,?,?,?,?,?,?,?,?)";
-    private static final String FIND_BOOK_QUERY = "select * from books where isbn = '";
-    private static final String FIND_ALL_BOOKS_QUERY =
-            "select isbn, b.created, b.updated, b.visible, " +
-            "image_url, title, publication_date, pages_number, " +
-            "summary, count(distinct author_id) as authors, " +
-            "count(distinct genre_id) as genres, " +
-            "count(distinct bi.id) as instances from " +
-            "(books as b left join author_book as ab on " +
-            "(b.isbn = ab.book_isbn) left join genre_book " +
-            "as gb on (b.isbn = gb.book_isbn)) " +
-            "left join book_instances as bi on " +
-            "(b.isbn = bi.book_id or bi.book_id is null) ";
-
 
     @Override
     public void create(CustomResultSet<Book> customResultSet) {
@@ -101,13 +98,13 @@ public class BooksDAOImpl extends BaseDaoImpl implements BooksDAO {
     }
 
     @Override
-    public void delete(String s) {
-
+    public void delete(String isbn) {
+        deleteByCriteria(jpaConfig, "books", "isbn", isbn);
     }
 
     @Override
-    public boolean existsById(String s) {
-        return false;
+    public boolean existsById(String isbn) {
+        return super.existsById(jpaConfig, "books", "isbn", isbn);
     }
 
     @Override
@@ -151,7 +148,7 @@ public class BooksDAOImpl extends BaseDaoImpl implements BooksDAO {
 
     @Override
     public int count() {
-        return count("books");
+        return count(jpaConfig, "books");
     }
 
     @Override

@@ -7,6 +7,7 @@ import ua.com.alevel.persistence.datatable.DataTableRequest;
 import ua.com.alevel.persistence.datatable.DataTableResponse;
 import ua.com.alevel.persistence.entity.Genre;
 import ua.com.alevel.type.GenreType;
+import ua.com.alevel.util.CustomResultSet;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,11 +19,9 @@ import java.util.*;
 @Service
 public class GenresDAOImpl extends BaseDaoImpl implements GenresDAO {
 
-    private final static String CREATE_GENRE_QUERY = "insert into genres values(default, ?, ?, ?, ?)";
-    private final static String UPDATE_GENRE_QUERY = "update genres set updated = ?, genre_type = ? where id = ";
-    private final static String DELETE_GENRE_QUERY = "delete from genres where id = ";
-    private final static String GENRE_EXIST_BY_ID_QUERY = "select count(*) from genres where id = ";
-    private final static String FIND_ALL_GENRES_QUERY =
+    private final String CREATE_GENRE_QUERY = "insert into genres values(default, ?, ?, ?, ?)";
+    private final String UPDATE_GENRE_QUERY = "update genres set updated = ?, genre_type = ? where id = ";
+    private final String FIND_ALL_GENRES_QUERY =
             "select id, created, updated, visible, " +
                     "genre_type, count(gb.book_isbn) as books " +
                     "from genres as g " +
@@ -31,7 +30,6 @@ public class GenresDAOImpl extends BaseDaoImpl implements GenresDAO {
     private final JpaConfig jpaConfig;
 
     public GenresDAOImpl(JpaConfig jpaConfig) {
-        super(jpaConfig);
         this.jpaConfig = jpaConfig;
     }
 
@@ -88,24 +86,17 @@ public class GenresDAOImpl extends BaseDaoImpl implements GenresDAO {
 
     @Override
     public void delete(Long id) {
-//        jpaConfig.deleteByCriteria(DELETE_GENRE_QUERY, id);
+        deleteByCriteria(jpaConfig, "genres", "id", id);
     }
 
     @Override
     public boolean existsById(Long id) {
-        try (ResultSet resultSet = jpaConfig.getStatement().executeQuery("select count(*) as number from genres where id =" + id)) {
-            if (resultSet.next()) {
-                return resultSet.getInt("number") == 1;
-            }
-        } catch (SQLException exception) {
-            System.out.println("exception = " + exception);
-        }
-        return false;
+        return super.existsById(jpaConfig, "genres", "id", id);
     }
 
     @Override
     public Genre findById(Long id) {
-        try (ResultSet resultSet = jpaConfig.getStatement().executeQuery(FIND_ALL_GENRES_QUERY + "where id =" + id)) {
+        try (ResultSet resultSet = jpaConfig.getStatement().executeQuery(FIND_ALL_GENRES_QUERY + "where id = " + id)) {
             if (resultSet.next()) {
                 return convertResultSetToGenre(resultSet).getEntity();
             }
@@ -144,7 +135,7 @@ public class GenresDAOImpl extends BaseDaoImpl implements GenresDAO {
 
     @Override
     public int count() {
-        return count("genres");
+        return count(jpaConfig, "genres");
     }
 
     private CustomResultSet<Genre> convertResultSetToGenre(ResultSet resultSet) throws SQLException {

@@ -6,13 +6,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+import ua.com.alevel.facade.AuthorFacade;
+import ua.com.alevel.facade.BookFacade;
 import ua.com.alevel.facade.BookInstanceFacade;
 import ua.com.alevel.facade.GenreFacade;
 import ua.com.alevel.view.controller.SecondDependentController;
 import ua.com.alevel.view.dto.request.BookRequestDto;
 import ua.com.alevel.view.dto.response.BookResponseDto;
-import ua.com.alevel.facade.AuthorFacade;
-import ua.com.alevel.facade.BookFacade;
 import ua.com.alevel.view.dto.response.PageData;
 
 @Controller
@@ -107,7 +107,7 @@ public class BookController extends BaseControllerImpl<BookRequestDto, String> i
     @Override
     @GetMapping("/delete/{isbn}")
     public String deleteEntity(@PathVariable String isbn) {
-//        bookFacade.delete(isbn);
+        bookFacade.delete(isbn);
         return "redirect:/books";
 
     }

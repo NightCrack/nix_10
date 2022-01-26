@@ -4,7 +4,10 @@ import org.springframework.stereotype.Service;
 import ua.com.alevel.config.jpa.DatasourceProperties;
 import ua.com.alevel.config.jpa.JpaConfig;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 @Service
 public class MySqlJpaConfig implements JpaConfig {
@@ -36,14 +39,5 @@ public class MySqlJpaConfig implements JpaConfig {
     @Override
     public Statement getStatement() {
         return statement;
-    }
-
-    @Override
-    public void deleteByCriteria(String query, Long... id) {
-        try (PreparedStatement preparedStatement = this.getConnection().prepareStatement(query + id[0])) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

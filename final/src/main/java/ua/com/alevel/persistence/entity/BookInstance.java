@@ -3,7 +3,6 @@ package ua.com.alevel.persistence.entity;
 import com.neovisionaries.i18n.CountryCode;
 import ua.com.alevel.type.StatusType;
 import ua.com.alevel.view.dto.request.BookInstanceRequestDto;
-import ua.com.alevel.view.dto.response.BookResponseDto;
 
 import java.sql.Date;
 import java.time.Instant;

@@ -1,11 +1,9 @@
 package ua.com.alevel.service;
 
-import ua.com.alevel.persistence.dao.impl.CustomResultSet;
 import ua.com.alevel.persistence.datatable.DataTableRequest;
 import ua.com.alevel.persistence.datatable.DataTableResponse;
 import ua.com.alevel.persistence.entity.BaseEntity;
-
-import java.util.Collection;
+import ua.com.alevel.util.CustomResultSet;
 
 public interface BaseService<ENTITY extends BaseEntity, ID> {
 

@@ -67,7 +67,7 @@ public class AuthorController extends BaseControllerImpl<AuthorRequestDto, Long>
     @Override
     @GetMapping("/delete/{id}")
     public String deleteEntity(@PathVariable Long id) {
-//        authorFacade.delete(id);
+        authorFacade.delete(id);
         return "redirect:/authors";
 
     }

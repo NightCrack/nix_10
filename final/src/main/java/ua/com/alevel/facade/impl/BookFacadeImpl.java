@@ -3,13 +3,13 @@ package ua.com.alevel.facade.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
 import ua.com.alevel.facade.BookFacade;
-import ua.com.alevel.persistence.dao.impl.CustomResultSet;
 import ua.com.alevel.persistence.datatable.DataTableRequest;
 import ua.com.alevel.persistence.datatable.DataTableResponse;
 import ua.com.alevel.persistence.entity.Book;
 import ua.com.alevel.service.AuthorService;
 import ua.com.alevel.service.BookService;
 import ua.com.alevel.service.GenreService;
+import ua.com.alevel.util.CustomResultSet;
 import ua.com.alevel.util.WebRequestUtil;
 import ua.com.alevel.util.WebResponseUtil;
 import ua.com.alevel.view.dto.request.BookRequestDto;
@@ -62,7 +62,7 @@ public class BookFacadeImpl implements BookFacade {
 
     @Override
     public void delete(String isbn) {
-//        bookService.delete(isbn);
+        bookService.delete(isbn);
     }
 
     @Override

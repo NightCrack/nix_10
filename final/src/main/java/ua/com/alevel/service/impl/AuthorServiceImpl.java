@@ -4,11 +4,11 @@ import org.springframework.stereotype.Service;
 import ua.com.alevel.persistence.dao.AuthorsDAO;
 import ua.com.alevel.persistence.dao.BooksDAO;
 import ua.com.alevel.persistence.dao.GenresDAO;
-import ua.com.alevel.persistence.dao.impl.CustomResultSet;
 import ua.com.alevel.persistence.datatable.DataTableRequest;
 import ua.com.alevel.persistence.datatable.DataTableResponse;
 import ua.com.alevel.persistence.entity.Author;
 import ua.com.alevel.service.AuthorService;
+import ua.com.alevel.util.CustomResultSet;
 import ua.com.alevel.util.WebResponseUtil;
 
 import java.util.List;
@@ -40,30 +40,9 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void delete(Long id) {
-//        Author defaultAuthor;
-//        Optional<Author> optionalAuthor = authorsDAO.findAll()
-//                .stream()
-//                .filter(entry -> (entry.getFirstName() + " " + entry.getLastName())
-//                        .equals("Un Defined"))
-//                .findFirst();
-//        if (optionalAuthor.isEmpty()) {
-//            Author author = new Author();
-//            author.setFirstName("Un");
-//            author.setLastName("Defined");
-//            author.setBirthDate(new Date(0));
-//            author.setDeathDate(new Date(0));
-//            authorsDAO.create(author);
-//            defaultAuthor = author;
-//        } else {
-//            defaultAuthor = optionalAuthor.get();
-//        }
-//        if (authorsDAO.existsById(id)) {
-//            Author author = authorsDAO.findById(id);
-//            List<Book> books = author.getBooks();
-//            books = books.stream().peek(entry -> entry.setAuthor(defaultAuthor)).toList();
-//            books.forEach(booksDAO::update);
-//            authorsDAO.delete(id);
-//        }
+        if (authorsDAO.existsById(id)) {
+            authorsDAO.delete(id);
+        }
     }
 
     @Override
@@ -75,7 +54,7 @@ public class AuthorServiceImpl implements AuthorService {
     public DataTableResponse<Author> findAll(DataTableRequest request) {
         DataTableResponse<Author> dataTableResponse = authorsDAO.findAll(request);
         int count = authorsDAO.count();
-        WebResponseUtil.initDataTableResponse(request,dataTableResponse,count);
+        WebResponseUtil.initDataTableResponse(request, dataTableResponse, count);
         return dataTableResponse;
     }
 

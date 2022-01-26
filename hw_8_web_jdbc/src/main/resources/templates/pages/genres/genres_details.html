@@ -30,8 +30,8 @@
                         </thead>
                         <tbody>
                         <tr th:each="book : ${genre.getBooks()}">
-                            <td><a th:text="${book.getName()}"
-                                   th:href="@{'/books/details/' + ${book.getIsbn()}}"></a></td>
+                            <td><a th:href="@{'/books/details/' + ${book.getIsbn()}}"
+                                   th:text="${book.getName()}"></a></td>
                         </tr>
                         </tbody>
                     </table>

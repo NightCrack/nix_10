@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.alevel.facade.BookFacade;
+import ua.com.alevel.facade.BookInstanceFacade;
 import ua.com.alevel.type.StatusType;
 import ua.com.alevel.view.controller.DependentController;
 import ua.com.alevel.view.dto.request.BookInstanceRequestDto;
 import ua.com.alevel.view.dto.response.BookInstanceResponseDto;
-import ua.com.alevel.facade.BookInstanceFacade;
 import ua.com.alevel.view.dto.response.PageData;
 
 @Controller

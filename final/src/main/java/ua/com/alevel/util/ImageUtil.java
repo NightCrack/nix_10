@@ -11,7 +11,8 @@ import java.nio.file.StandardCopyOption;
 
 public final class ImageUtil {
 
-    private ImageUtil() { }
+    private ImageUtil() {
+    }
 
     public static String uploadAndGetImageUrl(MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());

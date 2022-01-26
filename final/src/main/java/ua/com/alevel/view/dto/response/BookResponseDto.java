@@ -1,12 +1,8 @@
 package ua.com.alevel.view.dto.response;
 
-import ua.com.alevel.persistence.entity.Author;
 import ua.com.alevel.persistence.entity.Book;
-import ua.com.alevel.persistence.entity.BookInstance;
-import ua.com.alevel.persistence.entity.Genre;
 
 import java.sql.Date;
-import java.util.List;
 
 public class BookResponseDto extends ResponseDto {
 

@@ -1,4 +1,4 @@
-package ua.com.alevel.persistence.dao.impl;
+package ua.com.alevel.util;
 
 import ua.com.alevel.persistence.entity.BaseEntity;
 

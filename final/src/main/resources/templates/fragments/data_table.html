@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+<html lang="en" layout:decorate="~{layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>Table body</title>
@@ -23,28 +23,28 @@
                                 <th:block th:if="${columnHeader.isSortable()}">
                                     <th:block th:if="${columnHeader.isActive()}">
                                         <span th:text="${columnHeader.getHeaderName()}"></span>
-                                        <i th:if="${columnHeader.getOrder().equals('desc')}"
-                                           class="fa fa-sort-desc float-right sort" aria-hidden="true"
-                                           th:data-sort="${columnHeader.getSort()}"
+                                        <i aria-hidden="true"
+                                           class="fa fa-sort-desc float-right sort" onclick="runSort(this.getAttribute('data-sort'), this.getAttribute('data-order'))"
                                            th:data-order="${columnHeader.getOrder()}"
-                                           onclick="runSort(this.getAttribute('data-sort'), this.getAttribute('data-order'))"></i>
-                                        <i th:if="${columnHeader.getOrder().equals('asc')}"
-                                           class="fa fa-sort-asc float-right sort" aria-hidden="true"
                                            th:data-sort="${columnHeader.getSort()}"
+                                           th:if="${columnHeader.getOrder().equals('desc')}"></i>
+                                        <i aria-hidden="true"
+                                           class="fa fa-sort-asc float-right sort" onclick="runSort(this.getAttribute('data-sort'), this.getAttribute('data-order'))"
                                            th:data-order="${columnHeader.getOrder()}"
-                                           onclick="runSort(this.getAttribute('data-sort'), this.getAttribute('data-order'))"></i>
+                                           th:data-sort="${columnHeader.getSort()}"
+                                           th:if="${columnHeader.getOrder().equals('asc')}"></i>
                                     </th:block>
                                     <th:block th:unless="${columnHeader.isActive()}">
                                         <span th:text="${columnHeader.getHeaderName()}"></span>
-                                        <i class="fa fa-sort float-right sort" aria-hidden="true"
-                                           th:data-sort="${columnHeader.getSort()}"
+                                        <i aria-hidden="true" class="fa fa-sort float-right sort"
+                                           onclick="runSort(this.getAttribute('data-sort'), this.getAttribute('data-order'))"
                                            th:data-order="${columnHeader.getOrder()}"
-                                           onclick="runSort(this.getAttribute('data-sort'), this.getAttribute('data-order'))"></i>
+                                           th:data-sort="${columnHeader.getSort()}"></i>
                                     </th:block>
                                 </th:block>
 
-                                <span th:unless="${columnHeader.isSortable()}"
-                                      th:text="${columnHeader.getHeaderName()}"></span>
+                                <span th:text="${columnHeader.getHeaderName()}"
+                                      th:unless="${columnHeader.isSortable()}"></span>
                             </th>
                         </tr>
                         </thead>
@@ -60,11 +60,11 @@
                         </div>
                         <div class="p-1">
                             <div class="dropdown dropup">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuLink"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"
+                                        data-toggle="dropdown" id="dropdownMenuLink" type="button">
                                     <span th:text="${pageData.getPageSize()}"></span>
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
                                     <section th:each="size : ${pageData.getPageSizeItems()}">
                                         <a class="dropdown-item" href="#" th:onclick="|runPagination(1, ${size}, 0)|"
                                            th:text="${size}">@size</a>
@@ -115,30 +115,30 @@
         <div class="col-12">
             <div class="card mt-2 mb-2">
                 <div class="card-header">
-                    <a type="button" class="btn btn-primary" th:href="@{${createNew}}">Add</a>
+                    <a class="btn btn-primary" th:href="@{${createNew}}" type="button">Add</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <form method="POST" th:action="@{${createUrl}}" id="personalSearch">
-        <input type="submit"
-               id="personalSearchSubmit"
+    <form id="personalSearch" method="POST" th:action="@{${createUrl}}">
+        <input id="personalSearchSubmit"
                style="visibility: hidden"
+               type="submit"
         />
     </form>
 
-    <span th:data-sort="${pageData.getSort()}"
+    <span id="pageData"
           th:data-order="${pageData.getOrder()}"
           th:data-page="${pageData.getCurrentPage()}"
           th:data-size="${pageData.getPageSize()}"
-          id="pageData">
+          th:data-sort="${pageData.getSort()}">
     </span>
 
 </div>
 
 <th:block layout:fragment="scripts">
-    <script type="text/javascript" th:src="@{/js/pagination.js}"></script>
+    <script th:src="@{/js/pagination.js}" type="text/javascript"></script>
 </th:block>
 </body>
 </html>
