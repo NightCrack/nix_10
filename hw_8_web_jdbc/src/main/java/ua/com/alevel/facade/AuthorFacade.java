@@ -1,7 +1,7 @@
 package ua.com.alevel.facade;
 
-import ua.com.alevel.dto.author.AuthorRequestDto;
-import ua.com.alevel.dto.author.AuthorResponseDto;
+import ua.com.alevel.view.dto.request.AuthorRequestDto;
+import ua.com.alevel.view.dto.response.AuthorResponseDto;
 
-public interface AuthorFacade extends BaseFacade<AuthorRequestDto, AuthorResponseDto, Long> {
+public interface AuthorFacade extends DependentFacade<AuthorRequestDto, AuthorResponseDto, Long, String> {
 }

@@ -14,45 +14,65 @@
     <div class="row">
         <div class="col-12">
             <div class="card mb-2 mt-2">
-                <div class="card-header">Details: Book</div>
+                <div class="card-header">Details: Book
+                    <a class="btn btn-primary"
+                       th:href="@{'/books/edit/' + ${book.getIsbn()}}"
+                       type="button">Edit</a>
+                </div>
                 <div class="card-body">
                     <table class="table table-hover">
-                        <tr>
-                            <th>Title:</th>
-                            <td th:text="${book.getName()}"></td>
-                        </tr>
-                        <tr>
-                            <th>Author:</th>
-                            <td><a th:href="@{'/authors/details/' + ${book.getAuthor().getId()}}"
-                                   th:text="${book.getAuthor().getFirstName() +
-                            ' ' + book.getAuthor().getLastName()}"></a></td>
-                        </tr>
                         <tr>
                             <th>ISBN:</th>
                             <td th:text="${book.getIsbn()}"></td>
                         </tr>
                         <tr>
-                            <th>Summary:</th>
-                            <td th:text="${book.getSummary()}"></td>
+                            <th>Title:</th>
+                            <td th:text="${book.getTitle()}"></td>
                         </tr>
                         <tr>
-                            <th>Genre:</th>
-                            <td><a th:href="@{'/genres/details/' + ${book.getGenre().getId()}}"
-                                   th:text="${book.getGenre().getGenreType().name()}"></a></td>
+                            <td>
+                                <img height="200" th:src="@{${book.getImageUrl()}}" width="100"/>
+                            </td>
+                        <tr>
+                            <th>Publication date:</th>
+                            <td th:text="${#dates.year(book.getPublicationDate())}"></td>
+                        </tr>
+                        <tr>
+                            <th>Pages number:</th>
+                            <td th:text="${book.getPagesNumber()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Instances:</th>
+                            <td th:text="${instances}"></td>
+                        </tr>
+                        <tr>
+                            <th>Summary:</th>
+                            <td th:text="${book.getSummary()}"></td>
                         </tr>
                     </table>
                     <table class="table table-sm table-hover">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Status</th>
+                            <th>Authors:</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="bookInstance,column : ${book.getBookInstances()}">
-                            <td><a th:href="@{'/bookInstances/details/' + ${bookInstance.getId()}}"
-                                   th:text="${bookInstance.getId()}"></a></td>
-                            <td th:text="${bookInstance.getStatus().name()}"></td>
+                        <tr th:each="author,column : ${authors}">
+                            <td><a th:href="@{'/authors/details/' + ${author.getId()}}"
+                                   th:text="${author.getFirstName() + ' ' + author.getLastName()}"></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-hover">
+                        <thead>
+                        <tr>
+                            <th>Genres:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="genre,column : ${genres}">
+                            <td><a th:href="@{'/genres/details/' + ${genre.getId()}}"
+                                   th:text="${genre.getGenreType()}"></a></td>
                         </tr>
                         </tbody>
                     </table>

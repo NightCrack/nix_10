@@ -14,24 +14,31 @@
     <div class="row">
         <div class="col-12">
             <div class="card mb-2 mt-2">
-                <div class="card-header">Details: Author</div>
+                <div class="card-header">Details: Author
+                    <a class="btn btn-primary"
+                       th:href="@{'/authors/edit/' + ${author.getId()}}"
+                       type="button">Edit</a></div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <tr>
-                            <th>First name:</th>
+                            <th>First Name:</th>
                             <td th:text="${author.getFirstName()}"></td>
                         </tr>
                         <tr>
-                            <th>Last name:</th>
+                            <th>Last Name:</th>
                             <td th:text="${author.getLastName()}"></td>
                         </tr>
                         <tr>
                             <th>Birth date:</th>
-                            <td th:text="${#calendars.format(author.getDateOfBirth(), 'dd MMMM yyyy')}"></td>
+                            <td th:text="${#calendars.format(author.getBirthDate(), 'dd MMMMM y')}"></td>
                         </tr>
                         <tr>
                             <th>Death date:</th>
-                            <td th:text="${#calendars.format(author.getDateOfDeath(), 'dd MMMM yyyy')}"></td>
+                            <td th:text="${#calendars.format(author.getDeathDate(), 'dd MMMMM y')}"></td>
+                        </tr>
+                        <tr>
+                            <th>Lifespan:</th>
+                            <td th:text="'(' + ${author.getLifespan(author.getBirthDate(), author.getDeathDate())} + ' years)'"></td>
                         </tr>
                     </table>
                     <table class="table table-sl table-hover">
@@ -41,9 +48,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="book : ${author.getBooks()}">
+                        <tr th:each="book : ${books}">
                             <td><a th:href="@{'/books/details/' + ${book.getIsbn()}}"
-                                   th:text="${book.getName()}"></a></td>
+                                   th:text="${book.getTitle()}"></a></td>
                         </tr>
                         </tbody>
                     </table>

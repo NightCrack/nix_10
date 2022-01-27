@@ -1,10 +1,6 @@
 package ua.com.alevel.service;
 
-import ua.com.alevel.entity.BookInstance;
+import ua.com.alevel.persistence.entity.BookInstance;
 
-import java.util.List;
-
-public interface BookInstanceService extends BaseService<BookInstance, Long> {
-
-    List<BookInstance> findAllByBook(String bookId);
+public interface BookInstanceService extends DependentService<BookInstance, Long, String> {
 }

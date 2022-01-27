@@ -1,20 +1,19 @@
 package ua.com.alevel.service;
 
-import ua.com.alevel.entity.BaseEntity;
-
-import java.util.List;
-import java.util.Optional;
+import ua.com.alevel.persistence.datatable.DataTableRequest;
+import ua.com.alevel.persistence.datatable.DataTableResponse;
+import ua.com.alevel.persistence.entity.BaseEntity;
+import ua.com.alevel.util.CustomResultSet;
 
 public interface BaseService<ENTITY extends BaseEntity, ID> {
 
-    void create(ENTITY entity);
+    void create(CustomResultSet<ENTITY> entity);
 
-    void update(ENTITY entity);
+    void update(CustomResultSet<ENTITY> entity);
 
     void delete(ID id);
 
-    Optional<ENTITY> findById(ID id);
+    ENTITY findById(ID id);
 
-    List<ENTITY> findAll();
-
+    DataTableResponse<ENTITY> findAll(DataTableRequest request);
 }

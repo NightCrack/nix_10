@@ -1,14 +1,22 @@
 package ua.com.alevel.facade.impl;
 
 import org.springframework.stereotype.Service;
-import ua.com.alevel.dto.author.AuthorRequestDto;
-import ua.com.alevel.dto.author.AuthorResponseDto;
-import ua.com.alevel.entity.Author;
+import org.springframework.web.context.request.WebRequest;
 import ua.com.alevel.facade.AuthorFacade;
+import ua.com.alevel.persistence.datatable.DataTableRequest;
+import ua.com.alevel.persistence.datatable.DataTableResponse;
+import ua.com.alevel.persistence.entity.Author;
 import ua.com.alevel.service.AuthorService;
+import ua.com.alevel.util.CustomResultSet;
+import ua.com.alevel.util.WebRequestUtil;
+import ua.com.alevel.util.WebResponseUtil;
+import ua.com.alevel.view.dto.request.AuthorRequestDto;
+import ua.com.alevel.view.dto.response.AuthorResponseDto;
+import ua.com.alevel.view.dto.response.PageData;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AuthorFacadeImpl implements AuthorFacade {
@@ -24,22 +32,19 @@ public class AuthorFacadeImpl implements AuthorFacade {
         Author author = new Author();
         author.setFirstName(authorRequestDto.getFirstName());
         author.setLastName(authorRequestDto.getLastName());
-        author.setDateOfBirth(authorRequestDto.getDateOfBirth());
-        author.setDateOfDeath(authorRequestDto.getDateOfDeath());
-        authorService.create(author);
+        author.setBirthDate(authorRequestDto.getBirthDate());
+        author.setDeathDate(authorRequestDto.getDeathDate());
+        authorService.create(new CustomResultSet<>(author, Collections.emptyList()));
     }
 
     @Override
     public void update(AuthorRequestDto authorRequestDto, Long id) {
-        Optional<Author> optionalAuthor = authorService.findById(id);
-        if (optionalAuthor.isPresent()) {
-            Author author = optionalAuthor.get();
-            author.setFirstName(authorRequestDto.getFirstName());
-            author.setLastName(authorRequestDto.getLastName());
-            author.setDateOfBirth(authorRequestDto.getDateOfBirth());
-            author.setDateOfDeath(authorRequestDto.getDateOfDeath());
-            authorService.update(author);
-        }
+        Author author = new Author(authorRequestDto);
+        author.setId(id);
+        List<String> isbnList = authorRequestDto.getIsbnList();
+        List<List<?>> references = new ArrayList<>();
+        references.add(isbnList);
+        authorService.update(new CustomResultSet<>(author, references));
     }
 
     @Override
@@ -49,13 +54,30 @@ public class AuthorFacadeImpl implements AuthorFacade {
 
     @Override
     public AuthorResponseDto findById(Long id) {
-        Optional<Author> optionalAuthor = authorService.findById(id);
-        return authorService.findById(id).map(AuthorResponseDto::new).orElse(null);
+        return new AuthorResponseDto(authorService.findById(id));
     }
 
     @Override
-    public List<AuthorResponseDto> findAll() {
-        return authorService.findAll()
+    public PageData<AuthorResponseDto> findAll(WebRequest request) {
+        DataTableRequest dataTableRequest = WebRequestUtil.initDataTableRequest(request);
+        DataTableResponse<Author> all = authorService.findAll(dataTableRequest);
+        List<AuthorResponseDto> items = all.getItems()
+                .stream()
+                .map(AuthorResponseDto::new)
+                .peek(entity -> entity
+                        .setBooksCount(all
+                                .getOtherParamMap()
+                                .get(entity.getId()).get(0)))
+                .toList();
+        PageData<AuthorResponseDto> pageData = (PageData<AuthorResponseDto>) WebResponseUtil.initPageData(all);
+        pageData.setItems(items);
+        return pageData;
+    }
+
+    @Override
+    public List<AuthorResponseDto> findAllByForeignId(String isbn) {
+        return authorService
+                .findAllByForeignId(isbn)
                 .stream()
                 .map(AuthorResponseDto::new)
                 .toList();

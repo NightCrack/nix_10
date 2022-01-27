@@ -1,60 +1,29 @@
 <!DOCTYPE html>
-<html
-        lang="en"
-        layout:decorate="~{layout}"
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en"
+      layout:decorate="~{fragments/data_table}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <title>BookInstances</title>
 </head>
 <body>
-<div layout:fragment="content">
-    <div class="row">
-        <div class="col-12">
-            <div class="card mb-2 mt-2">
-                <div class="card-header">All Book Instances</div>
-                <div class="card-body">
-                    <table class="table table-sm table-hover">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Title</th>
-                            <th>Imprint</th>
-                            <th>Status</th>
-                            <th>Created</th>
-                            <th>Updated</th>
-                            <th>Details</th>
-                            <th>Delete</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="bookInstance,column : ${bookInstances}">
-                            <td th:text="${column.count}"></td>
-                            <td th:text="${bookInstance.getBook().getName()}"></td>
-                            <td th:text="${bookInstance.getImprint()}"></td>
-                            <td th:text="${bookInstance.getStatus().name()}"></td>
-                            <td th:text="${#calendars.format(bookInstance.getCreated(),'dd MMMM yyyy')}"></td>
-                            <td th:text="${#calendars.format(bookInstance.getUpdated(),'dd MMMM yyyy')}"></td>
-                            <td>
-                                <a class="btn btn-primary"
-                                   th:href="@{'/bookInstances/details/' + ${bookInstance.getId()}}"
-                                   type="button">Details</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-danger"
-                                   th:href="@{'/bookInstances/delete/' + ${bookInstance.getId()}}"
-                                   type="button">Delete</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+<div layout:fragment="data_table_content">
+    <tr th:each="bookInstance,column : ${pageData.getItems()}">
+        <td th:text="${column.count}"></td>
+        <td th:text="${bookInstance.getBook().getTitle()}"></td>
+        <td th:text="${bookInstance.getStatus().name()}"></td>
+        <td th:text="${#temporals.format(bookInstance.getDueBack(),'dd-MMM-yyyy')}"></td>
+        <td><a class="btn btn-primary"
+               th:href="@{'/bookInstances/details/' + ${bookInstance.getId()}}"
+               type="button">Details</a>
+        </td>
+        <td><a class="btn btn-danger"
+               th:href="@{'/bookInstances/delete/' + ${bookInstance.getId()}}"
+               type="button">Delete</a>
+        </td>
+    </tr>
 </div>
 </body>
 </html>

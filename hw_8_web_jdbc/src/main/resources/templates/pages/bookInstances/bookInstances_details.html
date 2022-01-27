@@ -14,7 +14,10 @@
     <div class="row">
         <div class="col-12">
             <div class="card mb-2 mt-2">
-                <div class="card-header">Details: Book instance</div>
+                <div class="card-header">Details: Book instance
+                    <a class="btn btn-primary"
+                       th:href="@{'/bookInstances/edit/' + ${bookInstance.getId()}}"
+                       type="button">Edit</a></div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <tr>
@@ -24,18 +27,15 @@
                         </tr>
                         <tr>
                             <th>Title:</th>
-                            <td th:text="${bookInstance.getBook().getName()}"></td>
-                        </tr>
-                        <tr>
-                            <th>Author:</th>
-                            <td><a th:href="@{'/authors/details/'+${bookInstance.getBook().getAuthor().getId()}}"
-                                   th:text="${bookInstance.getBook().getAuthor().getFirstName() +
-                            ' ' + bookInstance.getBook().getAuthor().getLastName()}"
-                            ></a></td>
+                            <td th:text="${bookInstance.getBook().getTitle()}"></td>
                         </tr>
                         <tr>
                             <th>Imprint:</th>
                             <td th:text="${bookInstance.getImprint()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Publishing date:</th>
+                            <td th:text="${#calendars.format(bookInstance.getPublishingDate(), 'd MMMM y')}"></td>
                         </tr>
                         <tr>
                             <th>Status:</th>
@@ -43,7 +43,7 @@
                         </tr>
                         <tr>
                             <th>Due back:</th>
-                            <td th:text="${#calendars.format(bookInstance.getDueBack(),'dd MMMM yyyy')}"></td>
+                            <td th:text="${#temporals.format(bookInstance.getDueBack(),'d MMMM y')}"></td>
                         </tr>
                     </table>
                     <hr>

@@ -1,80 +1,75 @@
 package ua.com.alevel.service.impl;
 
 import org.springframework.stereotype.Service;
-import ua.com.alevel.entity.Book;
-import ua.com.alevel.entity.Genre;
-import ua.com.alevel.repository.AuthorRepository;
-import ua.com.alevel.repository.BookInstanceRepository;
-import ua.com.alevel.repository.BookRepository;
-import ua.com.alevel.repository.GenreRepository;
+import ua.com.alevel.persistence.dao.AuthorsDAO;
+import ua.com.alevel.persistence.dao.BookInstancesDAO;
+import ua.com.alevel.persistence.dao.BooksDAO;
+import ua.com.alevel.persistence.dao.GenresDAO;
+import ua.com.alevel.persistence.datatable.DataTableRequest;
+import ua.com.alevel.persistence.datatable.DataTableResponse;
+import ua.com.alevel.persistence.entity.Genre;
 import ua.com.alevel.service.GenreService;
-import ua.com.alevel.type.GenreType;
+import ua.com.alevel.util.CustomResultSet;
+import ua.com.alevel.util.WebResponseUtil;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GenreServiceImpl implements GenreService {
 
-    private final GenreRepository genreRepository;
-    private final BookRepository bookRepository;
-    private final AuthorRepository authorRepository;
-    private final BookInstanceRepository bookInstanceRepository;
+    private final GenresDAO genresDAO;
+    private final BooksDAO booksDAO;
+    private final AuthorsDAO authorsDAO;
+    private final BookInstancesDAO bookInstancesDAO;
 
-    public GenreServiceImpl(GenreRepository genreRepository, BookRepository bookRepository, AuthorRepository authorRepository, BookInstanceRepository bookInstanceRepository) {
-        this.genreRepository = genreRepository;
-        this.bookRepository = bookRepository;
-        this.authorRepository = authorRepository;
-        this.bookInstanceRepository = bookInstanceRepository;
-    }
-
-
-    @Override
-    public void create(Genre entity) {
-        genreRepository.save(entity);
+    public GenreServiceImpl(GenresDAO genresDAO, BooksDAO booksDAO, AuthorsDAO authorsDAO, BookInstancesDAO bookInstancesDAO) {
+        this.genresDAO = genresDAO;
+        this.booksDAO = booksDAO;
+        this.authorsDAO = authorsDAO;
+        this.bookInstancesDAO = bookInstancesDAO;
     }
 
     @Override
-    public void update(Genre entity) {
-        if (genreRepository.existsById(entity.getId())) {
-            genreRepository.save(entity);
+    public void create(CustomResultSet<Genre> genre) {
+        genresDAO.create(genre);
+    }
+
+    @Override
+    public void update(CustomResultSet<Genre> customResultSet) {
+        Long id = customResultSet.getEntity().getId();
+        List<String> isbnList = (List<String>) customResultSet.getParams().get(0);
+        if (genresDAO.existsById(id) && isbnList.stream().allMatch(booksDAO::existsById)) {
+            genresDAO.update(customResultSet);
         }
     }
 
     @Override
     public void delete(Long id) {
-        Genre defaultGenre;
-        Optional<Genre> optionalGenre = genreRepository.findAll()
-                .stream()
-                .filter(entry -> entry
-                        .getGenreType()
-                        .equals(GenreType.Undefined))
-                .findFirst();
-        if (optionalGenre.isEmpty()) {
-            Genre genre = new Genre();
-            genre.setGenreType(GenreType.Undefined);
-            genreRepository.save(genre);
-            defaultGenre = genre;
-        } else {
-            defaultGenre = optionalGenre.get();
-        }
-        if (genreRepository.existsById(id)) {
-            Genre genre = genreRepository.findById(id).get();
-            List<Book> books = bookRepository.findAllByGenre(genre);
-            books = books.stream().peek(book -> book.setGenre(defaultGenre)).toList();
-            bookRepository.saveAll(books);
-            genreRepository.deleteById(id);
+        if (genresDAO.existsById(id)) {
+            genresDAO.delete(id);
         }
     }
 
     @Override
-    public Optional<Genre> findById(Long id) {
-        return genreRepository.findById(id);
+    public Genre findById(Long id) {
+        return genresDAO.findById(id);
     }
 
     @Override
-    public List<Genre> findAll() {
-        return genreRepository.findAll();
+    public DataTableResponse<Genre> findAll(DataTableRequest request) {
+        DataTableResponse<Genre> dataTableResponse = genresDAO.findAll(request);
+        int count = genresDAO.count();
+        WebResponseUtil.initDataTableResponse(request, dataTableResponse, count);
+        return dataTableResponse;
     }
 
+    @Override
+    public void deleteAllByForeignId(String s) {
+
+    }
+
+    @Override
+    public List<Genre> findAllByForeignId(String isbn) {
+        return genresDAO.findAllByForeignId(isbn);
+    }
 }

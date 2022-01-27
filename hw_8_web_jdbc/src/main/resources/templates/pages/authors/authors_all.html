@@ -1,59 +1,33 @@
 <!DOCTYPE html>
-<html
-        lang="en"
-        layout:decorate="~{layout}"
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en"
+      layout:decorate="~{fragments/data_table}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <title>Authors</title>
 </head>
 <body>
-<div layout:fragment="content">
-    <div class="row">
-        <div class="col-12">
-            <div class="card mb-2 mt-2">
-                <div class="card-header">All Authors</div>
-                <div class="card-body">
-                    <table class="table table-sm table-hover">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Lifespan</th>
-                            <th>Created</th>
-                            <th>Updated</th>
-                            <th>Details</th>
-                            <th>Delete</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="author,column : ${authors}">
-                            <td th:text="${column.count}"></td>
-                            <td th:text="${author.getFirstName() + ' ' + author.getLastName()}"></td>
-                            <td th:text="${#calendars.format(author.getDateOfBirth(),'dd MMMM yyyy') +
-                                    ' - ' + #calendars.format(author.getDateOfDeath(),'dd MMMM yyyy')}"></td>
-                            <td th:text="${#calendars.format(author.getCreated(), 'dd MMMM yyyy')}"></td>
-                            <td th:text="${#calendars.format(author.getUpdated(), 'dd MMMM yyyy')}"></td>
-                            <td>
-                                <a class="btn btn-primary"
-                                   th:href="@{'/authors/details/' + ${author.getId()}}"
-                                   type="button">Details</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-danger"
-                                   th:href="@{'/authors/delete/' + ${author.getId()}}"
-                                   type="button">Delete</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+<div layout:fragment="data_table_content">
+    <tr th:each="author,column : ${pageData.getItems()}">
+        <td th:text="${column.count}"></td>
+        <td th:text="${author.getFirstName()}"></td>
+        <td th:text="${author.getLastName()}"></td>
+        <td><a class="btn btn-link"
+               th:href="@{'/books/?authorId=' + ${author.getId()}}"
+               th:text="${author.getBooksCount()}"
+               type="button">all books by author</a>
+        </td>
+        <td><a class="btn btn-primary"
+               th:href="@{'/authors/details/' + ${author.getId()}}"
+               type="button">Details</a>
+        </td>
+        <td><a class="btn btn-danger"
+               th:href="@{'/authors/delete/' + ${author.getId()}}"
+               type="button">Delete</a>
+        </td>
+    </tr>
 </div>
 </body>
 </html>

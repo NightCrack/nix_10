@@ -1,16 +1,22 @@
 package ua.com.alevel.facade.impl;
 
 import org.springframework.stereotype.Service;
-import ua.com.alevel.dto.bookInstance.BookInstanceRequestDto;
-import ua.com.alevel.dto.bookInstance.BookInstanceResponseDto;
-import ua.com.alevel.entity.Book;
-import ua.com.alevel.entity.BookInstance;
+import org.springframework.web.context.request.WebRequest;
 import ua.com.alevel.facade.BookInstanceFacade;
+import ua.com.alevel.persistence.datatable.DataTableRequest;
+import ua.com.alevel.persistence.datatable.DataTableResponse;
+import ua.com.alevel.persistence.entity.Book;
+import ua.com.alevel.persistence.entity.BookInstance;
 import ua.com.alevel.service.BookInstanceService;
 import ua.com.alevel.service.BookService;
+import ua.com.alevel.util.CustomResultSet;
+import ua.com.alevel.util.WebRequestUtil;
+import ua.com.alevel.util.WebResponseUtil;
+import ua.com.alevel.view.dto.request.BookInstanceRequestDto;
+import ua.com.alevel.view.dto.response.BookInstanceResponseDto;
+import ua.com.alevel.view.dto.response.PageData;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookInstanceFacadeImpl implements BookInstanceFacade {
@@ -25,29 +31,17 @@ public class BookInstanceFacadeImpl implements BookInstanceFacade {
 
     @Override
     public void create(BookInstanceRequestDto bookInstanceRequestDto) {
-        Optional<Book> optionalBook = bookService.findById(bookInstanceRequestDto.getBookId());
-        if (optionalBook.isPresent()) {
-            BookInstance bookInstance = new BookInstance();
-            bookInstance.setBook(optionalBook.get());
-            bookInstance.setImprint(bookInstanceRequestDto.getImprint());
-            bookInstance.setDueBack(bookInstanceRequestDto.getDueBack());
-            bookInstance.setStatus(bookInstanceRequestDto.getStatus());
-            bookInstanceService.create(bookInstance);
-        }
+        Book book = bookService.findById(bookInstanceRequestDto.getBookIsbn());
+        BookInstance bookInstance = new BookInstance(bookInstanceRequestDto, book);
+        bookInstanceService.create(new CustomResultSet<>(bookInstance, null));
     }
 
     @Override
     public void update(BookInstanceRequestDto bookInstanceRequestDto, Long id) {
-        Optional<BookInstance> optionalBookInstance = bookInstanceService.findById(id);
-        Optional<Book> optionalBook = bookService.findById(bookInstanceRequestDto.getBookId());
-        if (optionalBookInstance.isPresent() && optionalBook.isPresent()) {
-            BookInstance bookInstance = optionalBookInstance.get();
-            bookInstance.setBook(optionalBook.get());
-            bookInstance.setImprint(bookInstanceRequestDto.getImprint());
-            bookInstance.setDueBack(bookInstanceRequestDto.getDueBack());
-            bookInstance.setStatus(bookInstanceRequestDto.getStatus());
-            bookInstanceService.update(bookInstance);
-        }
+        Book book = bookService.findById(bookInstanceRequestDto.getBookIsbn());
+        BookInstance bookInstance = new BookInstance(bookInstanceRequestDto, book);
+        bookInstance.setId(id);
+        bookInstanceService.update(new CustomResultSet<>(bookInstance, null));
     }
 
     @Override
@@ -57,14 +51,29 @@ public class BookInstanceFacadeImpl implements BookInstanceFacade {
 
     @Override
     public BookInstanceResponseDto findById(Long id) {
-        Optional<BookInstance> optionalBookInstance = bookInstanceService.findById(id);
-        return optionalBookInstance.map(BookInstanceResponseDto::new).orElse(null);
+        return new BookInstanceResponseDto(bookInstanceService.findById(id));
     }
 
     @Override
-    public List<BookInstanceResponseDto> findAll() {
-        return bookInstanceService.findAll()
+    public PageData<BookInstanceResponseDto> findAll(WebRequest request) {
+        DataTableRequest dataTableRequest = WebRequestUtil.initDataTableRequest(request);
+        DataTableResponse<BookInstance> all = bookInstanceService.findAll(dataTableRequest);
+        List<BookInstanceResponseDto> items = all.getItems()
                 .stream()
+                .map(BookInstanceResponseDto::new)
+                .toList();
+        PageData<BookInstanceResponseDto> pageData = (PageData<BookInstanceResponseDto>) WebResponseUtil.initPageData(all);
+        pageData.setItems(items);
+        return pageData;
+    }
+
+    @Override
+    public List<BookInstanceResponseDto> findAllByForeignId(String bookId) {
+        return generateDtoListByEntities(bookInstanceService.findAllByForeignId(bookId));
+    }
+
+    private List<BookInstanceResponseDto> generateDtoListByEntities(List<BookInstance> list) {
+        return list.stream()
                 .map(BookInstanceResponseDto::new)
                 .toList();
     }

@@ -1,7 +1,7 @@
 package ua.com.alevel.facade;
 
-import ua.com.alevel.dto.bookInstance.BookInstanceRequestDto;
-import ua.com.alevel.dto.bookInstance.BookInstanceResponseDto;
+import ua.com.alevel.view.dto.request.BookInstanceRequestDto;
+import ua.com.alevel.view.dto.response.BookInstanceResponseDto;
 
-public interface BookInstanceFacade extends BaseFacade<BookInstanceRequestDto, BookInstanceResponseDto, Long> {
+public interface BookInstanceFacade extends DependentFacade<BookInstanceRequestDto, BookInstanceResponseDto, Long, String> {
 }

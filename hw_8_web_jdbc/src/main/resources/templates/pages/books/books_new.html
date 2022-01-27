@@ -21,25 +21,31 @@
                 <div class="card-body">
                     <form action="#" method="post" th:action="@{/books/new}" th:object="${book}">
                         <div class="form-group">
-                            <label for="genre">Genre</label>
+                            <label for="genres">Genre</label>
                             <select class="form-control"
-                                    id="genre"
+                                    id="genres"
+                                    multiple="multiple"
                                     placeholder="Book's genre"
-                                    th:field="*{genreId}">
-                                <option th:each="genre : ${genres}"
+                                    style="overflow: auto;"
+                                    th:field="*{genres}">
+                                <option th:each="genre : ${genres.getItems()}"
                                         th:text="${genre.getGenreType().name()}"
-                                        th:value="${genre.getId()}"></option>
+                                        th:value="${genre.getId()}">
+                                </option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="author">Author</label>
-                            <select class="form-control"
-                                    id="author"
-                                    name="Book's author"
-                                    th:field="*{authorId}">
-                                <option th:each="author : ${authors}"
+                            <label for="authors">Authors</label>
+                            <select Name="Book's author"
+                                    class="form-control"
+                                    id="authors"
+                                    multiple="multiple"
+                                    style="overflow: auto;"
+                                    th:field="*{authors}">
+                                <option th:each="author : ${authors.getItems()}"
                                         th:text="${author.getFirstName() + ' ' +author.getLastName()}"
-                                        th:value="${author.getId()}"></option>
+                                        th:value="${author.getId()}">
+                                </option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -48,7 +54,7 @@
                                    class="form-control"
                                    id="title"
                                    placeholder="Book's title"
-                                   th:field="*{name}"
+                                   th:field="*{title}"
                                    type="text"/>
                         </div>
                         <div class="form-group">
@@ -61,11 +67,28 @@
                                    type="text"/>
                         </div>
                         <div class="form-group">
+                            <label for="publicationDate">Publication date</label>
+                            <input class="form-control"
+                                   id="publicationDate"
+                                   placeholder="Enter date"
+                                   th:field="*{publicationDate}"
+                                   type="date"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="pagesNumber">Pages number</label>
+                            <input class="form-control"
+                                   id="pagesNumber"
+                                   placeholder="Number"
+                                   th:field="*{pagesNumber}"
+                                   type="number"/>
+                        </div>
+                        <div class="form-group">
                             <label for="summary">Summary</label>
                             <input aria-describedby="summary"
                                    class="form-control"
                                    id="summary"
                                    placeholder="Book's summary"
+                                   size="auto"
                                    th:field="*{summary}"
                                    type="text"/>
                         </div>

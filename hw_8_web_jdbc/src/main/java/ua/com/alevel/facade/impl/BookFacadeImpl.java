@@ -1,63 +1,52 @@
 package ua.com.alevel.facade.impl;
 
 import org.springframework.stereotype.Service;
-import ua.com.alevel.dto.book.BookRequestDto;
-import ua.com.alevel.dto.book.BookResponseDto;
-import ua.com.alevel.entity.Author;
-import ua.com.alevel.entity.Book;
-import ua.com.alevel.entity.Genre;
+import org.springframework.web.context.request.WebRequest;
 import ua.com.alevel.facade.BookFacade;
-import ua.com.alevel.service.AuthorService;
+import ua.com.alevel.persistence.datatable.DataTableRequest;
+import ua.com.alevel.persistence.datatable.DataTableResponse;
+import ua.com.alevel.persistence.entity.Book;
 import ua.com.alevel.service.BookService;
-import ua.com.alevel.service.GenreService;
+import ua.com.alevel.util.CustomResultSet;
+import ua.com.alevel.util.WebRequestUtil;
+import ua.com.alevel.util.WebResponseUtil;
+import ua.com.alevel.view.dto.request.BookRequestDto;
+import ua.com.alevel.view.dto.response.BookResponseDto;
+import ua.com.alevel.view.dto.response.PageData;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookFacadeImpl implements BookFacade {
 
     private final BookService bookService;
-    private final AuthorService authorService;
-    private final GenreService genreService;
 
-    public BookFacadeImpl(BookService bookService, AuthorService authorService, GenreService genreService) {
+    public BookFacadeImpl(BookService bookService) {
         this.bookService = bookService;
-        this.authorService = authorService;
-        this.genreService = genreService;
     }
 
     @Override
     public void create(BookRequestDto bookRequestDto) {
-        Optional<Author> optionalAuthor = authorService.findById(bookRequestDto.getAuthorId());
-        Optional<Genre> optionalGenre = genreService.findById(bookRequestDto.getGenreId());
-        if (optionalAuthor.isPresent() && optionalGenre.isPresent()) {
-            Book book = new Book();
-            book.setIsbn(bookRequestDto.getIsbn());
-            book.setName(bookRequestDto.getName());
-            book.setAuthor(optionalAuthor.get());
-            book.setGenre(optionalGenre.get());
-            book.setSummary(bookRequestDto.getSummary());
-            bookService.create(book);
-        }
+        List<Long> authorsId = bookRequestDto.getAuthors();
+        List<Long> genresId = bookRequestDto.getGenres();
+        List<List<?>> references = new ArrayList<>();
+        references.add(authorsId);
+        references.add(genresId);
+        CustomResultSet<Book> createRequest = new CustomResultSet<>(new Book(bookRequestDto), references);
+        bookService.create(createRequest);
     }
 
     @Override
     public void update(BookRequestDto bookRequestDto, String isbn) {
-        Optional<Author> optionalAuthor = authorService.findById(bookRequestDto.getAuthorId());
-        Optional<Genre> optionalGenre = genreService.findById(bookRequestDto.getGenreId());
-        Optional<Book> optionalBook = bookService.findById(isbn);
-        if (optionalBook.isPresent() &&
-                optionalAuthor.isPresent() &&
-                optionalGenre.isPresent()) {
-            Book book = optionalBook.get();
-            book.setIsbn(bookRequestDto.getIsbn());
-            book.setName(bookRequestDto.getName());
-            book.setAuthor(optionalAuthor.get());
-            book.setGenre(optionalGenre.get());
-            book.setSummary(bookRequestDto.getSummary());
-            bookService.update(book);
-        }
+        Book book = new Book(bookRequestDto);
+        book.setIsbn(isbn);
+        List<Long> authorsId = bookRequestDto.getAuthors();
+        List<Long> genresId = bookRequestDto.getGenres();
+        List<List<?>> references = new ArrayList<>();
+        references.add(authorsId);
+        references.add(genresId);
+        bookService.update(new CustomResultSet<>(book, references));
     }
 
     @Override
@@ -67,14 +56,45 @@ public class BookFacadeImpl implements BookFacade {
 
     @Override
     public BookResponseDto findById(String isbn) {
-        Optional<Book> optionalBook = bookService.findById(isbn);
-        return optionalBook.map(BookResponseDto::new).orElse(null);
+        return new BookResponseDto(bookService.findById(isbn));
     }
 
     @Override
-    public List<BookResponseDto> findAll() {
-        return bookService.findAll()
+    public PageData<BookResponseDto> findAll(WebRequest request) {
+        DataTableRequest dataTableRequest = WebRequestUtil.initDataTableRequest(request);
+        DataTableResponse<Book> all = bookService.findAll(dataTableRequest);
+        List<BookResponseDto> items = all.getItems()
                 .stream()
+                .map(BookResponseDto::new)
+                .peek(entity -> {
+                    entity.setAuthorsCount(all
+                            .getOtherParamMap()
+                            .get(entity.getIsbn()).get(0));
+                    entity.setGenresCount(all
+                            .getOtherParamMap()
+                            .get(entity.getIsbn()).get(1));
+                    entity.setBookInstancesCount(all
+                            .getOtherParamMap()
+                            .get(entity.getIsbn()).get(2));
+                })
+                .toList();
+        PageData<BookResponseDto> pageData = (PageData<BookResponseDto>) WebResponseUtil.initPageData(all);
+        pageData.setItems(items);
+        return pageData;
+    }
+
+    @Override
+    public List<BookResponseDto> findAllByForeignId(Long authorId) {
+        return generateDtoListByEntities(bookService.findAllByForeignId(authorId));
+    }
+
+    @Override
+    public List<BookResponseDto> findAllBySecondForeignId(Long genreId) {
+        return generateDtoListByEntities(bookService.findAllBySecondForeignId(genreId));
+    }
+
+    private List<BookResponseDto> generateDtoListByEntities(List<Book> list) {
+        return list.stream()
                 .map(BookResponseDto::new)
                 .toList();
     }

@@ -1,50 +1,63 @@
 <!DOCTYPE html>
-<html
-        lang="en"
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>Title</title>
-    <link
-            crossorigin="anonymous"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-            rel="stylesheet"
-    />
+    <link crossorigin="anonymous"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          rel="stylesheet"/>
+    <script crossorigin="anonymous"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="container">
     <nav class="navbar navbar-dark bg-dark justify-content-center">
-        <a class="nav-item nav-link" th:href="@{/departments}">Departments</a>
-        <a class="nav-item nav-link" th:href="@{/departments/new}">Create new department</a>
-        <a class="nav-item nav-link" th:href="@{/employees}">Employees</a>
-        <!--        <a class="nav-item nav-link" th:href="@{/employees/new}">Create new employee</a>-->
         <a class="nav-item nav-link" th:href="@{/genres}">Genres</a>
-        <a class="nav-item nav-link" th:href="@{/genres/new}">Create new genre</a>
         <a class="nav-item nav-link" th:href="@{/authors}">Authors</a>
-        <a class="nav-item nav-link" th:href="@{/authors/new}">Create new author</a>
         <a class="nav-item nav-link" th:href="@{/books}">Books</a>
-        <a class="nav-item nav-link" th:href="@{/books/new}">Create new book</a>
         <a class="nav-item nav-link" th:href="@{/bookInstances}">BookInstances</a>
-        <a class="nav-item nav-link" th:href="@{/bookInstances/new}">Create new bookInstance</a>
     </nav>
+
+    <div class="row mt-2" th:if="${showMessage}">
+        <div class="col">
+            <div class="alert alert-primary alert-dismissible fade show" role="alert" th:if="${message}">
+                <span th:text="${message}">message text</span>
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMessage}">
+                <span th:text="${errorMessage}">message text</span>
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="alert alert-dark alert-dismissible fade show" role="alert" th:if="${warnMessage}">
+                <span th:text="${warnMessage}">message text</span>
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <section layout:fragment="content"></section>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script
-        crossorigin="anonymous"
+<script crossorigin="anonymous"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-></script>
-<script
-        crossorigin="anonymous"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-></script>
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<th:block layout:fragment="scripts"/>
 </body>
 </html>

@@ -1,77 +1,73 @@
 package ua.com.alevel.service.impl;
 
 import org.springframework.stereotype.Service;
-import ua.com.alevel.entity.Author;
-import ua.com.alevel.entity.Book;
-import ua.com.alevel.repository.AuthorRepository;
-import ua.com.alevel.repository.BookRepository;
-import ua.com.alevel.repository.GenreRepository;
+import ua.com.alevel.persistence.dao.AuthorsDAO;
+import ua.com.alevel.persistence.dao.BooksDAO;
+import ua.com.alevel.persistence.dao.GenresDAO;
+import ua.com.alevel.persistence.datatable.DataTableRequest;
+import ua.com.alevel.persistence.datatable.DataTableResponse;
+import ua.com.alevel.persistence.entity.Author;
 import ua.com.alevel.service.AuthorService;
+import ua.com.alevel.util.CustomResultSet;
+import ua.com.alevel.util.WebResponseUtil;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
-    private final AuthorRepository authorRepository;
-    private final GenreRepository genreRepository;
-    private final BookRepository bookRepository;
+    private final AuthorsDAO authorsDAO;
+    private final GenresDAO genresDAO;
+    private final BooksDAO booksDAO;
 
-    public AuthorServiceImpl(AuthorRepository authorRepository, GenreRepository genreRepository, BookRepository bookRepository) {
-        this.authorRepository = authorRepository;
-        this.genreRepository = genreRepository;
-        this.bookRepository = bookRepository;
+    public AuthorServiceImpl(AuthorsDAO authorsDAO, GenresDAO genresDAO, BooksDAO booksDAO) {
+        this.authorsDAO = authorsDAO;
+        this.genresDAO = genresDAO;
+        this.booksDAO = booksDAO;
     }
 
     @Override
-    public void create(Author entity) {
-        authorRepository.save(entity);
+    public void create(CustomResultSet<Author> author) {
+        authorsDAO.create(author);
     }
 
     @Override
-    public void update(Author entity) {
-        if (authorRepository.existsById(entity.getId())) {
-            authorRepository.save(entity);
+    public void update(CustomResultSet<Author> customResultSet) {
+        Long id = customResultSet.getEntity().getId();
+        List<String> isbnList = (List<String>) customResultSet.getParams().get(0);
+        if (authorsDAO.existsById(id) &&
+                isbnList.stream().allMatch(booksDAO::existsById)) {
+            authorsDAO.update(customResultSet);
         }
     }
 
     @Override
     public void delete(Long id) {
-        Author defaultAuthor;
-        Optional<Author> optionalAuthor = authorRepository.findAll()
-                .stream()
-                .filter(entry -> (entry.getFirstName() + " " + entry.getLastName())
-                        .equals("Un Defined"))
-                .findFirst();
-        if (optionalAuthor.isEmpty()) {
-            Author author = new Author();
-            author.setFirstName("Un");
-            author.setLastName("Defined");
-            author.setDateOfBirth(new Date(0));
-            author.setDateOfDeath(new Date(0));
-            authorRepository.save(author);
-            defaultAuthor = author;
-        } else {
-            defaultAuthor = optionalAuthor.get();
-        }
-        if (authorRepository.existsById(id)) {
-            Author author = authorRepository.findById(id).get();
-            List<Book> books = author.getBooks();
-            books = books.stream().peek(entry -> entry.setAuthor(defaultAuthor)).toList();
-            bookRepository.saveAll(books);
-            authorRepository.deleteById(id);
+        if (authorsDAO.existsById(id)) {
+            authorsDAO.delete(id);
         }
     }
 
     @Override
-    public Optional<Author> findById(Long id) {
-        return authorRepository.findById(id);
+    public Author findById(Long id) {
+        return authorsDAO.findById(id);
     }
 
     @Override
-    public List<Author> findAll() {
-        return authorRepository.findAll();
+    public DataTableResponse<Author> findAll(DataTableRequest request) {
+        DataTableResponse<Author> dataTableResponse = authorsDAO.findAll(request);
+        int count = authorsDAO.count();
+        WebResponseUtil.initDataTableResponse(request, dataTableResponse, count);
+        return dataTableResponse;
+    }
+
+    @Override
+    public void deleteAllByForeignId(String s) {
+
+    }
+
+    @Override
+    public List<Author> findAllByForeignId(String isbn) {
+        return authorsDAO.findAllByForeignId(isbn);
     }
 }
