@@ -18,7 +18,7 @@ public class AuthorsDAOImpl extends BaseDaoImpl implements AuthorsDAO {
 
     private final JpaConfig jpaConfig;
     private final String CREATE_AUTHOR_QUERY = "insert into authors values (default,?,?,?,?,?,?,?)";
-    private final String DELETE_AUTHOR_QUERY = "delete from authors where id = ";
+    private final String UPDATE_AUTHOR_QUERY = "update authors set updated = ?, visible = ?, first_name = ?, last_name = ?, birth_date = ?, death_date = ? where id = ";
     private final String FIND_ALL_AUTHORS_QUERY =
             "select id, created, updated, visible, " +
                     "first_name, last_name, birth_date, " +
@@ -26,6 +26,7 @@ public class AuthorsDAOImpl extends BaseDaoImpl implements AuthorsDAO {
                     "as books from authors as au " +
                     "left join author_book as ab on" +
                     " au.id = ab.author_id ";
+
     public AuthorsDAOImpl(JpaConfig jpaConfig) {
         this.jpaConfig = jpaConfig;
     }
@@ -49,8 +50,69 @@ public class AuthorsDAOImpl extends BaseDaoImpl implements AuthorsDAO {
     }
 
     @Override
-    public void update(Author entity) {
-
+    public void update(CustomResultSet<Author> customResultSet) {
+        Author author = customResultSet.getEntity();
+        List<String> newBooksRelations = (List<String>) customResultSet.getParams().get(0);
+        List<String> existingBooksRelations = new ArrayList<>();
+        try (ResultSet resultSet = jpaConfig.getStatement().executeQuery("select * from author_book where author_id = " + author.getId())) {
+            while (resultSet.next()) {
+                existingBooksRelations.add(resultSet.getString("book_isbn"));
+            }
+        } catch (SQLException exception) {
+            System.out.println("exception = " + exception);
+        }
+        String createRelationsQuery = "";
+        List<String> toCreate = newBooksRelations.stream().filter(isbn -> !existingBooksRelations.contains(isbn)).toList();
+        if (toCreate.size() > 0) {
+            StringBuilder stringBuilder = new StringBuilder("insert into author_book values ");
+            for (String isbn : toCreate) {
+                stringBuilder
+                        .append("(")
+                        .append(author.getId())
+                        .append(",'")
+                        .append(isbn)
+                        .append("')");
+                if (toCreate.indexOf(isbn) < toCreate.size() - 1) {
+                    stringBuilder.append(", ");
+                }
+            }
+            createRelationsQuery = stringBuilder.toString();
+        }
+        String deleteRelationsQuery = "";
+        List<String> toDelete = existingBooksRelations.stream().filter(isbn -> !newBooksRelations.contains(isbn)).toList();
+        if (toDelete.size() > 0) {
+            StringBuilder stringBuilder = new StringBuilder("delete from author_book where author_id = " + author.getId() + " and (");
+            for (String isbn : toDelete) {
+                stringBuilder
+                        .append("book_isbn = '")
+                        .append(isbn)
+                        .append("'");
+                if (toDelete.indexOf(isbn) < toDelete.size() - 1) {
+                    stringBuilder.append(" or ");
+                }
+            }
+            stringBuilder.append(")");
+            deleteRelationsQuery = stringBuilder.toString();
+        }
+        try (PreparedStatement preparedStatement = jpaConfig.getConnection().prepareStatement(UPDATE_AUTHOR_QUERY + author.getId())) {
+            int index = 0;
+            preparedStatement.setTimestamp(++index, new Timestamp(System.currentTimeMillis()));
+            preparedStatement.setBoolean(++index, author.getVisible());
+            preparedStatement.setString(++index, author.getFirstName());
+            preparedStatement.setString(++index, author.getLastName());
+            preparedStatement.setLong(++index, author.getBirthDate().getTime());
+            preparedStatement.setLong(++index, author.getDeathDate().getTime());
+            preparedStatement.addBatch();
+            if (!createRelationsQuery.isBlank()) {
+                preparedStatement.addBatch(createRelationsQuery);
+            }
+            if (!deleteRelationsQuery.isBlank()) {
+                preparedStatement.addBatch(deleteRelationsQuery);
+            }
+            preparedStatement.executeBatch();
+        } catch (SQLException exception) {
+            System.out.println("exception = " + exception);
+        }
     }
 
     @Override

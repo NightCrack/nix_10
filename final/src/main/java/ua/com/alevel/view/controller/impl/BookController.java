@@ -19,6 +19,7 @@ import ua.com.alevel.view.dto.response.PageData;
 @RequestMapping("/books")
 public class BookController extends BaseControllerImpl<BookRequestDto, String> implements SecondDependentController<BookRequestDto, String, Long, Long> {
 
+    private static String booksIsbn;
     private final BookFacade bookFacade;
     private final AuthorFacade authorFacade;
     private final GenreFacade genreFacade;
@@ -81,6 +82,25 @@ public class BookController extends BaseControllerImpl<BookRequestDto, String> i
         model.addAttribute("genres", genreFacade.findAll(request));
         model.addAttribute("authors", authorFacade.findAll(request));
         return "pages/books/books_new";
+    }
+
+    @Override
+    @GetMapping("/edit/{isbn}")
+    public String redirectToEditPage(@PathVariable String isbn, Model model, WebRequest request) {
+        booksIsbn = isbn;
+        BookResponseDto responseDto = bookFacade.findById(isbn);
+        BookRequestDto requestDto = new BookRequestDto(responseDto);
+        model.addAttribute("book", requestDto);
+        model.addAttribute("authors", authorFacade.findAll(request));
+        model.addAttribute("genres", genreFacade.findAll(request));
+        return "/pages/books/books_edit";
+    }
+
+    @Override
+    @PostMapping("/edit")
+    public String updateEntity(@ModelAttribute("book") BookRequestDto reqDto) {
+        bookFacade.update(reqDto, booksIsbn);
+        return "redirect:/books/details/" + booksIsbn;
     }
 
     @Override

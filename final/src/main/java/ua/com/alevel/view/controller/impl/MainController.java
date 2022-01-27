@@ -10,4 +10,9 @@ public class MainController {
     public String main() {
         return "redirect:/books";
     }
+
+    @GetMapping("/stop")
+    public void stopApp() {
+        System.exit(0);
+    }
 }

@@ -14,6 +14,7 @@ import ua.com.alevel.view.dto.request.AuthorRequestDto;
 import ua.com.alevel.view.dto.response.AuthorResponseDto;
 import ua.com.alevel.view.dto.response.PageData;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,21 +32,19 @@ public class AuthorFacadeImpl implements AuthorFacade {
         Author author = new Author();
         author.setFirstName(authorRequestDto.getFirstName());
         author.setLastName(authorRequestDto.getLastName());
-        author.setBirthDate(authorRequestDto.getDateOfBirth());
-        author.setDeathDate(authorRequestDto.getDateOfDeath());
+        author.setBirthDate(authorRequestDto.getBirthDate());
+        author.setDeathDate(authorRequestDto.getDeathDate());
         authorService.create(new CustomResultSet<>(author, Collections.emptyList()));
     }
 
     @Override
     public void update(AuthorRequestDto authorRequestDto, Long id) {
-//        Author author = authorService.findById(id);
-//        if (author != null) {
-//            author.setFirstName(authorRequestDto.getFirstName());
-//            author.setLastName(authorRequestDto.getLastName());
-//            author.setBirthDate(authorRequestDto.getDateOfBirth());
-//            author.setDeathDate(authorRequestDto.getDateOfDeath());
-//            authorService.update(author);
-//        }
+        Author author = new Author(authorRequestDto);
+        author.setId(id);
+        List<String> isbnList = authorRequestDto.getIsbnList();
+        List<List<?>> references = new ArrayList<>();
+        references.add(isbnList);
+        authorService.update(new CustomResultSet<>(author, references));
     }
 
     @Override

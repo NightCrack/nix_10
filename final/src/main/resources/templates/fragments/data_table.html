@@ -24,12 +24,14 @@
                                     <th:block th:if="${columnHeader.isActive()}">
                                         <span th:text="${columnHeader.getHeaderName()}"></span>
                                         <i aria-hidden="true"
-                                           class="fa fa-sort-desc float-right sort" onclick="runSort(this.getAttribute('data-sort'), this.getAttribute('data-order'))"
+                                           class="fa fa-sort-desc float-right sort"
+                                           onclick="runSort(this.getAttribute('data-sort'), this.getAttribute('data-order'))"
                                            th:data-order="${columnHeader.getOrder()}"
                                            th:data-sort="${columnHeader.getSort()}"
                                            th:if="${columnHeader.getOrder().equals('desc')}"></i>
                                         <i aria-hidden="true"
-                                           class="fa fa-sort-asc float-right sort" onclick="runSort(this.getAttribute('data-sort'), this.getAttribute('data-order'))"
+                                           class="fa fa-sort-asc float-right sort"
+                                           onclick="runSort(this.getAttribute('data-sort'), this.getAttribute('data-order'))"
                                            th:data-order="${columnHeader.getOrder()}"
                                            th:data-sort="${columnHeader.getSort()}"
                                            th:if="${columnHeader.getOrder().equals('asc')}"></i>
@@ -60,7 +62,8 @@
                         </div>
                         <div class="p-1">
                             <div class="dropdown dropup">
-                                <button aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"
+                                <button aria-expanded="false" aria-haspopup="true"
+                                        class="btn btn-primary dropdown-toggle"
                                         data-toggle="dropdown" id="dropdownMenuLink" type="button">
                                     <span th:text="${pageData.getPageSize()}"></span>
                                 </button>

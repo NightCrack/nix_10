@@ -30,7 +30,8 @@ create table books (
  title varchar(255) not null,
  publication_date bigint not null,
  pages_number int not null,
- summary text not null
+ summary text not null,
+ unique key (isbn)
 );
 
 create table book_instances (
@@ -44,21 +45,21 @@ create table book_instances (
  due_back timestamp(6) null,
  status varchar(255) not null,
  book_id varchar(255) not null,
- foreign key (book_id) references books(isbn) on delete cascade
+ foreign key (book_id) references books(isbn) on delete cascade on update cascade
 );
 
 create table author_book (
  author_id bigint not null,
  book_isbn varchar(255) not null,
  primary key (author_id, book_isbn),
- foreign key (book_isbn) references books (isbn) on delete cascade,
- foreign key (author_id) references authors(id) on delete cascade
+ foreign key (book_isbn) references books (isbn) on delete cascade on update cascade,
+ foreign key (author_id) references authors(id) on delete cascade on update cascade
 );
 
 create table genre_book (
  genre_id bigint not null,
  book_isbn varchar(255) not null,
  primary key (genre_id, book_isbn),
- foreign key (book_isbn) references books (isbn) on delete cascade,
- foreign key (genre_id) references genres(id) on delete cascade
+ foreign key (book_isbn) references books (isbn) on delete cascade on update cascade,
+ foreign key (genre_id) references genres(id) on delete cascade on update cascade
 );

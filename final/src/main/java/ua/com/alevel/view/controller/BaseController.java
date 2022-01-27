@@ -15,6 +15,10 @@ public interface BaseController<REQ extends RequestDto, ID> {
 
     String redirectToNewEntityPage(Model model, WebRequest request);
 
+    String redirectToEditPage(ID id, Model model, WebRequest request);
+
+    String updateEntity(REQ reqDto);
+
     String createNewEntity(REQ reqDto);
 
     String deleteEntity(ID id);

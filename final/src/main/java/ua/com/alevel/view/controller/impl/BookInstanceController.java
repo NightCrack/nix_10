@@ -19,6 +19,7 @@ import ua.com.alevel.view.dto.response.PageData;
 @RequestMapping("/bookInstances")
 public class BookInstanceController extends BaseControllerImpl<BookInstanceRequestDto, Long> implements DependentController<BookInstanceRequestDto, Long, String> {
 
+    private static Long instancesId;
     private final BookInstanceFacade bookInstanceFacade;
     private final BookFacade bookFacade;
     private final HeaderName[] columnNames = new HeaderName[]{
@@ -67,6 +68,26 @@ public class BookInstanceController extends BaseControllerImpl<BookInstanceReque
         model.addAttribute("statuses", StatusType.values());
         model.addAttribute("countryCodes", CountryCode.values());
         return "pages/bookInstances/bookInstances_new";
+    }
+
+    @Override
+    @GetMapping("/edit/{id}")
+    public String redirectToEditPage(@PathVariable Long id, Model model, WebRequest request) {
+        instancesId = id;
+        BookInstanceResponseDto responseDto = bookInstanceFacade.findById(id);
+        BookInstanceRequestDto requestDto = new BookInstanceRequestDto(responseDto);
+        model.addAttribute("bookInstance", requestDto);
+        model.addAttribute("books", bookFacade.findAll(request));
+        model.addAttribute("statuses", StatusType.values());
+        model.addAttribute("countryCodes", CountryCode.values());
+        return "pages/bookInstances/bookInstances_edit";
+    }
+
+    @Override
+    @PostMapping("/edit")
+    public String updateEntity(@ModelAttribute("bookInstance") BookInstanceRequestDto reqDto) {
+        bookInstanceFacade.update(reqDto, instancesId);
+        return "redirect:/bookInstances/details/" + instancesId;
     }
 
     @Override

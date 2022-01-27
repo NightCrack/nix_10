@@ -1,13 +1,27 @@
 package ua.com.alevel.view.dto.request;
 
+import ua.com.alevel.view.dto.response.AuthorResponseDto;
+
 import java.sql.Date;
+import java.util.List;
 
 public class AuthorRequestDto extends RequestWithIdDto {
 
     private String firstName;
     private String lastName;
-    private Date dateOfBirth;
-    private Date dateOfDeath;
+    private Date birthDate;
+    private Date deathDate;
+    private List<String> isbnList;
+
+    public AuthorRequestDto() {
+    }
+
+    public AuthorRequestDto(AuthorResponseDto responseDto) {
+        this.firstName = responseDto.getFirstName();
+        this.lastName = responseDto.getLastName();
+        this.birthDate = responseDto.getBirthDate();
+        this.deathDate = responseDto.getDeathDate();
+    }
 
     public String getFirstName() {
         return firstName;
@@ -25,19 +39,27 @@ public class AuthorRequestDto extends RequestWithIdDto {
         this.lastName = lastName;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = toSqlDate(dateOfBirth);
+    public void setBirthDate(String birthDate) {
+        this.birthDate = toSqlDate(birthDate);
     }
 
-    public Date getDateOfDeath() {
-        return dateOfDeath;
+    public Date getDeathDate() {
+        return deathDate;
     }
 
-    public void setDateOfDeath(String dateOfDeath) {
-        this.dateOfDeath = toSqlDate(dateOfDeath);
+    public void setDeathDate(String deathDate) {
+        this.deathDate = toSqlDate(deathDate);
+    }
+
+    public List<String> getIsbnList() {
+        return isbnList;
+    }
+
+    public void setIsbnList(List<String> isbnList) {
+        this.isbnList = isbnList;
     }
 }

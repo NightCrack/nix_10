@@ -21,6 +21,9 @@ public class BooksDAOImpl extends BaseDaoImpl implements BooksDAO {
     private final JpaConfig jpaConfig;
     private final String CREATE_BOOK_QUERY = "insert into books values (?,?,?,?,?,?,?,?,?)";
     private final String FIND_BOOK_QUERY = "select * from books where isbn = '";
+    private final String UPDATE_BOOK_QUERY = "update books set " +
+            "updated = ?, visible = ?, image_url = ?, title = ?, " +
+            "publication_date = ?, pages_number = ?, summary = ? where isbn = '";
     private final String FIND_ALL_BOOKS_QUERY =
             "select isbn, b.created, b.updated, b.visible, " +
                     "image_url, title, publication_date, pages_number, " +
@@ -32,6 +35,7 @@ public class BooksDAOImpl extends BaseDaoImpl implements BooksDAO {
                     "as gb on (b.isbn = gb.book_isbn)) " +
                     "left join book_instances as bi on " +
                     "(b.isbn = bi.book_id or bi.book_id is null) ";
+
     public BooksDAOImpl(JpaConfig jpaConfig) {
         this.jpaConfig = jpaConfig;
     }
@@ -93,8 +97,115 @@ public class BooksDAOImpl extends BaseDaoImpl implements BooksDAO {
     }
 
     @Override
-    public void update(Book entity) {
-
+    public void update(CustomResultSet<Book> customResultSet) {
+        Book book = customResultSet.getEntity();
+        List<Long> newAuthorsRelations = (List<Long>) customResultSet.getParams().get(0);
+        List<Long> newGenresRelations = (List<Long>) customResultSet.getParams().get(1);
+        List<Long> existingAuthorsRelations = new ArrayList<>();
+        List<Long> existingGenresRelations = new ArrayList<>();
+        try (ResultSet resultSet = jpaConfig.getStatement().executeQuery("select * from author_book where book_isbn = '" + book.getIsbn() + "'")) {
+            while (resultSet.next()) {
+                existingAuthorsRelations.add(resultSet.getLong("author_id"));
+            }
+        } catch (SQLException exception) {
+            System.out.println("exception = " + exception);
+        }
+        try (ResultSet resultSet = jpaConfig.getStatement().executeQuery("select * from genre_book where book_isbn = '" + book.getIsbn() + "'")) {
+            while (resultSet.next()) {
+                existingGenresRelations.add(resultSet.getLong("genre_id"));
+            }
+        } catch (SQLException exception) {
+            System.out.println("exception = " + exception);
+        }
+        String createWithAuthorRelationsQuery = "";
+        List<Long> toCreate = newAuthorsRelations.stream().filter(author_id -> !existingAuthorsRelations.contains(author_id)).toList();
+        if (toCreate.size() > 0) {
+            StringBuilder stringBuilder = new StringBuilder("insert into author_book values ");
+            for (Long author_id : toCreate) {
+                stringBuilder
+                        .append("(")
+                        .append(author_id)
+                        .append(",'")
+                        .append(book.getIsbn())
+                        .append("')");
+                if (toCreate.indexOf(author_id) < toCreate.size() - 1) {
+                    stringBuilder.append(", ");
+                }
+            }
+            createWithAuthorRelationsQuery = stringBuilder.toString();
+        }
+        String deleteWithAuthorRelationsQuery = "";
+        List<Long> toDelete = existingAuthorsRelations.stream().filter(author_id -> !newAuthorsRelations.contains(author_id)).toList();
+        if (toDelete.size() > 0) {
+            StringBuilder stringBuilder = new StringBuilder("delete from author_book where book_isbn = '" + book.getIsbn() + "' and (");
+            for (Long author_id : toDelete) {
+                stringBuilder
+                        .append("author_id = ")
+                        .append(author_id);
+                if (toDelete.indexOf(author_id) < toDelete.size() - 1) {
+                    stringBuilder.append(" or ");
+                }
+            }
+            stringBuilder.append(")");
+            deleteWithAuthorRelationsQuery = stringBuilder.toString();
+        }
+        String createWithGenreRelationsQuery = "";
+        toCreate = newGenresRelations.stream().filter(genre_id -> !existingAuthorsRelations.contains(genre_id)).toList();
+        if (toCreate.size() > 0) {
+            StringBuilder stringBuilder = new StringBuilder("insert into genre_book values ");
+            for (Long genre_id : toCreate) {
+                stringBuilder
+                        .append("(")
+                        .append(genre_id)
+                        .append(",'")
+                        .append(book.getIsbn())
+                        .append("')");
+                if (toCreate.indexOf(genre_id) < toCreate.size() - 1) {
+                    stringBuilder.append(", ");
+                }
+            }
+            createWithGenreRelationsQuery = stringBuilder.toString();
+        }
+        String deleteWithGenreRelationsQuery = "";
+        toDelete = existingGenresRelations.stream().filter(genre_id -> !newAuthorsRelations.contains(genre_id)).toList();
+        if (toDelete.size() > 0) {
+            StringBuilder stringBuilder = new StringBuilder("delete from genre_book where book_isbn = '" + book.getIsbn() + "' and (");
+            for (Long genre_id : toDelete) {
+                stringBuilder
+                        .append("genre_id = ")
+                        .append(genre_id);
+                if (toDelete.indexOf(genre_id) < toDelete.size() - 1) {
+                    stringBuilder.append(" or ");
+                }
+            }
+            stringBuilder.append(")");
+            deleteWithGenreRelationsQuery = stringBuilder.toString();
+        }
+        try (PreparedStatement preparedStatement = jpaConfig.getConnection().prepareStatement(UPDATE_BOOK_QUERY + book.getIsbn() + "'")) {
+            int index = 0;
+            preparedStatement.setTimestamp(++index, new Timestamp(System.currentTimeMillis()));
+            preparedStatement.setBoolean(++index, book.getVisible());
+            preparedStatement.setString(++index, book.getImageUrl());
+            preparedStatement.setString(++index, book.getTitle());
+            preparedStatement.setLong(++index, book.getPublicationDate().getTime());
+            preparedStatement.setInt(++index, book.getPagesNumber());
+            preparedStatement.setString(++index, book.getSummary());
+            if (!(createWithAuthorRelationsQuery.isBlank())) {
+                preparedStatement.addBatch(createWithAuthorRelationsQuery);
+            }
+            if (!(deleteWithAuthorRelationsQuery.isBlank())) {
+                preparedStatement.addBatch(deleteWithAuthorRelationsQuery);
+            }
+            if (!(createWithGenreRelationsQuery.isBlank())) {
+                preparedStatement.addBatch(createWithGenreRelationsQuery);
+            }
+            if (!(deleteWithGenreRelationsQuery.isBlank())) {
+                preparedStatement.addBatch(deleteWithGenreRelationsQuery);
+            }
+            preparedStatement.executeBatch();
+        } catch (SQLException exception) {
+            System.out.println("exception = " + exception);
+        }
     }
 
     @Override

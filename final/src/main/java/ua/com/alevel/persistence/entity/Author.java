@@ -1,6 +1,8 @@
 package ua.com.alevel.persistence.entity;
 
 
+import ua.com.alevel.view.dto.request.AuthorRequestDto;
+
 import java.sql.Date;
 
 public final class Author extends WithIdEntity {
@@ -9,6 +11,16 @@ public final class Author extends WithIdEntity {
     private String lastName;
     private Date birthDate;
     private Date deathDate;
+
+    public Author() {
+    }
+
+    public Author(AuthorRequestDto authorRequestDto) {
+        firstName = authorRequestDto.getFirstName();
+        lastName = authorRequestDto.getLastName();
+        birthDate = authorRequestDto.getBirthDate();
+        deathDate = authorRequestDto.getDeathDate();
+    }
 
     public String getFirstName() {
         return firstName;

@@ -34,16 +34,22 @@ public class BookServiceImpl implements BookService {
     public void create(CustomResultSet<Book> customResultSet) {
         List<Long> authorsId = (List<Long>) customResultSet.getParams().get(0);
         List<Long> genresId = (List<Long>) customResultSet.getParams().get(1);
-        if (authorsId.stream().allMatch(authorsDAO::existsById) && genresId.stream().allMatch(genresDAO::existsById)) {
+        if (authorsId.stream().allMatch(authorsDAO::existsById) &&
+                genresId.stream().allMatch(genresDAO::existsById)) {
             booksDAO.create(customResultSet);
         }
     }
 
     @Override
-    public void update(Book book) {
-//        if (booksDAO.existsById(book.getIsbn())) {
-//            booksDAO.update(book);
-//        }
+    public void update(CustomResultSet<Book> customResultSet) {
+        String isbn = customResultSet.getEntity().getIsbn();
+        List<Long> authorsIds = (List<Long>) customResultSet.getParams().get(0);
+        List<Long> genresIds = (List<Long>) customResultSet.getParams().get(1);
+        if (booksDAO.existsById(isbn) &&
+                authorsIds.stream().allMatch(authorsDAO::existsById) &&
+                genresIds.stream().allMatch(genresDAO::existsById)) {
+            booksDAO.update(customResultSet);
+        }
     }
 
     @Override

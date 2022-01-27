@@ -6,9 +6,7 @@ import ua.com.alevel.facade.BookFacade;
 import ua.com.alevel.persistence.datatable.DataTableRequest;
 import ua.com.alevel.persistence.datatable.DataTableResponse;
 import ua.com.alevel.persistence.entity.Book;
-import ua.com.alevel.service.AuthorService;
 import ua.com.alevel.service.BookService;
-import ua.com.alevel.service.GenreService;
 import ua.com.alevel.util.CustomResultSet;
 import ua.com.alevel.util.WebRequestUtil;
 import ua.com.alevel.util.WebResponseUtil;
@@ -23,13 +21,9 @@ import java.util.List;
 public class BookFacadeImpl implements BookFacade {
 
     private final BookService bookService;
-    private final AuthorService authorService;
-    private final GenreService genreService;
 
-    public BookFacadeImpl(BookService bookService, AuthorService authorService, GenreService genreService) {
+    public BookFacadeImpl(BookService bookService) {
         this.bookService = bookService;
-        this.authorService = authorService;
-        this.genreService = genreService;
     }
 
     @Override
@@ -45,19 +39,14 @@ public class BookFacadeImpl implements BookFacade {
 
     @Override
     public void update(BookRequestDto bookRequestDto, String isbn) {
-//        Author author = authorService.findById(bookRequestDto.getAuthorId());
-//        List<Genre> genres = bookRequestDto.getGenreIds().stream().map(genreService::findById).toList();
-//        Book book = bookService.findById(isbn);
-//        if ((book != null) &&
-//                (author != null) &&
-//                genres.stream().allMatch(Objects::nonNull)) {
-//            book.setIsbn(bookRequestDto.getIsbn());
-//            book.setTitle(bookRequestDto.getName());
-//            book.setAuthor(author);
-//            book.setGenre(genres);
-//            book.setSummary(bookRequestDto.getSummary());
-//            bookService.update(book);
-//        }
+        Book book = new Book(bookRequestDto);
+        book.setIsbn(isbn);
+        List<Long> authorsId = bookRequestDto.getAuthors();
+        List<Long> genresId = bookRequestDto.getGenres();
+        List<List<?>> references = new ArrayList<>();
+        references.add(authorsId);
+        references.add(genresId);
+        bookService.update(new CustomResultSet<>(book, references));
     }
 
     @Override

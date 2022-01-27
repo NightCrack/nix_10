@@ -9,7 +9,7 @@ public interface BaseDAO<ENTITY extends BaseEntity, ID> {
 
     void create(CustomResultSet<ENTITY> entity);
 
-    void update(ENTITY entity);
+    void update(CustomResultSet<ENTITY> entity);
 
     void delete(ID id);
 

@@ -32,10 +32,12 @@ public class BookInstanceServiceImpl implements BookInstanceService {
     }
 
     @Override
-    public void update(BookInstance bookInstance) {
-//        if (bookInstancesDAO.existsById(bookInstance.getId())) {
-//            bookInstancesDAO.update(bookInstance);
-//        }
+    public void update(CustomResultSet<BookInstance> customResultSet) {
+        Long id = customResultSet.getEntity().getId();
+        String isbn = customResultSet.getEntity().getBook().getIsbn();
+        if (bookInstancesDAO.existsById(id) && booksDAO.existsById(isbn)) {
+            bookInstancesDAO.update(customResultSet);
+        }
     }
 
     @Override

@@ -14,6 +14,7 @@ import ua.com.alevel.view.dto.request.GenreRequestDto;
 import ua.com.alevel.view.dto.response.GenreResponseDto;
 import ua.com.alevel.view.dto.response.PageData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,12 +35,12 @@ public class GenreFacadeImpl implements GenreFacade {
 
     @Override
     public void update(GenreRequestDto genreRequestDto, Long id) {
-//        -62167399200000
-//        Genre genre = genreService.findById(id);
-//        if (genre != null) {
-//            genre.setGenreType(genreRequestDto.getType());
-//            genreService.update(genre);
-//        }
+        Genre genre = new Genre(genreRequestDto);
+        genre.setId(id);
+        List<String> isbnList = genreRequestDto.getIsbnList();
+        List<List<?>> references = new ArrayList<>();
+        references.add(isbnList);
+        genreService.update(new CustomResultSet<>(genre, references));
     }
 
     @Override

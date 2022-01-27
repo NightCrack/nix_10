@@ -6,14 +6,15 @@ import ua.com.alevel.persistence.entity.BookInstance;
 import ua.com.alevel.type.StatusType;
 
 import java.sql.Date;
-import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class BookInstanceResponseDto extends ResponseWithIdDto {
 
     private String imprint;
     private Date publishingDate;
     private CountryCode countryCode;
-    private Instant dueBack;
+    private LocalDateTime dueBack;
     private StatusType status;
     private Book book;
 
@@ -21,7 +22,7 @@ public class BookInstanceResponseDto extends ResponseWithIdDto {
         imprint = bookInstance.getImprint();
         publishingDate = bookInstance.getPublishingDate();
         countryCode = bookInstance.getCountryCode();
-        dueBack = bookInstance.getDueBack();
+        dueBack = LocalDateTime.ofInstant(bookInstance.getDueBack(), ZoneId.systemDefault());
         status = bookInstance.getStatus();
         if (bookInstance.getBook() != null) {
             book = bookInstance.getBook();
@@ -56,11 +57,11 @@ public class BookInstanceResponseDto extends ResponseWithIdDto {
         this.countryCode = countryCode;
     }
 
-    public Instant getDueBack() {
+    public LocalDateTime getDueBack() {
         return dueBack;
     }
 
-    public void setDueBack(Instant dueBack) {
+    public void setDueBack(LocalDateTime dueBack) {
         this.dueBack = dueBack;
     }
 

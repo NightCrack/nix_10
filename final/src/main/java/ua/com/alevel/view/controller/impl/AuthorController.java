@@ -17,6 +17,7 @@ import ua.com.alevel.view.dto.response.PageData;
 @RequestMapping("/authors")
 public class AuthorController extends BaseControllerImpl<AuthorRequestDto, Long> implements BaseController<AuthorRequestDto, Long> {
 
+    private static Long authorsId;
     private final AuthorFacade authorFacade;
     private final BookFacade bookFacade;
     private final HeaderName[] columnNames = new HeaderName[]{
@@ -55,6 +56,24 @@ public class AuthorController extends BaseControllerImpl<AuthorRequestDto, Long>
     public String redirectToNewEntityPage(Model model, WebRequest request) {
         model.addAttribute("author", new AuthorRequestDto());
         return "pages/authors/authors_new";
+    }
+
+    @Override
+    @GetMapping("/edit/{id}")
+    public String redirectToEditPage(@PathVariable Long id, Model model, WebRequest request) {
+        authorsId = id;
+        AuthorResponseDto responseDto = authorFacade.findById(id);
+        AuthorRequestDto requestDto = new AuthorRequestDto(responseDto);
+        model.addAttribute("author", requestDto);
+        model.addAttribute("books", bookFacade.findAll(request));
+        return "pages/authors/authors_edit";
+    }
+
+    @Override
+    @PostMapping("/edit")
+    public String updateEntity(@ModelAttribute("author") AuthorRequestDto reqDto) {
+        authorFacade.update(reqDto, authorsId);
+        return "redirect:/authors/details/" + authorsId;
     }
 
     @Override

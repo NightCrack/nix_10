@@ -22,6 +22,9 @@ public class BookInstancesDAOImpl extends BaseDaoImpl implements BookInstancesDA
 
     private final JpaConfig jpaConfig;
     private final String CREATE_BOOK_INSTANCE_QUERY = "insert into book_instances values (default,?,?,?,?,?,?,?,?,?)";
+    private final String UPDATE_BOOK_INSTANCE_QUERY = "update book_instances set " +
+            "updated = ?, visible = ?, imprint = ?, publishing_date = ?, " +
+            "country_code = ?, due_back = ?, status = ?, book_id = ? where id = ";
     private final String FIND_ALL_BOOK_INSTANCES_QUERY =
             "select id, bi.created, bi.updated, bi.visible, " +
                     "imprint, publishing_date, country_code, due_back, " +
@@ -29,6 +32,7 @@ public class BookInstancesDAOImpl extends BaseDaoImpl implements BookInstancesDA
                     "image_url, title, publication_date, pages_number, " +
                     "summary from book_instances as bi " +
                     "inner join books as b on bi.book_id = b.isbn ";
+
     public BookInstancesDAOImpl(JpaConfig jpaConfig) {
         this.jpaConfig = jpaConfig;
     }
@@ -54,8 +58,22 @@ public class BookInstancesDAOImpl extends BaseDaoImpl implements BookInstancesDA
     }
 
     @Override
-    public void update(BookInstance entity) {
-
+    public void update(CustomResultSet<BookInstance> customResultSet) {
+        BookInstance bookInstance = customResultSet.getEntity();
+        try (PreparedStatement preparedStatement = jpaConfig.getConnection().prepareStatement(UPDATE_BOOK_INSTANCE_QUERY + bookInstance.getId())) {
+            int index = 0;
+            preparedStatement.setTimestamp(++index, new Timestamp(System.currentTimeMillis()));
+            preparedStatement.setBoolean(++index, bookInstance.getVisible());
+            preparedStatement.setString(++index, bookInstance.getImprint());
+            preparedStatement.setLong(++index, bookInstance.getPublishingDate().getTime());
+            preparedStatement.setString(++index, bookInstance.getCountryCode().name());
+            preparedStatement.setTimestamp(++index, Timestamp.from(bookInstance.getDueBack()));
+            preparedStatement.setString(++index, bookInstance.getStatus().name());
+            preparedStatement.setString(++index, bookInstance.getBook().getIsbn());
+            preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            System.out.println("exception = " + exception);
+        }
     }
 
     @Override

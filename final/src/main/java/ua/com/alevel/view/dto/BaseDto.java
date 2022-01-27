@@ -1,8 +1,5 @@
 package ua.com.alevel.view.dto;
 
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,8 +9,6 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
 public abstract class BaseDto {
-
-    private final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
 
     public Instant instantFromString(String date) {
         try {

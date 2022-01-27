@@ -35,10 +35,12 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public void update(Genre genre) {
-//        if (genresDAO.existsById(genre.getId())) {
-//            genresDAO.update(genre);
-//        }
+    public void update(CustomResultSet<Genre> customResultSet) {
+        Long id = customResultSet.getEntity().getId();
+        List<String> isbnList = (List<String>) customResultSet.getParams().get(0);
+        if (genresDAO.existsById(id) && isbnList.stream().allMatch(booksDAO::existsById)) {
+            genresDAO.update(customResultSet);
+        }
     }
 
     @Override

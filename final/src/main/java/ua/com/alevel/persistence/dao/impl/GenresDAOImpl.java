@@ -20,7 +20,7 @@ import java.util.*;
 public class GenresDAOImpl extends BaseDaoImpl implements GenresDAO {
 
     private final String CREATE_GENRE_QUERY = "insert into genres values(default, ?, ?, ?, ?)";
-    private final String UPDATE_GENRE_QUERY = "update genres set updated = ?, genre_type = ? where id = ";
+    private final String UPDATE_GENRE_QUERY = "update genres set updated = ?, visible = ?, genre_type = ? where id = ";
     private final String FIND_ALL_GENRES_QUERY =
             "select id, created, updated, visible, " +
                     "genre_type, count(gb.book_isbn) as books " +
@@ -37,11 +37,11 @@ public class GenresDAOImpl extends BaseDaoImpl implements GenresDAO {
     public void create(CustomResultSet<Genre> customResultSet) {
         Genre genre = customResultSet.getEntity();
         try (PreparedStatement preparedStatement = jpaConfig.getConnection().prepareStatement(CREATE_GENRE_QUERY)) {
-            int parameterIndex = 0;
-            preparedStatement.setTimestamp(++parameterIndex, Timestamp.from(genre.getCreated()));
-            preparedStatement.setTimestamp(++parameterIndex, Timestamp.from(genre.getUpdated()));
-            preparedStatement.setBoolean(++parameterIndex, genre.getVisible());
-            preparedStatement.setString(++parameterIndex, genre.getGenreType().name());
+            int index = 0;
+            preparedStatement.setTimestamp(++index, Timestamp.from(genre.getCreated()));
+            preparedStatement.setTimestamp(++index, Timestamp.from(genre.getUpdated()));
+            preparedStatement.setBoolean(++index, genre.getVisible());
+            preparedStatement.setString(++index, genre.getGenreType().name());
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -49,39 +49,66 @@ public class GenresDAOImpl extends BaseDaoImpl implements GenresDAO {
     }
 
     @Override
-    public void update(Genre genre) {
-//        try (PreparedStatement preparedStatement = jpaConfig.getConnection().prepareStatement(UPDATE_GENRE_QUERY)) {
-//            int parameterIndex = 0;
-//            preparedStatement.setTimestamp(++parameterIndex, Timestamp.from(genre.getUpdated()));
-//            preparedStatement.setString(++parameterIndex, genre.getGenreType().name());
-//            preparedStatement.executeUpdate();
-//            int existingBooks = 0;
-//            try (ResultSet countBooks = jpaConfig.getStatement().executeQuery(COUNT_BOOKS_BY_GENRE_ID_QUERY + genre.getId())) {
-//                if (countBooks.next()) {
-//                    existingBooks = countBooks.getInt("count(*)");
-//                }
-//            }
-//            boolean bookAdded = false;
-//            String updateQuery = "";
-//            String lastBookIsbn = genre.getBooks().get(genre.getBooks().size() - 1).getIsbn();
-//            if (genre.getBooks().size() > existingBooks) {
-//                bookAdded = true;
-//                updateQuery = CREATE_ENTRY_IN_BOOKS_GENRES_QUERY;
-//            } else {
-//                updateQuery = DELETE_ENTRY_IN_BOOKS_GENRES_QUERY + genre.getId() + "_" + lastBookIsbn;
-//            }
-//            try (PreparedStatement entriesPreparedStatement = jpaConfig.getConnection().prepareStatement(updateQuery)) {
-//                if (bookAdded) {
-//                    parameterIndex = 0;
-//                    entriesPreparedStatement.setString(++parameterIndex, genre.getId() + "_" + lastBookIsbn);
-//                    entriesPreparedStatement.setLong(++parameterIndex, genre.getId());
-//                    entriesPreparedStatement.setString(++parameterIndex, lastBookIsbn);
-//                }
-//                entriesPreparedStatement.executeUpdate();
-//            }
-//        } catch (SQLException exception) {
-//            exception.printStackTrace();
-//        }
+    public void update(CustomResultSet<Genre> customResultSet) {
+        Genre genre = customResultSet.getEntity();
+        List<String> newBooksRelations = (List<String>) customResultSet.getParams().get(0);
+        List<String> existingBooksRelations = new ArrayList<>();
+        try (ResultSet resultSet = jpaConfig.getStatement().executeQuery("select * from genre_book where genre_id = " + genre.getId())) {
+            while (resultSet.next()) {
+                existingBooksRelations.add(resultSet.getString("book_isbn"));
+            }
+        } catch (SQLException exception) {
+            System.out.println("exception = " + exception);
+        }
+        String createRelationsQuery = "";
+        List<String> toCreate = newBooksRelations.stream().filter(isbn -> !existingBooksRelations.contains(isbn)).toList();
+        if (toCreate.size() > 0) {
+            StringBuilder stringBuilder = new StringBuilder("insert into genre_book values ");
+            for (String isbn : toCreate) {
+                stringBuilder
+                        .append("(")
+                        .append(genre.getId())
+                        .append(",'")
+                        .append(isbn)
+                        .append("')");
+                if (toCreate.indexOf(isbn) < toCreate.size() - 1) {
+                    stringBuilder.append(", ");
+                }
+            }
+            createRelationsQuery = stringBuilder.toString();
+        }
+        String deleteRelationsQuery = "";
+        List<String> toDelete = existingBooksRelations.stream().filter(isbn -> !newBooksRelations.contains(isbn)).toList();
+        if (toDelete.size() > 0) {
+            StringBuilder stringBuilder = new StringBuilder("delete from genre_book where genre_id = " + genre.getId() + " and (");
+            for (String isbn : toDelete) {
+                stringBuilder
+                        .append("book_isbn = '")
+                        .append(isbn)
+                        .append("'");
+                if (toDelete.indexOf(isbn) < toDelete.size() - 1) {
+                    stringBuilder.append(" or ");
+                }
+            }
+            stringBuilder.append(")");
+            deleteRelationsQuery = stringBuilder.toString();
+        }
+        try (PreparedStatement preparedStatement = jpaConfig.getConnection().prepareStatement(UPDATE_GENRE_QUERY + genre.getId())) {
+            int index = 0;
+            preparedStatement.setTimestamp(++index, new Timestamp(System.currentTimeMillis()));
+            preparedStatement.setBoolean(++index, genre.getVisible());
+            preparedStatement.setString(++index, genre.getGenreType().name());
+            preparedStatement.addBatch();
+            if (!createRelationsQuery.isBlank()) {
+                preparedStatement.addBatch(createRelationsQuery);
+            }
+            if (!deleteRelationsQuery.isBlank()) {
+                preparedStatement.addBatch(deleteRelationsQuery);
+            }
+            preparedStatement.executeBatch();
+        } catch (SQLException exception) {
+            System.out.println("exception = " + exception);
+        }
     }
 
     @Override

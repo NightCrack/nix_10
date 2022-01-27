@@ -24,7 +24,7 @@ public final class BookInstance extends WithIdEntity {
         imprint = requestDto.getImprint();
         publishingDate = requestDto.getPublishingDate();
         countryCode = requestDto.getCountryCode();
-        dueBack = requestDto.getDueBack();
+        dueBack = Instant.from(requestDto.getDueBack());
         status = requestDto.getStatus();
         this.book = book;
     }

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        layout:decorate="~{layout}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="utf-8"/>
+    <title>Edit Book</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mt-2">
+                <div class="card-header">
+                    <h4>Edit Book</h4>
+                </div>
+                <div class="card-body">
+                    <form action="#"
+                          method="post"
+                          th:action="@{/books/edit}"
+                          th:object="${book}">
+                        <div class="form-group">
+                            <label for="genres">Genre</label>
+                            <select class="form-control"
+                                    id="genres"
+                                    multiple="multiple"
+                                    th:field="*{genres}">
+                                <option th:each="genre : ${genres.getItems()}"
+                                        th:text="${genre.getGenreType().name()}"
+                                        th:value="${genre.getId()}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="authors">Authors</label>
+                            <select Name="Book's author"
+                                    class="form-control"
+                                    id="authors"
+                                    multiple="multiple"
+                                    th:field="*{authors}">
+                                <option th:each="author : ${authors.getItems()}"
+                                        th:text="${author.getFirstName() + ' ' + author.getLastName()}"
+                                        th:value="${author.getId()}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input aria-describedby="title"
+                                   class="form-control"
+                                   id="title"
+                                   placeholder="Book's title"
+                                   th:field="*{title}"
+                                   type="text"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="publicationDate">Publication date</label>
+                            <input class="form-control"
+                                   id="publicationDate"
+                                   name="publicationDate"
+                                   th:value="*{publicationDate}"
+                                   type="date"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="pagesNumber">Pages number</label>
+                            <input class="form-control"
+                                   id="pagesNumber"
+                                   th:field="*{pagesNumber}"
+                                   type="number"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="summary">Summary</label>
+                            <input aria-describedby="summary"
+                                   class="form-control"
+                                   id="summary"
+                                   th:field="*{summary}"
+                                   type="text"/>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

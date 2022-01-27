@@ -38,15 +38,10 @@ public class BookInstanceFacadeImpl implements BookInstanceFacade {
 
     @Override
     public void update(BookInstanceRequestDto bookInstanceRequestDto, Long id) {
-//        BookInstance bookInstance = bookInstanceService.findById(id);
-//        Book book = bookService.findById(bookInstanceRequestDto.getBookId());
-//        if ((book != null) && (bookInstance != null)) {
-//            bookInstance.setBook(book);
-//            bookInstance.setImprint(bookInstanceRequestDto.getImprint());
-//            bookInstance.setDueBack(bookInstanceRequestDto.getDueBack());
-//            bookInstance.setStatus(bookInstanceRequestDto.getStatus());
-//            bookInstanceService.update(bookInstance);
-//        }
+        Book book = bookService.findById(bookInstanceRequestDto.getBookIsbn());
+        BookInstance bookInstance = new BookInstance(bookInstanceRequestDto, book);
+        bookInstance.setId(id);
+        bookInstanceService.update(new CustomResultSet<>(bookInstance, null));
     }
 
     @Override

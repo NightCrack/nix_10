@@ -14,7 +14,11 @@
     <div class="row">
         <div class="col-12">
             <div class="card mb-2 mt-2">
-                <div class="card-header">Details: Book</div>
+                <div class="card-header">Details: Book
+                    <a class="btn btn-primary"
+                       th:href="@{'/books/edit/' + ${book.getIsbn()}}"
+                       type="button">Edit</a>
+                </div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <tr>

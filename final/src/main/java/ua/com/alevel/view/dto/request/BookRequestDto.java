@@ -1,6 +1,7 @@
 package ua.com.alevel.view.dto.request;
 
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.alevel.view.dto.response.BookResponseDto;
 
 import java.sql.Date;
 import java.util.List;
@@ -15,6 +16,18 @@ public class BookRequestDto extends RequestDto {
     private String summary;
     private List<Long> authors;
     private List<Long> genres;
+
+    public BookRequestDto() {
+    }
+
+    public BookRequestDto(BookResponseDto responseDto) {
+        this.isbn = responseDto.getIsbn();
+        this.bookImage = null;
+        this.title = responseDto.getTitle();
+        this.publicationDate = responseDto.getPublicationDate();
+        this.pagesNumber = responseDto.getPagesNumber();
+        this.summary = responseDto.getSummary();
+    }
 
     public List<Long> getAuthors() {
         return authors;

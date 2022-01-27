@@ -18,6 +18,7 @@ import ua.com.alevel.view.dto.response.PageData;
 @RequestMapping("/genres")
 public class GenreController extends BaseControllerImpl<GenreRequestDto, Long> implements BaseController<GenreRequestDto, Long> {
 
+    private static Long genreId;
     private final GenreFacade genreFacade;
     private final BookFacade bookFacade;
     private final HeaderName[] columnNames = new HeaderName[]{
@@ -56,6 +57,25 @@ public class GenreController extends BaseControllerImpl<GenreRequestDto, Long> i
         model.addAttribute("genre", new GenreRequestDto());
         model.addAttribute("types", GenreType.values());
         return "pages/genres/genres_new";
+    }
+
+    @Override
+    @GetMapping("/edit/{id}")
+    public String redirectToEditPage(@PathVariable Long id, Model model, WebRequest request) {
+        genreId = id;
+        GenreResponseDto responseDto = genreFacade.findById(id);
+        GenreRequestDto requestDto = new GenreRequestDto(responseDto);
+        model.addAttribute("genre", requestDto);
+        model.addAttribute("books", bookFacade.findAll(request));
+        model.addAttribute("types", GenreType.values());
+        return "pages/genres/genres_edit";
+    }
+
+    @Override
+    @PostMapping("/edit")
+    public String updateEntity(@ModelAttribute("genre") GenreRequestDto reqDto) {
+        genreFacade.update(reqDto, genreId);
+        return "redirect:/genres/details/" + genreId;
     }
 
     @Override

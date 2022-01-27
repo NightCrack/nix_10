@@ -32,9 +32,12 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void update(Author author) {
-        if (authorsDAO.existsById(author.getId())) {
-            authorsDAO.update(author);
+    public void update(CustomResultSet<Author> customResultSet) {
+        Long id = customResultSet.getEntity().getId();
+        List<String> isbnList = (List<String>) customResultSet.getParams().get(0);
+        if (authorsDAO.existsById(id) &&
+                isbnList.stream().allMatch(booksDAO::existsById)) {
+            authorsDAO.update(customResultSet);
         }
     }
 
