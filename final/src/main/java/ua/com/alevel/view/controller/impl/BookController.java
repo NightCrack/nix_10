@@ -46,7 +46,7 @@ public class BookController extends BaseControllerImpl<BookRequestDto, String> i
 
     @Override
     @GetMapping
-    public String findAll(Model model, WebRequest request) {
+    public String findAll(WebRequest request, Model model) {
         PageData<BookResponseDto> response = bookFacade.findAll(request);
         initDataTable(response, columnNames, model);
         model.addAttribute("createUrl", "/books/all");
@@ -63,21 +63,29 @@ public class BookController extends BaseControllerImpl<BookRequestDto, String> i
 
     @Override
     @GetMapping("/authors/{authorId}")
-    public String findAllByEntity(@PathVariable Long authorId, Model model) {
-//        model.addAttribute("books", authorFacade.findById(authorId));
+    public String findAllByEntity(WebRequest request, @PathVariable Long authorId, Model model) {
+        PageData<BookResponseDto> response = bookFacade.findAllByForeignId(request, authorId);
+        initDataTable(response, columnNames, model);
+        model.addAttribute("createUrl", "/books/all");
+        model.addAttribute("createNew", "/books/new");
+        model.addAttribute("cardHeader", "Books");
         return "/pages/books/books_all";
     }
 
     @Override
     @GetMapping("/genres/{genreId}")
-    public String findAllBySecondEntity(@PathVariable Long genreId, Model model) {
-//        model.addAttribute("books", genreFacade.findById(genreId));
+    public String findAllBySecondEntity(WebRequest request, @PathVariable Long genreId, Model model) {
+        PageData<BookResponseDto> response = bookFacade.findAllBySecondForeignId(request, genreId);
+        initDataTable(response, columnNames, model);
+        model.addAttribute("createUrl", "/books/all");
+        model.addAttribute("createNew", "/books/new");
+        model.addAttribute("cardHeader", "Books");
         return "/pages/books/books_all";
     }
 
     @Override
     @GetMapping("/new")
-    public String redirectToNewEntityPage(Model model, WebRequest request) {
+    public String redirectToNewEntityPage(WebRequest request, Model model) {
         model.addAttribute("book", new BookRequestDto());
         model.addAttribute("genres", genreFacade.findAll(request));
         model.addAttribute("authors", authorFacade.findAll(request));
@@ -86,7 +94,7 @@ public class BookController extends BaseControllerImpl<BookRequestDto, String> i
 
     @Override
     @GetMapping("/edit/{isbn}")
-    public String redirectToEditPage(@PathVariable String isbn, Model model, WebRequest request) {
+    public String redirectToEditPage(WebRequest request, @PathVariable String isbn, Model model) {
         booksIsbn = isbn;
         BookResponseDto responseDto = bookFacade.findById(isbn);
         BookRequestDto requestDto = new BookRequestDto(responseDto);
@@ -134,12 +142,12 @@ public class BookController extends BaseControllerImpl<BookRequestDto, String> i
 
     @Override
     @GetMapping("/details/{isbn}")
-    public String getEntityDetails(@PathVariable String isbn, Model model) {
+    public String getEntityDetails(WebRequest request, @PathVariable String isbn, Model model) {
         BookResponseDto dto = bookFacade.findById(isbn);
         model.addAttribute("book", dto);
-        model.addAttribute("authors", authorFacade.findAllByForeignId(isbn));
-        model.addAttribute("genres", genreFacade.findAllByForeignId(isbn));
-        model.addAttribute("instances", bookInstanceFacade.findAllByForeignId(isbn).size());
+        model.addAttribute("authors", authorFacade.findAllByForeignId(request, isbn));
+        model.addAttribute("genres", genreFacade.findAllByForeignId(request, isbn));
+        model.addAttribute("instances", bookInstanceFacade.findAllByForeignId(request, isbn).getItemsSize());
         return "pages/books/books_details";
 
     }

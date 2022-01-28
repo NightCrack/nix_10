@@ -10,9 +10,6 @@ import ua.com.alevel.service.BookInstanceService;
 import ua.com.alevel.util.CustomResultSet;
 import ua.com.alevel.util.WebResponseUtil;
 
-import java.util.Collections;
-import java.util.List;
-
 @Service
 public class BookInstanceServiceImpl implements BookInstanceService {
 
@@ -61,17 +58,13 @@ public class BookInstanceServiceImpl implements BookInstanceService {
     }
 
     @Override
-    public void deleteAllByForeignId(String bookId) {
+    public DataTableResponse<BookInstance> findAllByForeignId(DataTableRequest request, String bookId) {
         if (booksDAO.existsById(bookId)) {
-            bookInstancesDAO.deleteAllByForeignId(bookId);
+            DataTableResponse<BookInstance> dataTableResponse = bookInstancesDAO.findAllByForeignId(request, bookId);
+            int count = bookInstancesDAO.foreignCount(bookId);
+            WebResponseUtil.initDataTableResponse(request, dataTableResponse, count);
+            return dataTableResponse;
         }
-    }
-
-    @Override
-    public List<BookInstance> findAllByForeignId(String bookId) {
-        if (booksDAO.existsById(bookId)) {
-            return bookInstancesDAO.findAllByForeignId(bookId);
-        }
-        return Collections.emptyList();
+        return new DataTableResponse<>();
     }
 }

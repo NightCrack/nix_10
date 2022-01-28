@@ -9,13 +9,14 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.com.alevel.facade.AuthorFacade;
 import ua.com.alevel.facade.BookFacade;
 import ua.com.alevel.view.controller.BaseController;
+import ua.com.alevel.view.controller.DependentController;
 import ua.com.alevel.view.dto.request.AuthorRequestDto;
 import ua.com.alevel.view.dto.response.AuthorResponseDto;
 import ua.com.alevel.view.dto.response.PageData;
 
 @Controller
 @RequestMapping("/authors")
-public class AuthorController extends BaseControllerImpl<AuthorRequestDto, Long> implements BaseController<AuthorRequestDto, Long> {
+public class AuthorController extends BaseControllerImpl<AuthorRequestDto, Long> implements DependentController<AuthorRequestDto, Long, String> {
 
     private static Long authorsId;
     private final AuthorFacade authorFacade;
@@ -36,8 +37,19 @@ public class AuthorController extends BaseControllerImpl<AuthorRequestDto, Long>
 
     @Override
     @GetMapping
-    public String findAll(Model model, WebRequest request) {
+    public String findAll(WebRequest request, Model model) {
         PageData<AuthorResponseDto> response = authorFacade.findAll(request);
+        initDataTable(response, columnNames, model);
+        model.addAttribute("createUrl", "/authors/all");
+        model.addAttribute("createNew", "/authors/new");
+        model.addAttribute("cardHeader", "Authors");
+        return "pages/authors/authors_all";
+    }
+
+    @Override
+    @GetMapping("/books/{isbn}")
+    public String findAllByEntity(WebRequest request, @PathVariable String isbn, Model model) {
+        PageData<AuthorResponseDto> response = authorFacade.findAllByForeignId(request, isbn);
         initDataTable(response, columnNames, model);
         model.addAttribute("createUrl", "/authors/all");
         model.addAttribute("createNew", "/authors/new");
@@ -52,15 +64,20 @@ public class AuthorController extends BaseControllerImpl<AuthorRequestDto, Long>
     }
 
     @Override
+    public String redirectToNewEntityPageWithParentId(String isbn, Model model) {
+        return null;
+    }
+
+    @Override
     @GetMapping("/new")
-    public String redirectToNewEntityPage(Model model, WebRequest request) {
+    public String redirectToNewEntityPage(WebRequest request, Model model) {
         model.addAttribute("author", new AuthorRequestDto());
         return "pages/authors/authors_new";
     }
 
     @Override
     @GetMapping("/edit/{id}")
-    public String redirectToEditPage(@PathVariable Long id, Model model, WebRequest request) {
+    public String redirectToEditPage(WebRequest request, @PathVariable Long id, Model model) {
         authorsId = id;
         AuthorResponseDto responseDto = authorFacade.findById(id);
         AuthorRequestDto requestDto = new AuthorRequestDto(responseDto);
@@ -93,10 +110,10 @@ public class AuthorController extends BaseControllerImpl<AuthorRequestDto, Long>
 
     @Override
     @GetMapping("/details/{id}")
-    public String getEntityDetails(@PathVariable Long id, Model model) {
+    public String getEntityDetails(WebRequest request, @PathVariable Long id, Model model) {
         AuthorResponseDto dto = authorFacade.findById(id);
         model.addAttribute("author", dto);
-        model.addAttribute("books", bookFacade.findAllByForeignId(id));
+        model.addAttribute("books", bookFacade.findAllByForeignId(request, id));
         return "pages/authors/authors_details";
 
     }

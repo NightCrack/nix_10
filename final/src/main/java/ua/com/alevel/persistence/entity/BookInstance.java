@@ -6,6 +6,7 @@ import ua.com.alevel.view.dto.request.BookInstanceRequestDto;
 
 import java.sql.Date;
 import java.time.Instant;
+import java.time.ZoneOffset;
 
 
 public final class BookInstance extends WithIdEntity {
@@ -24,7 +25,7 @@ public final class BookInstance extends WithIdEntity {
         imprint = requestDto.getImprint();
         publishingDate = requestDto.getPublishingDate();
         countryCode = requestDto.getCountryCode();
-        dueBack = Instant.from(requestDto.getDueBack());
+        dueBack = requestDto.getDueBack().toInstant(ZoneOffset.UTC);
         status = requestDto.getStatus();
         this.book = book;
     }

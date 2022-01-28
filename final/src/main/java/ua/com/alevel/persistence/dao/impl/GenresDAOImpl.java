@@ -165,6 +165,15 @@ public class GenresDAOImpl extends BaseDaoImpl implements GenresDAO {
         return count(jpaConfig, "genres");
     }
 
+    @Override
+    public int foreignCount(String isbn) {
+        String filterOption = " left join genre_book " +
+                "as gb on genres.id = gb.genre_id " +
+                "where gb.book_isbn = '" + isbn +
+                "' group by gb.book_isbn";
+        return count(jpaConfig, "genres",filterOption);
+    }
+
     private CustomResultSet<Genre> convertResultSetToGenre(ResultSet resultSet) throws SQLException {
         Long id = resultSet.getLong("id");
         String typeName = resultSet.getString("genre_type");
@@ -172,45 +181,40 @@ public class GenresDAOImpl extends BaseDaoImpl implements GenresDAO {
         Instant updated = resultSet.getTimestamp("updated").toInstant();
         Boolean visible = resultSet.getBoolean("visible");
         GenreType genreType = GenreType.valueOf(typeName);
-        Integer bookCount = resultSet.getInt("books");
+        Integer booksCount = resultSet.getInt("books");
         Genre genre = new Genre();
         genre.setId(id);
         genre.setGenreType(genreType);
         genre.setCreated(created);
         genre.setUpdated(updated);
         genre.setVisible(visible);
-        return new CustomResultSet<>(genre, Collections.singletonList(bookCount));
-    }
-
-    private Genre convertResultSetToGenreShort(ResultSet resultSet) throws SQLException {
-        Long id = resultSet.getLong("id");
-        String typeName = resultSet.getString("genre_type");
-        GenreType genreType = GenreType.valueOf(typeName);
-        Genre genre = new Genre();
-        genre.setId(id);
-        genre.setGenreType(genreType);
-        return genre;
+        return new CustomResultSet<>(genre, Collections.singletonList(booksCount));
     }
 
     @Override
-    public void deleteAllByForeignId(String s) {
-
-    }
-
-    @Override
-    public List<Genre> findAllByForeignId(String isbn) {
-        String query = "select g.id as id, genre_type " +
-                "from genre_book as gb inner join genres as g on g.id = gb.genre_id " +
-                "where book_isbn = '" + isbn + "'";
+    public DataTableResponse<Genre> findAllByForeignId(DataTableRequest request, String isbn) {
+        List<Genre> genres = new ArrayList<>();
+        Map<Object, List<Integer>> otherParamMap = new HashMap<>();
+        int limit = (request.getCurrentPage() - 1) * request.getPageSize();
+        String query = FIND_ALL_GENRES_QUERY +
+                "where book_isbn = '" +
+                isbn + "' group by g.id order by " +
+                request.getSort() + " " +
+                request.getOrder() + " limit " +
+                limit + "," +
+                request.getPageSize();
         try (ResultSet resultSet = jpaConfig.getStatement().executeQuery(query)) {
-            List<Genre> returnValue = new ArrayList<>();
             while (resultSet.next()) {
-                returnValue.add(convertResultSetToGenreShort(resultSet));
+                CustomResultSet<Genre> customResultSet = convertResultSetToGenre(resultSet);
+                genres.add(customResultSet.getEntity());
+                otherParamMap.put(customResultSet.getEntity().getId(), (List<Integer>) customResultSet.getParams());
             }
-            return returnValue;
-        } catch (SQLException exception) {
-            System.out.println("exception = " + exception);
-            return Collections.emptyList();
+        } catch (SQLException e) {
+            System.out.println("problem: = " + e.getMessage());
         }
+        DataTableResponse<Genre> dataTableResponse = new DataTableResponse<>();
+        dataTableResponse.setItems(genres);
+        dataTableResponse.setOtherParamMap(otherParamMap);
+        return dataTableResponse;
     }
 }

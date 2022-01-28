@@ -236,7 +236,7 @@ public class BooksDAOImpl extends BaseDaoImpl implements BooksDAO {
         Map<Object, List<Integer>> otherParamMap = new HashMap<>();
         int limit = (request.getCurrentPage() - 1) * request.getPageSize();
         String query = FIND_ALL_BOOKS_QUERY +
-                "group by isbn " +
+                "group by b.isbn " +
                 "order by " +
                 request.getSort() + " " +
                 request.getOrder() + " limit " +
@@ -263,49 +263,77 @@ public class BooksDAOImpl extends BaseDaoImpl implements BooksDAO {
     }
 
     @Override
-    public void deleteAllByForeignId(Long aLong) {
-
+    public int foreignCount(Long authorId) {
+        String filterOption = " left join author_book as ab " +
+                "on books.isbn = ab.book_isbn where ab.author_id = " +
+                authorId + " group by author_id";
+        return count(jpaConfig, "books", filterOption);
     }
 
     @Override
-    public List<Book> findAllByForeignId(Long authorId) {
+    public int secondForeignCount(Long genreId) {
+        String filterOption = " left join genre_book as gb " +
+                "on books.isbn = gb.book_isbn where gb.genre_id = " +
+                genreId + " group by genre_id";
+        return count(jpaConfig, "books", filterOption);
+    }
+
+    @Override
+    public DataTableResponse<Book> findAllByForeignId(DataTableRequest request, Long authorId) {
+        List<Book> books = new ArrayList<>();
+        Map<Object, List<Integer>> otherParamMap = new HashMap<>();
+        int limit = (request.getCurrentPage() - 1) * request.getPageSize();
         String query = FIND_ALL_BOOKS_QUERY +
                 "where ab.author_id = " +
                 authorId +
-                " group by isbn ";
+                " group by b.isbn " +
+                "order by " +
+                request.getSort() + " " +
+                request.getOrder() + " limit " +
+                limit + "," +
+                request.getPageSize();
         try (ResultSet resultSet = jpaConfig.getStatement().executeQuery(query)) {
-            List<Book> returnValue = new ArrayList<>();
             while (resultSet.next()) {
-                returnValue.add(convertResultSetToBook(resultSet).getEntity());
+                CustomResultSet<Book> customResultSet = convertResultSetToBook(resultSet);
+                books.add(customResultSet.getEntity());
+                otherParamMap.put(customResultSet.getEntity().getIsbn(), (List<Integer>) customResultSet.getParams());
             }
-            return returnValue;
-        } catch (SQLException exception) {
-            System.out.println("exception = " + exception);
-            return null;
+        } catch (SQLException e) {
+            System.out.println("problem: = " + e.getMessage());
         }
+        DataTableResponse<Book> dataTableResponse = new DataTableResponse<>();
+        dataTableResponse.setItems(books);
+        dataTableResponse.setOtherParamMap(otherParamMap);
+        return dataTableResponse;
     }
 
     @Override
-    public void deleteAllBySecondForeignId(Long genreId) {
-
-    }
-
-    @Override
-    public List<Book> findAllBySecondForeignId(Long genreId) {
+    public DataTableResponse<Book> findAllBySecondForeignId(DataTableRequest request, Long genreId) {
+        List<Book> books = new ArrayList<>();
+        Map<Object, List<Integer>> otherParamMap = new HashMap<>();
+        int limit = (request.getCurrentPage() - 1) * request.getPageSize();
         String query = FIND_ALL_BOOKS_QUERY +
                 "where gb.genre_id = " +
                 genreId +
-                " group by isbn ";
+                " group by b.isbn " +
+                "order by " +
+                request.getSort() + " " +
+                request.getOrder() + " limit " +
+                limit + "," +
+                request.getPageSize();
         try (ResultSet resultSet = jpaConfig.getStatement().executeQuery(query)) {
-            List<Book> returnValue = new ArrayList<>();
             while (resultSet.next()) {
-                returnValue.add(convertResultSetToBook(resultSet).getEntity());
+                CustomResultSet<Book> customResultSet = convertResultSetToBook(resultSet);
+                books.add(customResultSet.getEntity());
+                otherParamMap.put(customResultSet.getEntity().getIsbn(), (List<Integer>) customResultSet.getParams());
             }
-            return returnValue;
-        } catch (SQLException exception) {
-            System.out.println("exception = " + exception);
-            return null;
+        } catch (SQLException e) {
+            System.out.println("problem: = " + e.getMessage());
         }
+        DataTableResponse<Book> dataTableResponse = new DataTableResponse<>();
+        dataTableResponse.setItems(books);
+        dataTableResponse.setOtherParamMap(otherParamMap);
+        return dataTableResponse;
     }
 
     private CustomResultSet<Book> convertResultSetToBook(ResultSet resultSet) throws SQLException {

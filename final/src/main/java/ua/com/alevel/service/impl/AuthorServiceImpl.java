@@ -3,7 +3,6 @@ package ua.com.alevel.service.impl;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.persistence.dao.AuthorsDAO;
 import ua.com.alevel.persistence.dao.BooksDAO;
-import ua.com.alevel.persistence.dao.GenresDAO;
 import ua.com.alevel.persistence.datatable.DataTableRequest;
 import ua.com.alevel.persistence.datatable.DataTableResponse;
 import ua.com.alevel.persistence.entity.Author;
@@ -17,12 +16,10 @@ import java.util.List;
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorsDAO authorsDAO;
-    private final GenresDAO genresDAO;
     private final BooksDAO booksDAO;
 
-    public AuthorServiceImpl(AuthorsDAO authorsDAO, GenresDAO genresDAO, BooksDAO booksDAO) {
+    public AuthorServiceImpl(AuthorsDAO authorsDAO, BooksDAO booksDAO) {
         this.authorsDAO = authorsDAO;
-        this.genresDAO = genresDAO;
         this.booksDAO = booksDAO;
     }
 
@@ -62,12 +59,13 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void deleteAllByForeignId(String s) {
-
-    }
-
-    @Override
-    public List<Author> findAllByForeignId(String isbn) {
-        return authorsDAO.findAllByForeignId(isbn);
+    public DataTableResponse<Author> findAllByForeignId(DataTableRequest request, String isbn) {
+        if (booksDAO.existsById(isbn)) {
+            DataTableResponse<Author> dataTableResponse = authorsDAO.findAllByForeignId(request, isbn);
+            int count = authorsDAO.foreignCount(isbn);
+            WebResponseUtil.initDataTableResponse(request, dataTableResponse, count);
+            return dataTableResponse;
+        }
+        return new DataTableResponse<>();
     }
 }

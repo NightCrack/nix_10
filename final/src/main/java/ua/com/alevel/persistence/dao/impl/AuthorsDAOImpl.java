@@ -169,6 +169,14 @@ public class AuthorsDAOImpl extends BaseDaoImpl implements AuthorsDAO {
         return count(jpaConfig, "authors");
     }
 
+    @Override
+    public int foreignCount(String isbn) {
+        String filterOption = " left join author_book as ab " +
+                "on authors.id = ab.author_id where ab.book_isbn = '" +
+                isbn + "' group by ab.book_isbn";
+        return count(jpaConfig, "authors", filterOption);
+    }
+
     private CustomResultSet<Author> convertResultSetToAuthor(ResultSet resultSet) throws SQLException {
         Long id = resultSet.getLong("id");
         String firstName = resultSet.getString("first_name");
@@ -191,36 +199,42 @@ public class AuthorsDAOImpl extends BaseDaoImpl implements AuthorsDAO {
         return new CustomResultSet<>(author, Collections.singletonList(bookCount));
     }
 
-    private Author convertResultSetToAuthorShort(ResultSet resultSet) throws SQLException {
-        Long id = resultSet.getLong("id");
-        String firstName = resultSet.getString("first_name");
-        String lastName = resultSet.getString("last_name");
-        Author author = new Author();
-        author.setId(id);
-        author.setFirstName(firstName);
-        author.setLastName(lastName);
-        return author;
-    }
+//    private Author convertResultSetToAuthorShort(ResultSet resultSet) throws SQLException {
+//        Long id = resultSet.getLong("id");
+//        String firstName = resultSet.getString("first_name");
+//        String lastName = resultSet.getString("last_name");
+//        Author author = new Author();
+//        author.setId(id);
+//        author.setFirstName(firstName);
+//        author.setLastName(lastName);
+//        return author;
+//    }
 
     @Override
-    public void deleteAllByForeignId(String s) {
-
-    }
-
-    @Override
-    public List<Author> findAllByForeignId(String isbn) {
-        String query = "select a.id as id, first_name, last_name " +
-                "from author_book as ab inner join authors as a on a.id = ab.author_id " +
-                "where book_isbn = '" + isbn + "'";
+    public DataTableResponse<Author> findAllByForeignId(DataTableRequest request, String isbn) {
+        List<Author> authors = new ArrayList<>();
+        Map<Object, List<Integer>> otherParamMap = new HashMap<>();
+        int limit = (request.getCurrentPage() - 1) * request.getPageSize();
+        String query = FIND_ALL_AUTHORS_QUERY +
+                "where book_isbn = '" + isbn + "'" +
+                "group by au.id " +
+                "order by " +
+                request.getSort() + " " +
+                request.getOrder() + " limit " +
+                limit + "," +
+                request.getPageSize();
         try (ResultSet resultSet = jpaConfig.getStatement().executeQuery(query)) {
-            List<Author> returnValue = new ArrayList<>();
             while (resultSet.next()) {
-                returnValue.add(convertResultSetToAuthorShort(resultSet));
+                CustomResultSet<Author> authorResultSet = convertResultSetToAuthor(resultSet);
+                authors.add(authorResultSet.getEntity());
+                otherParamMap.put(authorResultSet.getEntity().getId(), (List<Integer>) authorResultSet.getParams());
             }
-            return returnValue;
-        } catch (SQLException exception) {
-            System.out.println("exception = " + exception);
-            return Collections.emptyList();
+        } catch (SQLException e) {
+            System.out.println("problem: = " + e.getMessage());
         }
+        DataTableResponse<Author> dataTableResponse = new DataTableResponse<>();
+        dataTableResponse.setItems(authors);
+        dataTableResponse.setOtherParamMap(otherParamMap);
+        return dataTableResponse;
     }
 }

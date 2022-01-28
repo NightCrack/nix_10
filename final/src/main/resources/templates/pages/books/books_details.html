@@ -57,7 +57,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="author,column : ${authors}">
+                        <tr th:each="author,column : ${authors.getItems()}">
                             <td><a th:href="@{'/authors/details/' + ${author.getId()}}"
                                    th:text="${author.getFirstName() + ' ' + author.getLastName()}"></a></td>
                         </tr>
@@ -70,7 +70,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="genre,column : ${genres}">
+                        <tr th:each="genre,column : ${genres.getItems()}">
                             <td><a th:href="@{'/genres/details/' + ${genre.getId()}}"
                                    th:text="${genre.getGenreType()}"></a></td>
                         </tr>

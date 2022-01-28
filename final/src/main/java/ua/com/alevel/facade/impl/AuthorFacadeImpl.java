@@ -61,6 +61,29 @@ public class AuthorFacadeImpl implements AuthorFacade {
     public PageData<AuthorResponseDto> findAll(WebRequest request) {
         DataTableRequest dataTableRequest = WebRequestUtil.initDataTableRequest(request);
         DataTableResponse<Author> all = authorService.findAll(dataTableRequest);
+//        List<AuthorResponseDto> items = all.getItems()
+//                .stream()
+//                .map(AuthorResponseDto::new)
+//                .peek(entity -> entity
+//                        .setBooksCount(all
+//                                .getOtherParamMap()
+//                                .get(entity.getId()).get(0)))
+//                .toList();
+//        PageData<AuthorResponseDto> pageData = (PageData<AuthorResponseDto>) WebResponseUtil.initPageData(all);
+//        pageData.setItems(items);
+        PageData<AuthorResponseDto> pageData = findAllByResponse(all);
+        return pageData;
+    }
+
+    @Override
+    public PageData<AuthorResponseDto> findAllByForeignId(WebRequest request, String isbn) {
+        DataTableRequest dataTableRequest = WebRequestUtil.initDataTableRequest(request);
+        DataTableResponse<Author> all = authorService.findAllByForeignId(dataTableRequest, isbn);
+        PageData<AuthorResponseDto> pageData = findAllByResponse(all);
+        return pageData;
+    }
+
+    private PageData<AuthorResponseDto> findAllByResponse(DataTableResponse<Author> all) {
         List<AuthorResponseDto> items = all.getItems()
                 .stream()
                 .map(AuthorResponseDto::new)
@@ -72,14 +95,5 @@ public class AuthorFacadeImpl implements AuthorFacade {
         PageData<AuthorResponseDto> pageData = (PageData<AuthorResponseDto>) WebResponseUtil.initPageData(all);
         pageData.setItems(items);
         return pageData;
-    }
-
-    @Override
-    public List<AuthorResponseDto> findAllByForeignId(String isbn) {
-        return authorService
-                .findAllByForeignId(isbn)
-                .stream()
-                .map(AuthorResponseDto::new)
-                .toList();
     }
 }

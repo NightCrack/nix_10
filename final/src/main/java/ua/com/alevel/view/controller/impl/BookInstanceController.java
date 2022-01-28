@@ -38,7 +38,7 @@ public class BookInstanceController extends BaseControllerImpl<BookInstanceReque
 
     @Override
     @GetMapping
-    public String findAll(Model model, WebRequest request) {
+    public String findAll(WebRequest request, Model model) {
         PageData<BookInstanceResponseDto> response = bookInstanceFacade.findAll(request);
         initDataTable(response, columnNames, model);
         model.addAttribute("createUrl", "/bookInstances/all");
@@ -54,15 +54,19 @@ public class BookInstanceController extends BaseControllerImpl<BookInstanceReque
     }
 
     @Override
-    @GetMapping("/books/{bookId}")
-    public String findAllByEntity(@PathVariable String bookId, Model model) {
-        model.addAttribute("bookInstances", bookInstanceFacade.findAllByForeignId(bookId));
+    @GetMapping("/books/{bookIsbn}")
+    public String findAllByEntity(WebRequest request, @PathVariable String bookIsbn, Model model) {
+        PageData<BookInstanceResponseDto> response = bookInstanceFacade.findAllByForeignId(request, bookIsbn);
+        initDataTable(response, columnNames, model);
+        model.addAttribute("createUrl", "/bookInstances/all");
+        model.addAttribute("createNew", "/bookInstances/new");
+        model.addAttribute("cardHeader", "Books' instances");
         return "/pages/bookInstances/bookInstances_all";
     }
 
     @Override
     @GetMapping("/new")
-    public String redirectToNewEntityPage(Model model, WebRequest request) {
+    public String redirectToNewEntityPage(WebRequest request, Model model) {
         model.addAttribute("bookInstance", new BookInstanceRequestDto());
         model.addAttribute("books", bookFacade.findAll(request));
         model.addAttribute("statuses", StatusType.values());
@@ -72,7 +76,7 @@ public class BookInstanceController extends BaseControllerImpl<BookInstanceReque
 
     @Override
     @GetMapping("/edit/{id}")
-    public String redirectToEditPage(@PathVariable Long id, Model model, WebRequest request) {
+    public String redirectToEditPage(WebRequest request, @PathVariable Long id, Model model) {
         instancesId = id;
         BookInstanceResponseDto responseDto = bookInstanceFacade.findById(id);
         BookInstanceRequestDto requestDto = new BookInstanceRequestDto(responseDto);
@@ -114,7 +118,7 @@ public class BookInstanceController extends BaseControllerImpl<BookInstanceReque
 
     @Override
     @GetMapping("/details/{id}")
-    public String getEntityDetails(@PathVariable Long id, Model model) {
+    public String getEntityDetails(WebRequest request, @PathVariable Long id, Model model) {
         BookInstanceResponseDto dto = bookInstanceFacade.findById(id);
         model.addAttribute("bookInstance", dto);
         return "pages/bookInstances/bookInstances_details";

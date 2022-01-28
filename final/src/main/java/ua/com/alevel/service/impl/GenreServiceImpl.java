@@ -19,14 +19,10 @@ public class GenreServiceImpl implements GenreService {
 
     private final GenresDAO genresDAO;
     private final BooksDAO booksDAO;
-    private final AuthorsDAO authorsDAO;
-    private final BookInstancesDAO bookInstancesDAO;
 
-    public GenreServiceImpl(GenresDAO genresDAO, BooksDAO booksDAO, AuthorsDAO authorsDAO, BookInstancesDAO bookInstancesDAO) {
+    public GenreServiceImpl(GenresDAO genresDAO, BooksDAO booksDAO) {
         this.genresDAO = genresDAO;
         this.booksDAO = booksDAO;
-        this.authorsDAO = authorsDAO;
-        this.bookInstancesDAO = bookInstancesDAO;
     }
 
     @Override
@@ -64,12 +60,13 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public void deleteAllByForeignId(String s) {
-
-    }
-
-    @Override
-    public List<Genre> findAllByForeignId(String isbn) {
-        return genresDAO.findAllByForeignId(isbn);
+    public DataTableResponse<Genre> findAllByForeignId(DataTableRequest request, String isbn) {
+        if (booksDAO.existsById(isbn)) {
+            DataTableResponse<Genre> dataTableResponse = genresDAO.findAllByForeignId(request, isbn);
+            int count = genresDAO.foreignCount(isbn);
+            WebResponseUtil.initDataTableResponse(request, dataTableResponse, count);
+            return dataTableResponse;
+        }
+        return new DataTableResponse<>();
     }
 }

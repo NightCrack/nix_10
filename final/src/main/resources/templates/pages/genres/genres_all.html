@@ -14,7 +14,7 @@
         <td th:text="${column.count}"></td>
         <td th:text="${genre.getGenreType().name()}"></td>
         <td><a class="btn btn-link"
-               th:href="@{'/books/?genreId=' + ${genre.getId()}}"
+               th:href="@{'/books/genres/' + ${genre.getId()}}"
                th:text="${genre.getBooksCount()}"
                type="button">all books by genre</a></td>
         <td><a class="btn btn-primary"

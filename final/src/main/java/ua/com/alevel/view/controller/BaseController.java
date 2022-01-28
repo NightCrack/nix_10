@@ -9,13 +9,13 @@ import ua.com.alevel.view.dto.request.RequestDto;
 
 public interface BaseController<REQ extends RequestDto, ID> {
 
-    String findAll(Model model, WebRequest webRequest);
+    String findAll(WebRequest webRequest, Model model);
 
     ModelAndView findAllRedirect(WebRequest request, ModelMap model);
 
-    String redirectToNewEntityPage(Model model, WebRequest request);
+    String redirectToNewEntityPage(WebRequest request, Model model);
 
-    String redirectToEditPage(ID id, Model model, WebRequest request);
+    String redirectToEditPage(WebRequest request, ID id, Model model);
 
     String updateEntity(REQ reqDto);
 
@@ -23,5 +23,5 @@ public interface BaseController<REQ extends RequestDto, ID> {
 
     String deleteEntity(ID id);
 
-    String getEntityDetails(ID id, Model model);
+    String getEntityDetails(WebRequest request, ID id, Model model);
 }

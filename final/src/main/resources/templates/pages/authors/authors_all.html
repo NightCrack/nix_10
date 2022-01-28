@@ -15,7 +15,7 @@
         <td th:text="${author.getFirstName()}"></td>
         <td th:text="${author.getLastName()}"></td>
         <td><a class="btn btn-link"
-               th:href="@{'/books/?authorId=' + ${author.getId()}}"
+               th:href="@{'/books/authors/' + ${author.getId()}}"
                th:text="${author.getBooksCount()}"
                type="button">all books by author</a>
         </td>

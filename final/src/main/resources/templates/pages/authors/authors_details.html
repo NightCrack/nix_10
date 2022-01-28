@@ -48,7 +48,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="book : ${books}">
+                        <tr th:each="book : ${books.getItems()}">
                             <td><a th:href="@{'/books/details/' + ${book.getIsbn()}}"
                                    th:text="${book.getTitle()}"></a></td>
                         </tr>
