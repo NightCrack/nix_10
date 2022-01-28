@@ -49,7 +49,7 @@
         <module>hw_7_ionio</module>
         <module>custom_framework</module>
         <module>hw_8_web_jdbc</module>
-        <module>final</module>
+        <module>hw_final_project</module>
         <!--        <module>unit_10_ionio</module>-->
     </modules>
 
