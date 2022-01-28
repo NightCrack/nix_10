@@ -14,7 +14,6 @@ import ua.com.alevel.util.CustomResultSet;
 import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -127,22 +126,33 @@ public class BookInstancesDAOImpl extends BaseDaoImpl implements BookInstancesDA
     }
 
     @Override
-    public void deleteAllByForeignId(String s) {
-
+    public int foreignCount(String isbn) {
+        String filterOption = " where book_id = '" + isbn + "'";
+        return count(jpaConfig, "book_instances", filterOption);
     }
 
     @Override
-    public List<BookInstance> findAllByForeignId(String isbn) {
-        try (ResultSet resultSet = jpaConfig.getStatement().executeQuery(FIND_ALL_BOOK_INSTANCES_QUERY + "where b.isbn = '" + isbn + "'")) {
-            List<BookInstance> returnValue = new ArrayList<>();
+    public DataTableResponse<BookInstance> findAllByForeignId(DataTableRequest request, String isbn) {
+        List<BookInstance> bookInstances = new ArrayList<>();
+        int limit = (request.getCurrentPage() - 1) * request.getPageSize();
+        String query = FIND_ALL_BOOK_INSTANCES_QUERY +
+                "where b.isbn = '" + isbn + "'" +
+                "order by bi." +
+                request.getSort() + " " +
+                request.getOrder() + " limit " +
+                limit + "," +
+                request.getPageSize();
+        try (ResultSet resultSet = jpaConfig.getStatement().executeQuery(query)) {
             while (resultSet.next()) {
-                returnValue.add(convertResultSetToBookInstance(resultSet));
+                BookInstance authorResultSet = convertResultSetToBookInstance(resultSet);
+                bookInstances.add(authorResultSet);
             }
-            return returnValue;
-        } catch (SQLException exception) {
-            System.out.println("exception = " + exception);
-            return Collections.emptyList();
+        } catch (SQLException e) {
+            System.out.println("problem: = " + e.getMessage());
         }
+        DataTableResponse<BookInstance> dataTableResponse = new DataTableResponse<>();
+        dataTableResponse.setItems(bookInstances);
+        return dataTableResponse;
     }
 
     private BookInstance convertResultSetToBookInstance(ResultSet resultSet) throws SQLException {

@@ -57,6 +57,39 @@ public class GenreFacadeImpl implements GenreFacade {
     public PageData<GenreResponseDto> findAll(WebRequest request) {
         DataTableRequest dataTableRequest = WebRequestUtil.initDataTableRequest(request);
         DataTableResponse<Genre> all = genreService.findAll(dataTableRequest);
+//        List<GenreResponseDto> items = all.getItems()
+//                .stream()
+//                .map(GenreResponseDto::new)
+//                .peek(entity -> entity
+//                        .setBooksCount(all
+//                                .getOtherParamMap()
+//                                .get(entity.getId()).get(0)))
+//                .toList();
+//        PageData<GenreResponseDto> pageData = (PageData<GenreResponseDto>) WebResponseUtil.initPageData(all);
+//        pageData.setItems(items);
+        PageData<GenreResponseDto> pageData = findAllByResponse(all);
+        return pageData;
+    }
+
+    @Override
+    public PageData<GenreResponseDto> findAllByForeignId(WebRequest request, String isbn) {
+        DataTableRequest dataTableRequest = WebRequestUtil.initDataTableRequest(request);
+        DataTableResponse<Genre> all = genreService.findAllByForeignId(dataTableRequest, isbn);
+//        List<GenreResponseDto> items = all.getItems()
+//                .stream()
+//                .map(GenreResponseDto::new)
+//                .peek(entity -> entity
+//                        .setBooksCount(all
+//                                .getOtherParamMap()
+//                                .get(entity.getId()).get(0)))
+//                .toList();
+//        PageData<GenreResponseDto> pageData = (PageData<GenreResponseDto>) WebResponseUtil.initPageData(all);
+//        pageData.setItems(items);
+        PageData<GenreResponseDto> pageData = findAllByResponse(all);
+        return pageData;
+    }
+
+    private PageData<GenreResponseDto> findAllByResponse(DataTableResponse<Genre> all) {
         List<GenreResponseDto> items = all.getItems()
                 .stream()
                 .map(GenreResponseDto::new)
@@ -70,12 +103,4 @@ public class GenreFacadeImpl implements GenreFacade {
         return pageData;
     }
 
-    @Override
-    public List<GenreResponseDto> findAllByForeignId(String isbn) {
-        return genreService
-                .findAllByForeignId(isbn)
-                .stream()
-                .map(GenreResponseDto::new)
-                .toList();
-    }
 }

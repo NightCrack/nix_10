@@ -12,7 +12,6 @@ import ua.com.alevel.service.BookService;
 import ua.com.alevel.util.CustomResultSet;
 import ua.com.alevel.util.WebResponseUtil;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -21,13 +20,11 @@ public class BookServiceImpl implements BookService {
     private final BooksDAO booksDAO;
     private final AuthorsDAO authorsDAO;
     private final GenresDAO genresDAO;
-    private final BookInstancesDAO bookInstancesDAO;
 
-    public BookServiceImpl(BooksDAO booksDAO, AuthorsDAO authorsDAO, GenresDAO genresDAO, BookInstancesDAO bookInstancesDAO) {
+    public BookServiceImpl(BooksDAO booksDAO, AuthorsDAO authorsDAO, GenresDAO genresDAO) {
         this.booksDAO = booksDAO;
         this.authorsDAO = authorsDAO;
         this.genresDAO = genresDAO;
-        this.bookInstancesDAO = bookInstancesDAO;
     }
 
     @Override
@@ -73,32 +70,24 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void deleteAllByForeignId(Long authorId) {
-//        if (authorsDAO.existsById(authorId)) {
-//            booksDAO.deleteAllByForeignId(authorId);
-//        }
-    }
-
-    @Override
-    public List<Book> findAllByForeignId(Long authorId) {
+    public DataTableResponse<Book> findAllByForeignId(DataTableRequest request, Long authorId) {
         if (authorsDAO.existsById(authorId)) {
-            return booksDAO.findAllByForeignId(authorId);
+            DataTableResponse<Book> dataTableResponse = booksDAO.findAllByForeignId(request, authorId);
+            int count = booksDAO.foreignCount(authorId);
+            WebResponseUtil.initDataTableResponse(request, dataTableResponse, count);
+            return dataTableResponse;
         }
-        return Collections.emptyList();
+        return new DataTableResponse<>();
     }
 
     @Override
-    public void deleteAllBySecondForeignId(Long genreId) {
-//        if (genresDAO.existsById(genreId)) {
-//            booksDAO.deleteAllBySecondForeignId(genreId);
-//        }
-    }
-
-    @Override
-    public List<Book> findAllBySecondForeignId(Long genreId) {
+    public DataTableResponse<Book> findAllBySecondForeignId(DataTableRequest request, Long genreId) {
         if (genresDAO.existsById(genreId)) {
-            return booksDAO.findAllBySecondForeignId(genreId);
+            DataTableResponse<Book> dataTableResponse = booksDAO.findAllBySecondForeignId(request, genreId);
+            int count = booksDAO.secondForeignCount(genreId);
+            WebResponseUtil.initDataTableResponse(request, dataTableResponse, count);
+            return dataTableResponse;
         }
-        return Collections.emptyList();
+        return new DataTableResponse<>();
     }
 }

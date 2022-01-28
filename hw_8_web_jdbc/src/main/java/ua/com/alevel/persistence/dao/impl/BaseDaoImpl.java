@@ -9,7 +9,12 @@ import java.sql.SQLException;
 public abstract class BaseDaoImpl {
 
     public int count(JpaConfig jpaConfig, String tableName) {
-        try (ResultSet resultSet = jpaConfig.getStatement().executeQuery("select count(*) as number from " + tableName)) {
+        return count(jpaConfig, tableName, "");
+    }
+
+    public int count(JpaConfig jpaConfig, String tableName, String filterOption) {
+        String query = "select count(*) as number from " + tableName + filterOption;
+        try (ResultSet resultSet = jpaConfig.getStatement().executeQuery(query)) {
             if (resultSet.next()) {
                 return resultSet.getInt("number");
             }

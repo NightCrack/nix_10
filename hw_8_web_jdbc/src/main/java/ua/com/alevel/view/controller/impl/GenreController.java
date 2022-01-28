@@ -9,14 +9,14 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.com.alevel.facade.BookFacade;
 import ua.com.alevel.facade.GenreFacade;
 import ua.com.alevel.type.GenreType;
-import ua.com.alevel.view.controller.BaseController;
+import ua.com.alevel.view.controller.DependentController;
 import ua.com.alevel.view.dto.request.GenreRequestDto;
 import ua.com.alevel.view.dto.response.GenreResponseDto;
 import ua.com.alevel.view.dto.response.PageData;
 
 @Controller
 @RequestMapping("/genres")
-public class GenreController extends BaseControllerImpl<GenreRequestDto, Long> implements BaseController<GenreRequestDto, Long> {
+public class GenreController extends BaseControllerImpl<GenreRequestDto, Long> implements DependentController<GenreRequestDto, Long, String> {
 
     private static Long genreId;
     private final GenreFacade genreFacade;
@@ -36,13 +36,29 @@ public class GenreController extends BaseControllerImpl<GenreRequestDto, Long> i
 
     @Override
     @GetMapping
-    public String findAll(Model model, WebRequest request) {
+    public String findAll(WebRequest request, Model model) {
         PageData<GenreResponseDto> response = genreFacade.findAll(request);
         initDataTable(response, columnNames, model);
         model.addAttribute("createUrl", "/genres/all");
         model.addAttribute("createNew", "/genres/new");
         model.addAttribute("cardHeader", "Genres");
         return "pages/genres/genres_all";
+    }
+
+    @Override
+    @GetMapping("/books/{isbn}")
+    public String findAllByEntity(WebRequest request, @PathVariable String isbn, Model model) {
+        PageData<GenreResponseDto> response = genreFacade.findAllByForeignId(request, isbn);
+        initDataTable(response, columnNames, model);
+        model.addAttribute("createUrl", "/genres/all");
+        model.addAttribute("createNew", "/genres/new");
+        model.addAttribute("cardHeader", "Genres");
+        return "pages/genres/genres_all";
+    }
+
+    @Override
+    public String redirectToNewEntityPageWithParentId(String s, Model model) {
+        return null;
     }
 
     @Override
@@ -53,7 +69,7 @@ public class GenreController extends BaseControllerImpl<GenreRequestDto, Long> i
 
     @Override
     @GetMapping("/new")
-    public String redirectToNewEntityPage(Model model, WebRequest request) {
+    public String redirectToNewEntityPage(WebRequest request, Model model) {
         model.addAttribute("genre", new GenreRequestDto());
         model.addAttribute("types", GenreType.values());
         return "pages/genres/genres_new";
@@ -61,7 +77,7 @@ public class GenreController extends BaseControllerImpl<GenreRequestDto, Long> i
 
     @Override
     @GetMapping("/edit/{id}")
-    public String redirectToEditPage(@PathVariable Long id, Model model, WebRequest request) {
+    public String redirectToEditPage(WebRequest request, @PathVariable Long id, Model model) {
         genreId = id;
         GenreResponseDto responseDto = genreFacade.findById(id);
         GenreRequestDto requestDto = new GenreRequestDto(responseDto);
@@ -95,10 +111,10 @@ public class GenreController extends BaseControllerImpl<GenreRequestDto, Long> i
 
     @Override
     @GetMapping("/details/{id}")
-    public String getEntityDetails(@PathVariable Long id, Model model) {
+    public String getEntityDetails(WebRequest request, @PathVariable Long id, Model model) {
         GenreResponseDto dto = genreFacade.findById(id);
         model.addAttribute("genre", dto);
-        model.addAttribute("books", bookFacade.findAllBySecondForeignId(id));
+        model.addAttribute("books", bookFacade.findAllBySecondForeignId(request, id));
         return "pages/genres/genres_details";
     }
 }

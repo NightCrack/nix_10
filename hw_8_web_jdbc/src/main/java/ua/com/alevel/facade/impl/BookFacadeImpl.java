@@ -63,6 +63,44 @@ public class BookFacadeImpl implements BookFacade {
     public PageData<BookResponseDto> findAll(WebRequest request) {
         DataTableRequest dataTableRequest = WebRequestUtil.initDataTableRequest(request);
         DataTableResponse<Book> all = bookService.findAll(dataTableRequest);
+        PageData<BookResponseDto> pageData = findAllByResponse(all);
+//        List<BookResponseDto> items = all.getItems()
+//                .stream()
+//                .map(BookResponseDto::new)
+//                .peek(entity -> {
+//                    entity.setAuthorsCount(all
+//                            .getOtherParamMap()
+//                            .get(entity.getIsbn()).get(0));
+//                    entity.setGenresCount(all
+//                            .getOtherParamMap()
+//                            .get(entity.getIsbn()).get(1));
+//                    entity.setBookInstancesCount(all
+//                            .getOtherParamMap()
+//                            .get(entity.getIsbn()).get(2));
+//                })
+//                .toList();
+//        PageData<BookResponseDto> pageData = (PageData<BookResponseDto>) WebResponseUtil.initPageData(all);
+//        pageData.setItems(items);
+        return pageData;
+    }
+
+    @Override
+    public PageData<BookResponseDto> findAllByForeignId(WebRequest request, Long authorId) {
+        DataTableRequest dataTableRequest = WebRequestUtil.initDataTableRequest(request);
+        DataTableResponse<Book> all = bookService.findAllByForeignId(dataTableRequest, authorId);
+        PageData<BookResponseDto> pageData = findAllByResponse(all);
+        return pageData;
+    }
+
+    @Override
+    public PageData<BookResponseDto> findAllBySecondForeignId(WebRequest request, Long genreId) {
+        DataTableRequest dataTableRequest = WebRequestUtil.initDataTableRequest(request);
+        DataTableResponse<Book> all = bookService.findAllBySecondForeignId(dataTableRequest, genreId);
+        PageData<BookResponseDto> pageData = findAllByResponse(all);
+        return pageData;
+    }
+
+    private PageData<BookResponseDto> findAllByResponse(DataTableResponse<Book> all) {
         List<BookResponseDto> items = all.getItems()
                 .stream()
                 .map(BookResponseDto::new)
@@ -81,21 +119,5 @@ public class BookFacadeImpl implements BookFacade {
         PageData<BookResponseDto> pageData = (PageData<BookResponseDto>) WebResponseUtil.initPageData(all);
         pageData.setItems(items);
         return pageData;
-    }
-
-    @Override
-    public List<BookResponseDto> findAllByForeignId(Long authorId) {
-        return generateDtoListByEntities(bookService.findAllByForeignId(authorId));
-    }
-
-    @Override
-    public List<BookResponseDto> findAllBySecondForeignId(Long genreId) {
-        return generateDtoListByEntities(bookService.findAllBySecondForeignId(genreId));
-    }
-
-    private List<BookResponseDto> generateDtoListByEntities(List<Book> list) {
-        return list.stream()
-                .map(BookResponseDto::new)
-                .toList();
     }
 }
