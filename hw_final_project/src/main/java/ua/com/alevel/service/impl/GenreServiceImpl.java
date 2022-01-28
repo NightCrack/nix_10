@@ -1,8 +1,6 @@
 package ua.com.alevel.service.impl;
 
 import org.springframework.stereotype.Service;
-import ua.com.alevel.persistence.dao.AuthorsDAO;
-import ua.com.alevel.persistence.dao.BookInstancesDAO;
 import ua.com.alevel.persistence.dao.BooksDAO;
 import ua.com.alevel.persistence.dao.GenresDAO;
 import ua.com.alevel.persistence.datatable.DataTableRequest;
@@ -34,7 +32,8 @@ public class GenreServiceImpl implements GenreService {
     public void update(CustomResultSet<Genre> customResultSet) {
         Long id = customResultSet.getEntity().getId();
         List<String> isbnList = (List<String>) customResultSet.getParams().get(0);
-        if (genresDAO.existsById(id) && isbnList.stream().allMatch(booksDAO::existsById)) {
+        if (genresDAO.existsById(id) &&
+                (isbnList.isEmpty() || isbnList.stream().allMatch(booksDAO::existsById))) {
             genresDAO.update(customResultSet);
         }
     }

@@ -19,8 +19,7 @@ public final class Book extends BaseEntity {
 
     public Book(BookRequestDto bookRequestDto) {
         isbn = bookRequestDto.getIsbn();
-//        imageUrl = bookRequestDto.getBookImage().getOriginalFilename();
-        imageUrl = "";
+        imageUrl = bookRequestDto.getImageUrl();
         title = bookRequestDto.getTitle();
         publicationDate = bookRequestDto.getPublicationDate();
         pagesNumber = bookRequestDto.getPagesNumber();

@@ -57,6 +57,15 @@
                                    th:field="*{title}"
                                    type="text"/>
                         </div>
+                        <img height="200" th:src="@{${book.getImageUrl()}}" width="100" alt="book's image"/>
+                        <div class="form-group">
+                            <label for="imageUrl">URL:</label>
+                            <input class="form-control"
+                                   id="imageUrl"
+                                   name="imageUrl"
+                                   placeholder="Input image url"
+                                   th:field="*{imageUrl}"/>
+                        </div>
                         <div class="form-group">
                             <label for="publicationDate">Publication date</label>
                             <input class="form-control"
@@ -82,6 +91,12 @@
                         </div>
                         <button class="btn btn-primary" type="submit">Submit</button>
                     </form>
+                    <!--<form action="#"
+                          method="post"
+                          th:action="@{transmit/upload}"
+                          th:object="${file}">
+                        <button class="btn btn-primary" type="submit">Upload image</button>
+                    </form>-->
                 </div>
             </div>
         </div>

@@ -29,10 +29,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void create(CustomResultSet<Book> customResultSet) {
-        List<Long> authorsId = (List<Long>) customResultSet.getParams().get(0);
-        List<Long> genresId = (List<Long>) customResultSet.getParams().get(1);
-        if (authorsId.stream().allMatch(authorsDAO::existsById) &&
-                genresId.stream().allMatch(genresDAO::existsById)) {
+        List<Long> authorsIds = (List<Long>) customResultSet.getParams().get(0);
+        List<Long> genresIds = (List<Long>) customResultSet.getParams().get(1);
+        if ((authorsIds.isEmpty() || authorsIds.stream().allMatch(authorsDAO::existsById)) &&
+                (genresIds.isEmpty() || genresIds.stream().allMatch(genresDAO::existsById))) {
             booksDAO.create(customResultSet);
         }
     }
@@ -43,8 +43,8 @@ public class BookServiceImpl implements BookService {
         List<Long> authorsIds = (List<Long>) customResultSet.getParams().get(0);
         List<Long> genresIds = (List<Long>) customResultSet.getParams().get(1);
         if (booksDAO.existsById(isbn) &&
-                authorsIds.stream().allMatch(authorsDAO::existsById) &&
-                genresIds.stream().allMatch(genresDAO::existsById)) {
+                (authorsIds.isEmpty() || authorsIds.stream().allMatch(authorsDAO::existsById)) &&
+                (genresIds.isEmpty() || genresIds.stream().allMatch(genresDAO::existsById))) {
             booksDAO.update(customResultSet);
         }
     }

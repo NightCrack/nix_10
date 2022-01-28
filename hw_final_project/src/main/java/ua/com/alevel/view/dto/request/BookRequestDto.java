@@ -10,6 +10,7 @@ public class BookRequestDto extends RequestDto {
 
     private String isbn;
     private MultipartFile bookImage;
+    private String imageUrl;
     private String title;
     private Date publicationDate;
     private Integer pagesNumber;
@@ -23,6 +24,7 @@ public class BookRequestDto extends RequestDto {
     public BookRequestDto(BookResponseDto responseDto) {
         this.isbn = responseDto.getIsbn();
         this.bookImage = null;
+        this.imageUrl = responseDto.getImageUrl();
         this.title = responseDto.getTitle();
         this.publicationDate = responseDto.getPublicationDate();
         this.pagesNumber = responseDto.getPagesNumber();
@@ -59,6 +61,14 @@ public class BookRequestDto extends RequestDto {
 
     public void setBookImage(MultipartFile bookImage) {
         this.bookImage = bookImage;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getTitle() {

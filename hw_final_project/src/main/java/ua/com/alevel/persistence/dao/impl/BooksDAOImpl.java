@@ -190,6 +190,7 @@ public class BooksDAOImpl extends BaseDaoImpl implements BooksDAO {
             preparedStatement.setLong(++index, book.getPublicationDate().getTime());
             preparedStatement.setInt(++index, book.getPagesNumber());
             preparedStatement.setString(++index, book.getSummary());
+            preparedStatement.addBatch();
             if (!(createWithAuthorRelationsQuery.isBlank())) {
                 preparedStatement.addBatch(createWithAuthorRelationsQuery);
             }

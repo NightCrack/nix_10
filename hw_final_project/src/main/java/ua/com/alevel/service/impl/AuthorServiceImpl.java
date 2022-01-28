@@ -33,7 +33,7 @@ public class AuthorServiceImpl implements AuthorService {
         Long id = customResultSet.getEntity().getId();
         List<String> isbnList = (List<String>) customResultSet.getParams().get(0);
         if (authorsDAO.existsById(id) &&
-                isbnList.stream().allMatch(booksDAO::existsById)) {
+                (isbnList.isEmpty() || isbnList.stream().allMatch(booksDAO::existsById))) {
             authorsDAO.update(customResultSet);
         }
     }
