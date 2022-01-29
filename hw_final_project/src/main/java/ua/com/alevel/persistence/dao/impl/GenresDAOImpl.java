@@ -21,12 +21,14 @@ public class GenresDAOImpl extends BaseDaoImpl implements GenresDAO {
 
     private final String CREATE_GENRE_QUERY = "insert into genres values(default, ?, ?, ?, ?)";
     private final String UPDATE_GENRE_QUERY = "update genres set updated = ?, visible = ?, genre_type = ? where id = ";
+    private final String FIND_ALL_GENRES_QUERY_SELECT = "select id, created, updated, visible, " +
+            "genre_type, count(gb.book_isbn) as books from ";
+    private final String FIND_ALL_GENRES_QUERY_BODY = "genres as g " +
+            "left join genre_book as gb on " +
+            "g.id = gb.genre_id ";
     private final String FIND_ALL_GENRES_QUERY =
-            "select id, created, updated, visible, " +
-                    "genre_type, count(gb.book_isbn) as books " +
-                    "from genres as g " +
-                    "left join genre_book as gb on " +
-                    "g.id = gb.genre_id ";
+            FIND_ALL_GENRES_QUERY_SELECT +
+                    FIND_ALL_GENRES_QUERY_BODY;
     private final JpaConfig jpaConfig;
 
     public GenresDAOImpl(JpaConfig jpaConfig) {
@@ -99,11 +101,11 @@ public class GenresDAOImpl extends BaseDaoImpl implements GenresDAO {
             preparedStatement.setBoolean(++index, genre.getVisible());
             preparedStatement.setString(++index, genre.getGenreType().name());
             preparedStatement.addBatch();
-            if (!createRelationsQuery.isBlank()) {
-                preparedStatement.addBatch(createRelationsQuery);
-            }
             if (!deleteRelationsQuery.isBlank()) {
                 preparedStatement.addBatch(deleteRelationsQuery);
+            }
+            if (!createRelationsQuery.isBlank()) {
+                preparedStatement.addBatch(createRelationsQuery);
             }
             preparedStatement.executeBatch();
         } catch (SQLException exception) {
@@ -171,7 +173,7 @@ public class GenresDAOImpl extends BaseDaoImpl implements GenresDAO {
                 "as gb on genres.id = gb.genre_id " +
                 "where gb.book_isbn = '" + isbn +
                 "' group by gb.book_isbn";
-        return count(jpaConfig, "genres",filterOption);
+        return count(jpaConfig, "genres", filterOption);
     }
 
     private CustomResultSet<Genre> convertResultSetToGenre(ResultSet resultSet) throws SQLException {
@@ -196,9 +198,13 @@ public class GenresDAOImpl extends BaseDaoImpl implements GenresDAO {
         List<Genre> genres = new ArrayList<>();
         Map<Object, List<Integer>> otherParamMap = new HashMap<>();
         int limit = (request.getCurrentPage() - 1) * request.getPageSize();
-        String query = FIND_ALL_GENRES_QUERY +
-                "where book_isbn = '" +
-                isbn + "' group by g.id order by " +
+        String query = FIND_ALL_GENRES_QUERY_SELECT + "((" +
+                FIND_ALL_GENRES_QUERY_BODY +
+                ") left join genre_book as gb1 on g.id = gb1.genre_id)" +
+                "where gb1.book_isbn = '" +
+                isbn + "' " +
+                "group by g.id " +
+                "order by " +
                 request.getSort() + " " +
                 request.getOrder() + " limit " +
                 limit + "," +

@@ -19,13 +19,16 @@ public class AuthorsDAOImpl extends BaseDaoImpl implements AuthorsDAO {
     private final JpaConfig jpaConfig;
     private final String CREATE_AUTHOR_QUERY = "insert into authors values (default,?,?,?,?,?,?,?)";
     private final String UPDATE_AUTHOR_QUERY = "update authors set updated = ?, visible = ?, first_name = ?, last_name = ?, birth_date = ?, death_date = ? where id = ";
+    private final String FIND_ALL_AUTHORS_QUERY_SELECT = "select id, created, updated, visible, " +
+            "first_name, last_name, birth_date, " +
+            "death_date, count(ab.book_isbn) " +
+            "as books from ";
+    private final String FIND_ALL_AUTHORS_QUERY_BODY = "authors as au " +
+            "left join author_book as ab on" +
+            " au.id = ab.author_id ";
     private final String FIND_ALL_AUTHORS_QUERY =
-            "select id, created, updated, visible, " +
-                    "first_name, last_name, birth_date, " +
-                    "death_date, count(ab.book_isbn) " +
-                    "as books from authors as au " +
-                    "left join author_book as ab on" +
-                    " au.id = ab.author_id ";
+            FIND_ALL_AUTHORS_QUERY_SELECT +
+                    FIND_ALL_AUTHORS_QUERY_BODY;
 
     public AuthorsDAOImpl(JpaConfig jpaConfig) {
         this.jpaConfig = jpaConfig;
@@ -103,11 +106,11 @@ public class AuthorsDAOImpl extends BaseDaoImpl implements AuthorsDAO {
             preparedStatement.setLong(++index, author.getBirthDate().getTime());
             preparedStatement.setLong(++index, author.getDeathDate().getTime());
             preparedStatement.addBatch();
-            if (!createRelationsQuery.isBlank()) {
-                preparedStatement.addBatch(createRelationsQuery);
-            }
             if (!deleteRelationsQuery.isBlank()) {
                 preparedStatement.addBatch(deleteRelationsQuery);
+            }
+            if (!createRelationsQuery.isBlank()) {
+                preparedStatement.addBatch(createRelationsQuery);
             }
             preparedStatement.executeBatch();
         } catch (SQLException exception) {
@@ -215,8 +218,11 @@ public class AuthorsDAOImpl extends BaseDaoImpl implements AuthorsDAO {
         List<Author> authors = new ArrayList<>();
         Map<Object, List<Integer>> otherParamMap = new HashMap<>();
         int limit = (request.getCurrentPage() - 1) * request.getPageSize();
-        String query = FIND_ALL_AUTHORS_QUERY +
-                "where book_isbn = '" + isbn + "'" +
+        String query = FIND_ALL_AUTHORS_QUERY_SELECT + "((" +
+                FIND_ALL_AUTHORS_QUERY_BODY +
+                ") left join author_book as ab1 on au.id = ab1.author_id)" +
+                "where ab1.book_isbn = '" +
+                isbn + "' " +
                 "group by au.id " +
                 "order by " +
                 request.getSort() + " " +

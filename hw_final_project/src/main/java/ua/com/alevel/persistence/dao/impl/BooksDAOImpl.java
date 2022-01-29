@@ -24,17 +24,17 @@ public class BooksDAOImpl extends BaseDaoImpl implements BooksDAO {
     private final String UPDATE_BOOK_QUERY = "update books set " +
             "updated = ?, visible = ?, image_url = ?, title = ?, " +
             "publication_date = ?, pages_number = ?, summary = ? where isbn = '";
-    private final String FIND_ALL_BOOKS_QUERY =
-            "select isbn, b.created, b.updated, b.visible, " +
-                    "image_url, title, publication_date, pages_number, " +
-                    "summary, count(distinct author_id) as authors, " +
-                    "count(distinct genre_id) as genres, " +
-                    "count(distinct bi.id) as instances from " +
-                    "(books as b left join author_book as ab on " +
-                    "(b.isbn = ab.book_isbn) left join genre_book " +
-                    "as gb on (b.isbn = gb.book_isbn)) " +
-                    "left join book_instances as bi on " +
-                    "(b.isbn = bi.book_id or bi.book_id is null) ";
+    private final String FIND_ALL_BOOKS_QUERY_SELECT = "select isbn, b.created, b.updated, b.visible, " +
+            "image_url, title, publication_date, pages_number, " +
+            "summary, count(distinct ab.author_id) as authors, " +
+            "count(distinct gb.genre_id) as genres, " +
+            "count(distinct bi.id) as instances from ";
+    private final String FIND_ALL_BOOKS_QUERY_BODY = "(books as b left join author_book as ab on " +
+            "(b.isbn = ab.book_isbn) left join genre_book " +
+            "as gb on (b.isbn = gb.book_isbn)) " +
+            "left join book_instances as bi on " +
+            "(b.isbn = bi.book_id or bi.book_id is null) ";
+    private final String FIND_ALL_BOOKS_QUERY = FIND_ALL_BOOKS_QUERY_SELECT + FIND_ALL_BOOKS_QUERY_BODY;
 
     public BooksDAOImpl(JpaConfig jpaConfig) {
         this.jpaConfig = jpaConfig;
@@ -192,16 +192,16 @@ public class BooksDAOImpl extends BaseDaoImpl implements BooksDAO {
             preparedStatement.setString(++index, book.getSummary());
             preparedStatement.addBatch();
             if (!(createWithAuthorRelationsQuery.isBlank())) {
+                if (!(deleteWithAuthorRelationsQuery.isBlank())) {
+                    preparedStatement.addBatch(deleteWithAuthorRelationsQuery);
+                }
                 preparedStatement.addBatch(createWithAuthorRelationsQuery);
-            }
-            if (!(deleteWithAuthorRelationsQuery.isBlank())) {
-                preparedStatement.addBatch(deleteWithAuthorRelationsQuery);
-            }
-            if (!(createWithGenreRelationsQuery.isBlank())) {
-                preparedStatement.addBatch(createWithGenreRelationsQuery);
             }
             if (!(deleteWithGenreRelationsQuery.isBlank())) {
                 preparedStatement.addBatch(deleteWithGenreRelationsQuery);
+            }
+            if (!(createWithGenreRelationsQuery.isBlank())) {
+                preparedStatement.addBatch(createWithGenreRelationsQuery);
             }
             preparedStatement.executeBatch();
         } catch (SQLException exception) {
@@ -232,6 +232,27 @@ public class BooksDAOImpl extends BaseDaoImpl implements BooksDAO {
     }
 
     @Override
+    public int count() {
+        return count(jpaConfig, "books");
+    }
+
+    @Override
+    public int foreignCount(Long authorId) {
+        String filterOption = " left join author_book as ab " +
+                "on books.isbn = ab.book_isbn where ab.author_id = " +
+                authorId + " group by author_id";
+        return count(jpaConfig, "books", filterOption);
+    }
+
+    @Override
+    public int secondForeignCount(Long genreId) {
+        String filterOption = " left join genre_book as gb " +
+                "on books.isbn = gb.book_isbn where gb.genre_id = " +
+                genreId + " group by genre_id";
+        return count(jpaConfig, "books", filterOption);
+    }
+
+    @Override
     public DataTableResponse<Book> findAll(DataTableRequest request) {
         List<Book> books = new ArrayList<>();
         Map<Object, List<Integer>> otherParamMap = new HashMap<>();
@@ -259,33 +280,14 @@ public class BooksDAOImpl extends BaseDaoImpl implements BooksDAO {
     }
 
     @Override
-    public int count() {
-        return count(jpaConfig, "books");
-    }
-
-    @Override
-    public int foreignCount(Long authorId) {
-        String filterOption = " left join author_book as ab " +
-                "on books.isbn = ab.book_isbn where ab.author_id = " +
-                authorId + " group by author_id";
-        return count(jpaConfig, "books", filterOption);
-    }
-
-    @Override
-    public int secondForeignCount(Long genreId) {
-        String filterOption = " left join genre_book as gb " +
-                "on books.isbn = gb.book_isbn where gb.genre_id = " +
-                genreId + " group by genre_id";
-        return count(jpaConfig, "books", filterOption);
-    }
-
-    @Override
     public DataTableResponse<Book> findAllByForeignId(DataTableRequest request, Long authorId) {
         List<Book> books = new ArrayList<>();
         Map<Object, List<Integer>> otherParamMap = new HashMap<>();
         int limit = (request.getCurrentPage() - 1) * request.getPageSize();
-        String query = FIND_ALL_BOOKS_QUERY +
-                "where ab.author_id = " +
+        String query = FIND_ALL_BOOKS_QUERY_SELECT + "((" +
+                FIND_ALL_BOOKS_QUERY_BODY +
+                ") left join author_book as ab1 on b.isbn = ab1.book_isbn)" +
+                "where ab1.author_id = " +
                 authorId +
                 " group by b.isbn " +
                 "order by " +
@@ -313,8 +315,10 @@ public class BooksDAOImpl extends BaseDaoImpl implements BooksDAO {
         List<Book> books = new ArrayList<>();
         Map<Object, List<Integer>> otherParamMap = new HashMap<>();
         int limit = (request.getCurrentPage() - 1) * request.getPageSize();
-        String query = FIND_ALL_BOOKS_QUERY +
-                "where gb.genre_id = " +
+        String query = FIND_ALL_BOOKS_QUERY_SELECT + "((" +
+                FIND_ALL_BOOKS_QUERY_BODY +
+                ") left join genre_book as gb1 on b.isbn = gb1.book_isbn)" +
+                "where gb1.genre_id = " +
                 genreId +
                 " group by b.isbn " +
                 "order by " +

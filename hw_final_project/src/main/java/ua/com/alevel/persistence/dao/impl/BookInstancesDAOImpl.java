@@ -24,13 +24,17 @@ public class BookInstancesDAOImpl extends BaseDaoImpl implements BookInstancesDA
     private final String UPDATE_BOOK_INSTANCE_QUERY = "update book_instances set " +
             "updated = ?, visible = ?, imprint = ?, publishing_date = ?, " +
             "country_code = ?, due_back = ?, status = ?, book_id = ? where id = ";
+    private final String FIND_ALL_BOOK_INSTANCES_QUERY_SELECT = "select id, bi.created, bi.updated, bi.visible, " +
+            "imprint, publishing_date, country_code, due_back, " +
+            "status, book_id, isbn, b.created, b.updated, b.visible, " +
+            "image_url, title, publication_date, pages_number, " +
+            "summary from ";
+    private final String FIND_ALL_BOOK_INSTANCES_QUERY_BODY = "book_instances as bi " +
+            "inner join books as b on bi.book_id = b.isbn ";
     private final String FIND_ALL_BOOK_INSTANCES_QUERY =
-            "select id, bi.created, bi.updated, bi.visible, " +
-                    "imprint, publishing_date, country_code, due_back, " +
-                    "status, book_id, isbn, b.created, b.updated, b.visible, " +
-                    "image_url, title, publication_date, pages_number, " +
-                    "summary from book_instances as bi " +
-                    "inner join books as b on bi.book_id = b.isbn ";
+            FIND_ALL_BOOK_INSTANCES_QUERY_SELECT +
+            FIND_ALL_BOOK_INSTANCES_QUERY_BODY;
+
 
     public BookInstancesDAOImpl(JpaConfig jpaConfig) {
         this.jpaConfig = jpaConfig;

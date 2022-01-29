@@ -13,11 +13,11 @@
 
     <groupId>ua.com.alevel</groupId>
 
-    <artifactId>final</artifactId>
+    <artifactId>hw_final_project</artifactId>
 
     <version>0.0.1</version>
 
-    <name>final</name>
+    <name>hw_final_project</name>
 
     <description>Demo project for Spring Boot</description>
 
