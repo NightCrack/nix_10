@@ -17,7 +17,8 @@
                 <div class="card-header">Details: Book instance
                     <a class="btn btn-primary"
                        th:href="@{'/bookInstances/edit/' + ${bookInstance.getId()}}"
-                       type="button">Edit</a></div>
+                       type="button">Edit</a>
+                </div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <tr>
@@ -47,7 +48,7 @@
                         </tr>
                     </table>
                     <hr>
-                    <a class="btn btn-primary" th:href="@{'/books/details/' + ${bookInstance.getBook().getIsbn()}}"
+                    <a class="btn btn-outline-secondary" th:href="@{'/books/details/' + ${bookInstance.getBook().getIsbn()}}"
                        type="button">Book</a>
                 </div>
             </div>

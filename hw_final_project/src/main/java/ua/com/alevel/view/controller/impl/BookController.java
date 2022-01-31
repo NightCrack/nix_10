@@ -102,7 +102,9 @@ public class BookController extends BaseControllerImpl<BookRequestDto, String> i
         BookRequestDto requestDto = new BookRequestDto(responseDto);
         model.addAttribute("book", requestDto);
         model.addAttribute("authors", authorFacade.findAll(request));
+        model.addAttribute("currentAuthors", authorFacade.findAllByForeignId(request,isbn));
         model.addAttribute("genres", genreFacade.findAll(request));
+        model.addAttribute("currentGenres", genreFacade.findAllByForeignId(request,isbn));
 //        model.addAttribute("file", new Object());
         return "/pages/books/books_edit";
     }

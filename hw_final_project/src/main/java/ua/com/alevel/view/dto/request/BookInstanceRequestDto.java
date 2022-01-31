@@ -28,6 +28,10 @@ public class BookInstanceRequestDto extends RequestWithIdDto {
         this.bookIsbn = responseDto.getBook().getIsbn();
     }
 
+    public BookInstanceRequestDto(String isbn) {
+        this.bookIsbn = isbn;
+    }
+
     public String getBookIsbn() {
         return bookIsbn;
     }

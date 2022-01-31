@@ -11,12 +11,32 @@
 
 <div layout:fragment="content">
 
-    <div class="row">
+    <div class="row-auto">
         <div class="col-12">
             <div class="card mb-2 mt-2">
-                <div class="card-header" th:text="${cardHeader}">All</div>
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                        <li class="nav-item myTab">
+                            <a class="nav-link"
+                               th:href="@{/genres}">Genres</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               th:href="@{/authors}">Authors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               th:href="@{/books}">Books</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               aria-current="true"
+                               th:href="@{/bookInstances}">Book Instances</a>
+                        </li>
+                    </ul>
+                </div>
                 <div class="card-body">
-                    <table class="table table-sm table-hover">
+                    <table class="table">
                         <thead>
                         <tr>
                             <th th:each="columnHeader : ${headerDataList}">
@@ -62,17 +82,21 @@
                         </div>
                         <div class="p-1">
                             <div class="dropdown dropup">
-                                <button aria-expanded="false" aria-haspopup="true"
-                                        class="btn btn-primary dropdown-toggle"
-                                        data-toggle="dropdown" id="dropdownMenuLink" type="button">
+                                <button class="btn btn-sm dropdown-toggle"
+                                        type="button"
+                                        id="dropdownMenuLink"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
                                     <span th:text="${pageData.getPageSize()}"></span>
                                 </button>
-                                <div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
-                                    <section th:each="size : ${pageData.getPageSizeItems()}">
-                                        <a class="dropdown-item" href="#" th:onclick="|runPagination(1, ${size}, 0)|"
-                                           th:text="${size}">@size</a>
-                                    </section>
-                                </div>
+                                <ul class="dropdown-menu"
+                                    aria-labelledby="dropdownMenuLink">
+                                    <li th:each="size : ${pageData.getPageSizeItems()}">
+                                        <a class="dropdown-item"
+                                           href="#"
+                                           th:text="${size}"
+                                           th:onclick="runPagination(1, ${size}, 0)">@size</a></li>
+                                </ul>
                             </div>
                         </div>
                         <div class="p-1" style="margin-top: 1em !important;">
@@ -88,7 +112,8 @@
                                        title="Previous Page"><i class="fa fa-backward"></i></a>
                                 </li>
                                 <li class="page-item disabled">
-                                    <a class="page-link" href="" th:text="${pageData.getCurrentPage()}">@Model.currentPage</a>
+                                    <a class="page-link" href=""
+                                       th:text="${pageData.getCurrentPage()}">@Model.currentPage</a>
                                 </li>
                                 <li class="page-item" th:classappend="${pageData.isShowNext() ? '' : 'disabled'}">
                                     <a class="page-link" href="#"
@@ -103,39 +128,40 @@
                             </ul>
                         </div>
                         <div class="p-1">
-                            <a class="page-link btn btn-secondary" href="#"
+                            <a class="page-link btn" href="#"
                                th:onclick="|runPagination(${pageData.getCurrentPage()}, ${pageData.getPageSize()}, 0)|"
                                title="Refresh Page"><i class="fa fa-refresh"></i></a>
                         </div>
                         <div class="p-1">
-                            <a class="page-link btn btn-secondary" href="#" onclick="runPagination(1, 10, 0)"
+                            <a class="page-link btn" href="#" onclick="runPagination(1, 10, 0)"
                                title="Reset Page"><i class="fa fa-trash"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-12">
-            <div class="card mt-2 mb-2">
-                <div class="card-header">
-                    <a class="btn btn-primary" th:href="@{${createNew}}" type="button">Add</a>
-                </div>
+    </div>
+    <div class="col-12">
+        <div class="card mt-2 mb-2">
+            <div class="card-header">
+                <a class="btn btn-outline-success" th:href="@{${createNew}}" type="button">Add</a>
             </div>
         </div>
     </div>
+</div>
 
-    <form id="personalSearch" method="POST" th:action="@{${createUrl}}">
-        <input id="personalSearchSubmit"
-               style="visibility: hidden"
-               type="submit"
-        />
-    </form>
+<form id="personalSearch" method="POST" th:action="@{${createUrl}}">
+    <input id="personalSearchSubmit"
+           style="visibility: hidden"
+           type="submit"
+    />
+</form>
 
-    <span id="pageData"
-          th:data-order="${pageData.getOrder()}"
-          th:data-page="${pageData.getCurrentPage()}"
-          th:data-size="${pageData.getPageSize()}"
-          th:data-sort="${pageData.getSort()}">
+<span id="pageData"
+      th:data-order="${pageData.getOrder()}"
+      th:data-page="${pageData.getCurrentPage()}"
+      th:data-size="${pageData.getPageSize()}"
+      th:data-sort="${pageData.getSort()}">
     </span>
 
 </div>

@@ -15,11 +15,11 @@
         <td th:text="${bookInstance.getBook().getTitle()}"></td>
         <td th:text="${bookInstance.getStatus().name()}"></td>
         <td th:text="${#temporals.format(bookInstance.getDueBack(),'dd-MMM-yyyy')}"></td>
-        <td><a class="btn btn-primary"
+        <td><a class="btn btn-outline-secondary btn-sm"
                th:href="@{'/bookInstances/details/' + ${bookInstance.getId()}}"
                type="button">Details</a>
         </td>
-        <td><a class="btn btn-danger"
+        <td><a class="btn btn-outline-danger btn-sm"
                th:href="@{'/bookInstances/delete/' + ${bookInstance.getId()}}"
                type="button">Delete</a>
         </td>

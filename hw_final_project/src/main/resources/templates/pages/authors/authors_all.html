@@ -14,16 +14,15 @@
         <td th:text="${column.count}"></td>
         <td th:text="${author.getFirstName()}"></td>
         <td th:text="${author.getLastName()}"></td>
-        <td><a class="btn btn-link"
+        <td><a class="btn-link"
                th:href="@{'/books/authors/' + ${author.getId()}}"
-               th:text="${author.getBooksCount()}"
-               type="button">all books by author</a>
+               th:text="${author.getBooksCount()}">all books by author</a>
         </td>
-        <td><a class="btn btn-primary"
+        <td><a class="btn btn-outline-secondary"
                th:href="@{'/authors/details/' + ${author.getId()}}"
                type="button">Details</a>
         </td>
-        <td><a class="btn btn-danger"
+        <td><a class="btn btn-outline-danger"
                th:href="@{'/authors/delete/' + ${author.getId()}}"
                type="button">Delete</a>
         </td>

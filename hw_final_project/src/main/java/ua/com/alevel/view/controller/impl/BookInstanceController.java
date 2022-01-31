@@ -75,6 +75,23 @@ public class BookInstanceController extends BaseControllerImpl<BookInstanceReque
     }
 
     @Override
+    @GetMapping("/new/{isbn}")
+    public String redirectToNewEntityPageWithParentId(@PathVariable String isbn, Model model) {
+        model.addAttribute("bookInstance", new BookInstanceRequestDto(isbn));
+        model.addAttribute("books", bookFacade.findById(isbn));
+        model.addAttribute("statuses", StatusType.values());
+        model.addAttribute("countryCodes", CountryCode.values());
+        return "pages/bookInstances/bookInstances_new";
+    }
+
+    @Override
+    @PostMapping("/new")
+    public String createNewEntity(@ModelAttribute("bookInstance") BookInstanceRequestDto dto) {
+        bookInstanceFacade.create(dto);
+        return "redirect:/bookInstances";
+    }
+
+    @Override
     @GetMapping("/edit/{id}")
     public String redirectToEditPage(WebRequest request, @PathVariable Long id, Model model) {
         instancesId = id;
@@ -92,20 +109,6 @@ public class BookInstanceController extends BaseControllerImpl<BookInstanceReque
     public String updateEntity(@ModelAttribute("bookInstance") BookInstanceRequestDto reqDto) {
         bookInstanceFacade.update(reqDto, instancesId);
         return "redirect:/bookInstances/details/" + instancesId;
-    }
-
-    @Override
-    @GetMapping("/new/{bookId}")
-    public String redirectToNewEntityPageWithParentId(@PathVariable String bookId, Model model) {
-//        model.addAttribute("bookInstance", new BookInstanceRequestDto(bookId));
-        return "pages/bookInstances/bookInstances_new";
-    }
-
-    @Override
-    @PostMapping("/new")
-    public String createNewEntity(@ModelAttribute("bookInstance") BookInstanceRequestDto dto) {
-        bookInstanceFacade.create(dto);
-        return "redirect:/bookInstances";
     }
 
     @Override

@@ -15,9 +15,15 @@
         <div class="col-12">
             <div class="card mb-2 mt-2">
                 <div class="card-header">Details: Book
-                    <a class="btn btn-primary"
+                    <a class="btn btn-outline-warning"
                        th:href="@{'/books/edit/' + ${book.getIsbn()}}"
                        type="button">Edit</a>
+                    <a class="btn btn-outline-success"
+                    th:href="@{'/bookInstances/new/?book=' + ${book.getIsbn()}}"
+                    type="button">Create new instance</a>
+                    <a class="btn btn-outline-danger"
+                       th:href="@{'/bookInstances/delete/?book=' + ${book.getIsbn()}}"
+                       type="button">Delete all instances</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover">

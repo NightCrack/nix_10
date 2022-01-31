@@ -15,9 +15,12 @@
         <div class="col-12">
             <div class="card mb-2 mt-2">
                 <div class="card-header">Details: Genre
-                    <a class="btn btn-primary"
+                    <a class="btn btn-outline-warning"
                        th:href="@{'/genres/edit/' + ${genre.getId()}}"
                        type="button">Edit</a>
+                    <a class="btn btn-outline-success"
+                       th:href="@{'/books/new/?genre=' + ${genre.getId()}}"
+                       type="button">Create new book</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover">

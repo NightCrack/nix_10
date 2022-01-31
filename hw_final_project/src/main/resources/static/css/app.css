@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
 html,body {
-    background: url('https://wallpaperaccess.com/full/31193.jpg') no-repeat center center fixed;
+    background: url('https://live.staticflickr.com/4062/4474421855_4b20643258_b.jpg') no-repeat center center fixed;
     background-size: cover;
     height: 100%;
     font-family: 'Numans', sans-serif;
@@ -10,11 +10,101 @@ html,body {
     -o-background-size: cover;
 }
 
-a.nav-item.nav-link {
-    color: white;
-}
-
 .sort {
     cursor: pointer;
     margin-right: 2em;
+}
+
+.dropdown-custom {
+  position: static;
+  display: inline-block;
+}
+
+.dropdown-custom-content {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: max-content;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-custom-content li {
+  color: black;
+  padding: auto;
+  overflow-y: auto;
+  display: block;
+}
+
+.dropdown-custom:hover .dropdown-custom-content {display: block;}
+
+.img-details {
+  width: auto;
+  max-width: 300px;
+  height: auto;
+  max-height: 400px;
+  alt: "book's image";
+}
+
+.btn-circle {
+  border-radius: 100%;
+  width: 2em;
+  height: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-circle:hover {
+  background-color:#212529;
+}
+
+.fas {
+  margin: 0;
+  padding: 0;
+}
+
+.layout {
+  margin-top: 5em;
+  margin-bottom: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+  background-color: #cc9a06;
+  position:sticky;
+}
+
+textarea {
+  height: 240px;
+  max-height: inherit;
+}
+
+.nav-link {
+  color: rgb(0, 129, 0);
+}
+
+.nav-link:hover {
+  color: #ffeb7be8;
+}
+
+.opt {
+  width: 50%;
+}
+
+.card-header {
+  background-color: #b9a569;
+}
+
+.card-body {
+  background-color: #ffeb7be8;
+}
+
+.btn-link {
+  color: darkcyan;
+}
+
+.btn-link:hover {
+  color: orange;
 }

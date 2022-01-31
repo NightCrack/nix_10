@@ -13,15 +13,15 @@
     <tr th:each="genre, column : ${pageData.getItems()}">
         <td th:text="${column.count}"></td>
         <td th:text="${genre.getGenreType().name()}"></td>
-        <td><a class="btn btn-link"
+        <td><a class="btn-link"
                th:href="@{'/books/genres/' + ${genre.getId()}}"
                th:text="${genre.getBooksCount()}"
                type="button">all books by genre</a></td>
-        <td><a class="btn btn-primary"
+        <td><a class="btn btn-outline-secondary btn-sm"
                th:href="@{'/genres/details/' + ${genre.getId()}}"
                type="button">Details</a>
         </td>
-        <td><a class="btn btn-danger"
+        <td><a class="btn btn-outline-danger btn-sm"
                th:href="@{'/genres/delete/' + ${genre.getId()}}"
                type="button">Delete</a>
         </td>

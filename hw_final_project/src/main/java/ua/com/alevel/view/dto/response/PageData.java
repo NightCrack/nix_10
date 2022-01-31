@@ -5,7 +5,7 @@ import java.util.List;
 
 public class PageData<RES extends ResponseDto> {
 
-    private final int[] pageSizeItems;
+    private final Integer[] pageSizeItems;
     private int currentPage;
     private int pageSize;
     private int totalPageSize;
@@ -26,7 +26,7 @@ public class PageData<RES extends ResponseDto> {
         this.totalPageSize = 0;
         this.itemsSize = 0;
         this.items = new ArrayList<>();
-        this.pageSizeItems = new int[]{10, 25, 50, 100};
+        this.pageSizeItems = new Integer[]{10, 25, 50, 100};
         this.showFirst = false;
         this.showPrevious = false;
         this.showNext = false;
@@ -85,7 +85,7 @@ public class PageData<RES extends ResponseDto> {
         this.items = items;
     }
 
-    public int[] getPageSizeItems() {
+    public Integer[] getPageSizeItems() {
         return pageSizeItems;
     }
 
