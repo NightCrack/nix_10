@@ -12,7 +12,7 @@
 <div layout:fragment="content">
     <div class="row">
         <div class="col-12">
-            <div class="card mt-2">
+            <div class="card mt-2 optional-dropdown">
                 <div class="card-header">
                     <h4>New Genre</h4>
                 </div>
@@ -23,14 +23,16 @@
                           th:object="${genre}">
                         <div class="form-group">
                             <label>Select</label>
-                            <select class="form-control"
+                            <select class="form-control optional-dropdown"
                                     id="type"
                                     th:field="*{type}">
-                                <option th:each="type : ${types}"
+                                <option class="optional-dropdown"
+                                        th:each="type : ${types}"
                                         th:text="${type}"
                                         th:value="${type}"></option>
                             </select>
                         </div>
+                        <p></p>
                         <button class="btn btn-outline-success" type="submit">Submit</button>
                     </form>
                 </div>

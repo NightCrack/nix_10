@@ -23,41 +23,59 @@
                        type="button">Create new book</a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-hover">
-                        <tr>
-                            <th>First Name:</th>
-                            <td th:text="${author.getFirstName()}"></td>
-                        </tr>
-                        <tr>
-                            <th>Last Name:</th>
-                            <td th:text="${author.getLastName()}"></td>
-                        </tr>
-                        <tr>
-                            <th>Birth date:</th>
-                            <td th:text="${#calendars.format(author.getBirthDate(), 'dd MMMMM y')}"></td>
-                        </tr>
-                        <tr>
-                            <th>Death date:</th>
-                            <td th:text="${#calendars.format(author.getDeathDate(), 'dd MMMMM y')}"></td>
-                        </tr>
-                        <tr>
-                            <th>Lifespan:</th>
-                            <td th:text="'(' + ${author.getLifespan(author.getBirthDate(), author.getDeathDate())} + ' years)'"></td>
-                        </tr>
-                    </table>
-                    <table class="table table-sl table-hover">
-                        <thead>
-                        <tr>
-                            <th>Books</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="book : ${books.getItems()}">
-                            <td><a th:href="@{'/books/details/' + ${book.getIsbn()}}"
-                                   th:text="${book.getTitle()}"></a></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col">
+                                    <label>First name:</label>
+                                </div>
+                                <div class="col">
+                                    <label th:text="${author.getFirstName()}"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label>Last name:</label>
+                                </div>
+                                <div class="col">
+                                    <label th:text="${author.getLastName()}"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col">
+                                    <label>Birth date:</label>
+                                    <label th:text="${#calendars.format(author.getBirthDate(), 'dd MMMMM y')}"></label>
+                                </div>
+                                <div class="col">
+                                    <label>Death date:</label>
+                                    <label th:text="${#calendars.format(author.getDeathDate(), 'dd MMMMM y')}"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label>Lifespan:</label>
+                                </div>
+                                <div class="col">
+                                    <label th:text="${author.getLifespan(author.getBirthDate(), author.getDeathDate())} + ' year(s)'"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row">
+                            <label>Books:</label>
+                        </div>
+                        <div class="row row-cols-auto">
+                            <div class="col"
+                                 th:each="book : ${books.getItems()}">
+                                <a class="btn-link"
+                                   th:href="@{'/books/details/' + ${book.getIsbn()}}"
+                                   th:text="${book.getTitle()}"></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -19,69 +19,97 @@
                        th:href="@{'/books/edit/' + ${book.getIsbn()}}"
                        type="button">Edit</a>
                     <a class="btn btn-outline-success"
-                    th:href="@{'/bookInstances/new/?book=' + ${book.getIsbn()}}"
-                    type="button">Create new instance</a>
+                       th:href="@{'/bookInstances/new/?book=' + ${book.getIsbn()}}"
+                       type="button">Create new instance</a>
                     <a class="btn btn-outline-danger"
                        th:href="@{'/bookInstances/delete/?book=' + ${book.getIsbn()}}"
                        type="button">Delete all instances</a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-hover">
-                        <tr>
-                            <th>ISBN:</th>
-                            <td th:text="${book.getIsbn()}"></td>
-                        </tr>
-                        <tr>
-                            <th>Title:</th>
-                            <td th:text="${book.getTitle()}"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img height="200" th:src="@{${book.getImageUrl()}}" width="100"/>
-                            </td>
-                        <tr>
-                            <th>Publication date:</th>
-                            <td th:text="${#dates.year(book.getPublicationDate())}"></td>
-                        </tr>
-                        <tr>
-                            <th>Pages number:</th>
-                            <td th:text="${book.getPagesNumber()}"></td>
-                        </tr>
-                        <tr>
-                            <th>Instances:</th>
-                            <td th:text="${instances}"></td>
-                        </tr>
-                        <tr>
-                            <th>Summary:</th>
-                            <td th:text="${book.getSummary()}"></td>
-                        </tr>
-                    </table>
-                    <table class="table table-sm table-hover">
-                        <thead>
-                        <tr>
-                            <th>Authors:</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="author,column : ${authors.getItems()}">
-                            <td><a th:href="@{'/authors/details/' + ${author.getId()}}"
-                                   th:text="${author.getFirstName() + ' ' + author.getLastName()}"></a></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-hover">
-                        <thead>
-                        <tr>
-                            <th>Genres:</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="genre,column : ${genres.getItems()}">
-                            <td><a th:href="@{'/genres/details/' + ${genre.getId()}}"
-                                   th:text="${genre.getGenreType()}"></a></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <img class="img-details" th:src="@{${book.getImageUrl()}}"/>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Title:</label>
+                                    </div>
+                                    <div class="col">
+                                        <label th:text="${book.getTitle()}"></label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label>ISBN:</label>
+                                    </div>
+                                    <div class="col">
+                                        <label th:text="${book.getIsbn()}"></label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Publication date:</label>
+                                    </div>
+                                    <div class="col">
+                                        <label th:text="${#dates.year(book.getPublicationDate())}"></label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Pages number:</label>
+                                    </div>
+                                    <div class="col">
+                                        <label th:text="${book.getPagesNumber()}"></label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Instances:</label>
+                                    </div>
+                                    <div class="col">
+                                        <label th:text="${instances}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="row">
+                                        <label>Authors:</label>
+                                    </div>
+                                    <div class="row row-cols-auto">
+                                        <div class="col"
+                                             th:each="author,column : ${authors.getItems()}"
+                                        >
+                                            <a class="btn-link"
+                                               th:href="@{'/authors/details/' + ${author.getId()}}"
+                                               th:text="${author.getFirstName() + ' ' + author.getLastName()}"></a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label>Genres:</label>
+                                    </div>
+                                    <div class="row row-cols-auto">
+                                        <div class="col"
+                                             th:each="genre,column : ${genres.getItems()}">
+                                            <a class="btn-link"
+                                               th:href="@{'/genres/details/' + ${genre.getId()}}"
+                                               th:text="${genre.getGenreType()}"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <label>Summary:</label>
+                            </div>
+                            <div class="card-body">
+                                <label th:text="${book.getSummary()}"></label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

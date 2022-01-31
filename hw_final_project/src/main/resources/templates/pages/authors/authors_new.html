@@ -19,44 +19,81 @@
                     <h4>New Author</h4>
                 </div>
                 <div class="card-body">
-                    <form action="#" method="post" th:action="@{/authors/new}" th:object="${author}">
-                        <div class="form-group">
-                            <label for="firstName">First Name</label>
-                            <input aria-describedby="firstName"
-                                   class="form-control"
-                                   id="firstName"
-                                   placeholder="Enter first Name"
-                                   th:field="*{firstName}"
-                                   type="text"/>
+                    <form action="#"
+                          method="post"
+                          th:action="@{/authors/new}"
+                          th:object="${author}">
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="firstName">First Name</label>
+                                            </div>
+                                            <div class="col-7">
+                                                <input aria-describedby="firstName"
+                                                       class="form-control"
+                                                       id="firstName"
+                                                       placeholder="Enter first Name"
+                                                       th:field="*{firstName}"
+                                                       type="text"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="lastName">Last Name</label>
+                                            </div>
+                                            <div class="col-7">
+                                                <input aria-describedby="lastName"
+                                                       class="form-control"
+                                                       id="lastName"
+                                                       placeholder="Enter last name"
+                                                       th:field="*{lastName}"
+                                                       type="text"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="birthDate">Birth date</label>
+                                            </div>
+                                            <div class="col-7">
+                                                <input class="form-control"
+                                                       id="birthDate"
+                                                       name="birthDate"
+                                                       th:value="*{birthDate}"
+                                                       type="date"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="deathDate">Death date</label>
+                                            </div>
+                                            <div class="col-7">
+                                                <input class="form-control"
+                                                       id="deathDate"
+                                                       name="deathDate"
+                                                       th:value="*{deathDate}"
+                                                       type="date"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="lastName">Last Name</label>
-                            <input aria-describedby="lastName"
-                                   class="form-control"
-                                   id="lastName"
-                                   placeholder="Enter last name"
-                                   th:field="*{lastName}"
-                                   type="text"/>
+                        <div class="row">
+                            <div class="col-auto">
+                                <button class="btn btn-outline-success" type="submit">Submit</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="dateOfBirth">Birth date</label>
-                            <input aria-describedby="dateOfBirth"
-                                   class="form-control"
-                                   id="dateOfBirth"
-                                   placeholder="Enter date"
-                                   th:field="*{birthDate}"
-                                   type="date"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="dateOfDeath">Death date</label>
-                            <input aria-describedby="dateOfDeath"
-                                   class="form-control"
-                                   id="dateOfDeath"
-                                   placeholder="Enter date"
-                                   th:field="*{deathDate}"
-                                   type="date"/>
-                        </div>
-                        <button class="btn btn-outline-success" type="submit">Submit</button>
                     </form>
                 </div>
             </div>

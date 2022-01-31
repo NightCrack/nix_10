@@ -14,7 +14,7 @@
 <div layout:fragment="content">
     <div class="row">
         <div class="col-12">
-            <div class="card mt-2">
+            <div class="card mt-2 optional-dropdown">
                 <div class="card-header">
                     <h4>Edit BookInstance</h4>
                 </div>
@@ -23,62 +23,96 @@
                           method="post"
                           th:action="@{/bookInstances/edit}"
                           th:object="${bookInstance}">
-                        <div class="form-group">
-                            <label for="book">Book's title</label>
-                            <select class="form-control"
-                                    id="book"
-                                    th:field="*{bookIsbn}">
-                                <option th:each="book : ${books.getItems()}"
-                                        th:text="${book.getTitle()}"
-                                        th:value="${book.getIsbn()}"></option>
-                            </select>
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="col">
+                                    <label for="publishingDate">Publishing date</label>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control"
+                                           id="publishingDate"
+                                           name="publishingDate"
+                                           th:value="*{publishingDate}"
+                                           type="date"/>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="book">Book's title</label>
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-control"
+                                                id="book"
+                                                th:field="*{bookIsbn}">
+                                            <option th:each="book : ${books.getItems()}"
+                                                    th:text="${book.getTitle()}"
+                                                    th:value="${book.getIsbn()}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="imprint">Imprint</label>
+                                    </div>
+                                    <div class="col">
+                                        <input aria-describedby="title"
+                                               class="form-control"
+                                               id="imprint"
+                                               placeholder="Book instance's imprint"
+                                               th:field="*{imprint}"
+                                               type="text"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row">
+                                            <label for="countryCode">Country</label>
+                                        </div>
+                                        <div class="row">
+                                            <select class="form-control"
+                                                    id="countryCode"
+                                                    th:field="*{countryCode}">
+                                                <option th:each="country : ${countryCodes}"
+                                                        th:text="${country.getName()}"
+                                                        th:value="${country}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <label for="status">Status</label>
+                                        </div>
+                                        <div class="row">
+                                            <select class="form-control"
+                                                    id="status"
+                                                    th:field="*{status}">
+                                                <option th:each="status : ${statuses}"
+                                                        th:text="${status.name()}"
+                                                        th:value="${status}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="col">
+                                    <label for="dueBack">Due back</label>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control"
+                                           id="dueBack"
+                                           name="dueBack"
+                                           th:value="*{dueBack}"
+                                           type="datetime-local"/>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="countryCode">Country</label>
-                            <select class="form-control"
-                                    id="countryCode"
-                                    th:field="*{countryCode}">
-                                <option th:each="country : ${countryCodes}"
-                                        th:text="${country.getName()}"
-                                        th:value="${country}"></option>
-                            </select>
+                        <div class="row">
+                            <div class="col">
+                                <button class="btn btn-outline-warning" type="submit">Submit</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="publishingDate">Publishing date</label>
-                            <input class="form-control"
-                                   id="publishingDate"
-                                   name="publishingDate"
-                                   th:value="*{publishingDate}"
-                                   type="date"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="imprint">Imprint</label>
-                            <input aria-describedby="title"
-                                   class="form-control"
-                                   id="imprint"
-                                   placeholder="Book instance's imprint"
-                                   th:field="*{imprint}"
-                                   type="text"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="status">Status</label>
-                            <select class="form-control"
-                                    id="status"
-                                    th:field="*{status}">
-                                <option th:each="status : ${statuses}"
-                                        th:text="${status.name()}"
-                                        th:value="${status}"></option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="dueBack">Due back</label>
-                            <input class="form-control"
-                                   id="dueBack"
-                                   name="dueBack"
-                                   th:value="*{dueBack}"
-                                   type="datetime-local"/>
-                        </div>
-                        <button class="btn btn-outline-warning" type="submit">Submit</button>
                     </form>
                 </div>
             </div>
