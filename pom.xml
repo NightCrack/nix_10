@@ -50,6 +50,7 @@
         <module>custom_framework</module>
         <module>hw_8_web_jdbc</module>
         <module>hw_final_project</module>
+        <module>hw_1_redo</module>
         <!--        <module>unit_10_ionio</module>-->
     </modules>
 

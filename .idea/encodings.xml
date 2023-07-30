@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/custom_framework/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/custom_framework/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_1_base_operations/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_1_base_operations/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_1_redo/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_1_redo/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_2_strings/library/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_2_strings/library/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_2_strings/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_2_strings/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_3_start_oop/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_3_start_oop/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_4_logs_and_test/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_4_logs_and_test/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_5_collection/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_5_collection/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_6_exception/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_6_exception/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_7_ionio/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_7_ionio/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_8_web_jdbc/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_final_project/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/module_1/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/module_1/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/module_three/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/module_two/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/module_two/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

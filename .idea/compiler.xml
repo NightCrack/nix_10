@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="module_three" />
+        <module name="module_1" />
+        <module name="hw_6_exception" />
+        <module name="hw_1_redo" />
+        <module name="hw_4_logs_and_test" />
+        <module name="reversestring" />
+        <module name="hw_3_start_oop" />
+        <module name="hw_5_collection" />
+        <module name="hw_7_ionio" />
+        <module name="custom_framework" />
+        <module name="hw_8_web_jdbc" />
+        <module name="hw_final_project" />
+        <module name="hw_base_operations" />
+        <module name="hw_2_strings" />
+        <module name="module_two" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="hw_8_web_jdbc" options="-parameters" />
+      <module name="hw_final_project" options="-parameters" />
+      <module name="module_three" options="-parameters" />
+    </option>
+  </component>
+</project>
