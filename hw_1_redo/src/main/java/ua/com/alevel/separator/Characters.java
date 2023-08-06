@@ -8,7 +8,7 @@ public class Characters {
 
     public void characters() {
         Scanner inputStream = new Scanner(System.in);
-        String input = "";
+        String input;
         while (true) {
             System.out.print(System.lineSeparator() + "This subprogram will parse your input and " + "count number of each unique symbol occurrence." + System.lineSeparator() + "Print <back> to return to the main menu." + System.lineSeparator() + "Your input: ");
             input = inputStream.nextLine();
@@ -27,9 +27,7 @@ public class Characters {
                     }
                 }
                 System.out.println("Results:");
-                charOccurrences.keySet().stream().sorted().forEach(result -> {
-                    System.out.println(result + " -> " + charOccurrences.get(result));
-                });
+                charOccurrences.keySet().stream().sorted().forEach(result -> System.out.println(result + " -> " + charOccurrences.get(result)));
             }
         }
     }

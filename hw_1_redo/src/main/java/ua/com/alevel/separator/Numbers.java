@@ -41,20 +41,11 @@ public class Numbers {
     }
 
     private String getComparison(BigInteger[] bigIntegerArray, int index) {
-        String comparison = "";
+        var comparison = "";
         switch (bigIntegerArray[index - 1].compareTo(bigIntegerArray[index])) {
-            case -1: {
-                comparison = " less than ";
-                break;
-            }
-            case 0: {
-                comparison = " equal to ";
-                break;
-            }
-            case 1: {
-                comparison = " greater than ";
-                break;
-            }
+            case -1 -> comparison = " less than ";
+            case 0 -> comparison = " equal to ";
+            case 1 -> comparison = " greater than ";
         }
         return comparison;
     }
