@@ -19,11 +19,11 @@ public class Characters {
             } else {
                 char[] inputArray = input.toCharArray();
                 Map<Character, Integer> charOccurrences = new HashMap<>();
-                for (int index = 0; index < inputArray.length; index++) {
-                    if (charOccurrences.containsKey(inputArray[index])) {
-                        charOccurrences.put(inputArray[index], charOccurrences.get(inputArray[index]) + 1);
+                for (char c : inputArray) {
+                    if (charOccurrences.containsKey(c)) {
+                        charOccurrences.put(c, charOccurrences.get(c) + 1);
                     } else {
-                        charOccurrences.put(inputArray[index], 1);
+                        charOccurrences.put(c, 1);
                     }
                 }
                 System.out.println("Results:");
