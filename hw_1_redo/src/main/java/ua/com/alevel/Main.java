@@ -11,7 +11,7 @@ public class Main {
         Numbers numbers = new Numbers();
         Characters characters = new Characters();
         Schedule schedule = new Schedule();
-        while(true) {
+        while (true) {
             menu();
             Scanner inputStream = new Scanner(System.in);
             String input = inputStream.nextLine();
@@ -27,7 +27,7 @@ public class Main {
                 }
                 case "quit" -> System.exit(0);
                 default -> {
-                    System.out.println( System.lineSeparator() + "Wrong input.");
+                    System.out.println(System.lineSeparator() + "Wrong input.");
                 }
             }
         }
@@ -35,7 +35,7 @@ public class Main {
 
     private static void menu() {
         System.out.println("Choose the task (type a corresponding number):");
-        System.out.println(System.lineSeparator() + "1: Sum of numbers.");
+        System.out.println(System.lineSeparator() + "1: Compare numbers.");
         System.out.println("2: Occurrence counter.");
         System.out.println("3: Classes schedule.");
         System.out.println(System.lineSeparator() + "Input \"quit\" to exit.");

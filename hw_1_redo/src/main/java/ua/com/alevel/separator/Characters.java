@@ -1,6 +1,8 @@
 package ua.com.alevel.separator;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Characters {
 
