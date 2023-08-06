@@ -5,15 +5,6 @@ import java.util.regex.Pattern;
 
 public class Schedule {
 
-    private final int SEC = 1;
-    private final int MIN = SEC * 60;
-    private final int HOUR = MIN * 60;
-    private final int ACADEMIC_HOUR = MIN * 45;
-    private final int BREAK = MIN * 10;
-    private final int BIG_BREAK = MIN * 15;
-    private final int CLASSES_START_HOURS = 8;
-    private final int CLASSES_START_MIN = 0;
-
     public void schedule() {
         Scanner inputStream = new Scanner(System.in);
         while (true) {
@@ -34,6 +25,14 @@ public class Schedule {
 
     private String timeCounter(String lesson) {
         int intLesson = Integer.parseInt(lesson);
+        int SEC = 1;
+        int MIN = SEC * 60;
+        int HOUR = MIN * 60;
+        int ACADEMIC_HOUR = MIN * 45;
+        int BIG_BREAK = MIN * 15;
+        int BREAK = MIN * 10;
+        int CLASSES_START_HOURS = 8;
+        int CLASSES_START_MIN = 0;
         int lessonTime = CLASSES_START_HOURS * HOUR +
                 CLASSES_START_MIN * MIN +
                 ACADEMIC_HOUR * intLesson +
