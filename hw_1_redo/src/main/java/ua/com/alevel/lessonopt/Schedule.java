@@ -32,9 +32,7 @@ public class Schedule {
         int BIG_BREAK = MIN * 15;
         int BREAK = MIN * 10;
         int CLASSES_START_HOURS = 8;
-        int CLASSES_START_MIN = 0;
         int lessonTime = CLASSES_START_HOURS * HOUR +
-                CLASSES_START_MIN * MIN +
                 ACADEMIC_HOUR * intLesson +
                 BREAK * (intLesson / 2) +
                 BIG_BREAK * ((intLesson - 1) / 2);
