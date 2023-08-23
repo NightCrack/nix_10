@@ -6,21 +6,11 @@
     <artifactId>hw_1_redo</artifactId>
     <packaging>jar</packaging>
     <version>1.0</version>
-    <name>hw_1_redo</name>
     <parent>
         <groupId>ua.com.alevel</groupId>
         <artifactId>nix-10</artifactId>
         <version>1.0</version>
     </parent>
-
-    <properties>
-        <java.version>20</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-        <maven.shade.plugin.version>3.2.4</maven.shade.plugin.version>
-    </properties>
 
     <build>
         <finalName>hw_1_redo</finalName>

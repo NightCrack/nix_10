@@ -157,7 +157,8 @@ public class BaseController {
             case OBJECT_FOUR_DELETE -> deleteBookInstance(reader);
             case OBJECT_FOUR_FIND_ONE -> findByIdBookInstance(reader);
             case OBJECT_FOUR_FIND_ALL -> findAllBookInstance(reader);
-            case POPULATE_VALUE -> Populate.PopulateBase(authorsService, genresService, booksService, bookInstancesService, 5);
+            case POPULATE_VALUE ->
+                    Populate.PopulateBase(authorsService, genresService, booksService, bookInstancesService, 5);
             case MENU_VALUE -> messages("menu");
             case EXIT_VALUE -> breaker = EXIT_VALUE;
             default -> messages("badInput");

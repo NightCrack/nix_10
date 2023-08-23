@@ -23,7 +23,8 @@ public final class BeanFactory {
                 }
             }
             return null;
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException exception) {
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
+                 InvocationTargetException exception) {
             throw new RuntimeException(exception);
         }
     }

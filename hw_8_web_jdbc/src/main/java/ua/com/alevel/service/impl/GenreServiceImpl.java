@@ -1,8 +1,6 @@
 package ua.com.alevel.service.impl;
 
 import org.springframework.stereotype.Service;
-import ua.com.alevel.persistence.dao.AuthorsDAO;
-import ua.com.alevel.persistence.dao.BookInstancesDAO;
 import ua.com.alevel.persistence.dao.BooksDAO;
 import ua.com.alevel.persistence.dao.GenresDAO;
 import ua.com.alevel.persistence.datatable.DataTableRequest;

@@ -95,10 +95,10 @@
                                         <ul class="dropdown-custom-content">
                                             <li th:each="book : ${books.getItems()}">
                                                 <input class="check-box"
-                                                       type="checkbox"
                                                        th:field="*{isbnList}"
                                                        th:text="${book.getTitle()}"
-                                                       th:value="${book.getIsbn()}"/>
+                                                       th:value="${book.getIsbn()}"
+                                                       type="checkbox"/>
                                             </li>
                                         </ul>
                                     </div>

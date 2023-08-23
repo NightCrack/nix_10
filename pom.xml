@@ -11,37 +11,32 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <java.version>20</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <maven.shade.plugin.version>3.2.4</maven.shade.plugin.version>
     </properties>
 
 
     <modules>
-        <!--        <module>base_operations</module>-->
         <module>hw_1_base_operations</module>
-        <!--        <module>unit_1_compile/maven</module>-->
-        <!--        <module>unit_2_strings</module>-->
         <module>hw_2_strings</module>
         <module>hw_2_strings/library</module>
-        <!--        <module>unit_3_start_oop</module>-->
         <module>module_1</module>
         <module>hw_3_start_oop</module>
-        <!--        <module>unit_4_next_oop</module>-->
-        <!--        <module>unit_5_test_logs</module>-->
-        <!--        <module>unit_6_di_oop</module>-->
-        <!--        <module>dinix</module>-->
         <module>hw_4_logs_and_test</module>
-        <!--        <module>unit_8_exception</module>-->
         <module>hw_5_collection</module>
         <module>hw_6_exception</module>
         <module>module_two</module>
@@ -51,7 +46,8 @@
         <module>hw_8_web_jdbc</module>
         <module>hw_final_project</module>
         <module>hw_1_redo</module>
-        <!--        <module>unit_10_ionio</module>-->
+        <module>hw_2_redo</module>
+        <module>hw_2_redo/stringreverselib</module>
     </modules>
 
 </project>

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>${project.id}</artifactId>
+    <artifactId>hw_3_start_oop</artifactId>
 
     <properties>
         <java.version>17</java.version>
@@ -17,14 +17,12 @@
         <maven.shade.plugin.version>3.2.0</maven.shade.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
-        <project.id>hw_3_start_oop</project.id>
-        <project.version>1.0</project.version>
     </properties>
 
-    <version>${project.version}</version>
+    <version>1.0</version>
 
     <build>
-        <finalName>${project.id}</finalName>
+        <finalName>hw_3_start_oop</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

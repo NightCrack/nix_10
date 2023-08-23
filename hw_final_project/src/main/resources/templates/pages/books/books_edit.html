@@ -84,10 +84,10 @@
                                                     <ul class="dropdown-custom-content">
                                                         <li th:each="genre : ${genres.getItems()}">
                                                             <input class="check-box"
-                                                                   type="checkbox"
                                                                    th:field="*{genres}"
                                                                    th:text="${genre.getGenreType().name()}"
-                                                                   th:value="${genre.getId()}"/>
+                                                                   th:value="${genre.getId()}"
+                                                                   type="checkbox"/>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -98,10 +98,10 @@
                                                     <ul class="dropdown-custom-content">
                                                         <li th:each="author : ${authors.getItems()}">
                                                             <input class="check-box"
-                                                                   type="checkbox"
                                                                    th:field="*{authors}"
                                                                    th:text="${author.getFirstName() + ' ' + author.getLastName()}"
-                                                                   th:value="${author.getId()}"/>
+                                                                   th:value="${author.getId()}"
+                                                                   type="checkbox"/>
                                                         </li>
                                                     </ul>
                                                 </div>

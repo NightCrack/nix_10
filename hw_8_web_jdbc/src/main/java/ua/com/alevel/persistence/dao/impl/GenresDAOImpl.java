@@ -171,7 +171,7 @@ public class GenresDAOImpl extends BaseDaoImpl implements GenresDAO {
                 "as gb on genres.id = gb.genre_id " +
                 "where gb.book_isbn = '" + isbn +
                 "' group by gb.book_isbn";
-        return count(jpaConfig, "genres",filterOption);
+        return count(jpaConfig, "genres", filterOption);
     }
 
     private CustomResultSet<Genre> convertResultSetToGenre(ResultSet resultSet) throws SQLException {

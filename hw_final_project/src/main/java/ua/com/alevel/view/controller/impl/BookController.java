@@ -5,8 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.alevel.facade.AuthorFacade;
 import ua.com.alevel.facade.BookFacade;
@@ -102,9 +100,9 @@ public class BookController extends BaseControllerImpl<BookRequestDto, String> i
         BookRequestDto requestDto = new BookRequestDto(responseDto);
         model.addAttribute("book", requestDto);
         model.addAttribute("authors", authorFacade.findAll(request));
-        model.addAttribute("currentAuthors", authorFacade.findAllByForeignId(request,isbn));
+        model.addAttribute("currentAuthors", authorFacade.findAllByForeignId(request, isbn));
         model.addAttribute("genres", genreFacade.findAll(request));
-        model.addAttribute("currentGenres", genreFacade.findAllByForeignId(request,isbn));
+        model.addAttribute("currentGenres", genreFacade.findAllByForeignId(request, isbn));
 //        model.addAttribute("file", new Object());
         return "/pages/books/books_edit";
     }

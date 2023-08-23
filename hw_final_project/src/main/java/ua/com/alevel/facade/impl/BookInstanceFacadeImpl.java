@@ -14,7 +14,6 @@ import ua.com.alevel.util.WebRequestUtil;
 import ua.com.alevel.util.WebResponseUtil;
 import ua.com.alevel.view.dto.request.BookInstanceRequestDto;
 import ua.com.alevel.view.dto.response.BookInstanceResponseDto;
-import ua.com.alevel.view.dto.response.BookResponseDto;
 import ua.com.alevel.view.dto.response.PageData;
 
 import java.util.List;

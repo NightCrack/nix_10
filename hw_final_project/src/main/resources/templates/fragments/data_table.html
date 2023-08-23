@@ -29,8 +29,8 @@
                                th:href="@{/books}">Books</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link"
-                               aria-current="true"
+                            <a aria-current="true"
+                               class="nav-link"
                                th:href="@{/bookInstances}">Book Instances</a>
                         </li>
                     </ul>
@@ -82,21 +82,21 @@
                         </div>
                         <div class="p-1">
                             <div class="dropdown dropup">
-                                <button class="btn btn-sm dropdown-toggle"
-                                        type="button"
-                                        id="dropdownMenuLink"
+                                <button aria-expanded="false"
+                                        class="btn btn-sm dropdown-toggle"
                                         data-bs-toggle="dropdown"
-                                        aria-expanded="false">
+                                        id="dropdownMenuLink"
+                                        type="button">
                                     <span th:text="${pageData.getPageSize()}"></span>
                                 </button>
-                                <ul class="dropdown-menu"
-                                    aria-labelledby="dropdownMenuLink">
+                                <ul aria-labelledby="dropdownMenuLink"
+                                    class="dropdown-menu">
                                     <li th:each="size : ${pageData.getPageSizeItems()}">
                                         <a class="dropdown-item"
                                            href="#"
-                                           th:text="${size}"
                                            role="button"
-                                           th:onclick="|runPagination(1, ${size}, 0)|">@size</a></li>
+                                           th:onclick="|runPagination(1, ${size}, 0)|"
+                                           th:text="${size}">@size</a></li>
                                 </ul>
                             </div>
                         </div>

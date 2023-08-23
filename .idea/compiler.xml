@@ -20,6 +20,7 @@
         <module name="hw_final_project" />
         <module name="hw_base_operations" />
         <module name="hw_2_strings" />
+        <module name="stringreverselib" />
         <module name="module_two" />
       </profile>
     </annotationProcessing>

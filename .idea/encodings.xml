@@ -7,6 +7,10 @@
     <file url="file://$PROJECT_DIR$/hw_1_base_operations/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hw_1_redo/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hw_1_redo/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_2_redo/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_2_redo/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_2_redo/stringreverselib/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw_2_redo/stringreverselib/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hw_2_strings/library/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hw_2_strings/library/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hw_2_strings/src/main/java" charset="UTF-8" />
@@ -28,5 +32,7 @@
     <file url="file://$PROJECT_DIR$/module_three/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/module_two/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/module_two/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>
 </project>

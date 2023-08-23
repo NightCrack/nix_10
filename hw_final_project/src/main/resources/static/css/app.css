@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
-html,body {
+html, body {
     background: url('https://live.staticflickr.com/4062/4474421855_4b20643258_b.jpg') no-repeat center center fixed;
     background-size: cover;
     height: 100%;
@@ -16,135 +16,137 @@ html,body {
 }
 
 .dropdown-custom {
-  position: static;
-  display: inline-block;
+    position: static;
+    display: inline-block;
 }
 
 .dropdown-custom-content {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: inherit;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: inherit;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
 }
 
 .dropdown-custom-content li {
-  color: black;
-  padding: auto;
-  overflow-y: auto;
-  display: block;
+    color: black;
+    padding: auto;
+    overflow-y: auto;
+    display: block;
 }
 
-.dropdown-custom:hover .dropdown-custom-content {display: block;}
+.dropdown-custom:hover .dropdown-custom-content {
+    display: block;
+}
 
 .img-details {
-  width: auto;
-  max-width: 300px;
-  height: auto;
-  max-height: 400px;
-  alt: "book's image";
+    width: auto;
+    max-width: 300px;
+    height: auto;
+    max-height: 400px;
+    alt: "book's image";
 }
 
 .btn-circle {
-  border-radius: 100%;
-  width: 2em;
-  height: 2em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    border-radius: 100%;
+    width: 2em;
+    height: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-circle:hover {
-  background-color:#212529;
+    background-color: #212529;
 }
 
 .fas {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .layout {
-  margin-top: 5em;
-  margin-bottom: 5%;
-  margin-left: 5%;
-  margin-right: 5%;
-  background-color: #cc9a06;
-  position:sticky;
+    margin-top: 5em;
+    margin-bottom: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: #cc9a06;
+    position: sticky;
 }
 
 textarea {
-  height: 376px;
-  max-height: inherit;
+    height: 376px;
+    max-height: inherit;
 }
 
 .nav-link {
-  color: rgb(0, 129, 0);
+    color: rgb(0, 129, 0);
 }
 
 .form-control {
-  background-color: #ffe9a6;
+    background-color: #ffe9a6;
 }
 
 .form-control:hover {
-  background-color: #ffe9a6;
+    background-color: #ffe9a6;
 }
 
 .theme {
-  color: #ffe9a6;
+    color: #ffe9a6;
 }
 
 .theme:hover {
-  color: rgb(0, 129, 0);
+    color: rgb(0, 129, 0);
 }
 
 .optional-dropdown {
-  background-color: #ffe9a6;
+    background-color: #ffe9a6;
 }
 
 .optional-dropdown:hover {
-  background-color: #ffe9a6;
+    background-color: #ffe9a6;
 }
 
 .nav-link:hover {
-  color: #ffeb7be8;
+    color: #ffeb7be8;
 }
 
 .btn-outline-success:hover {
-  color: #ffeb7be8;
+    color: #ffeb7be8;
 }
 
 .btn-outline-secondary:hover {
-  color: #ffeb7be8;
+    color: #ffeb7be8;
 }
 
 .btn-outline-danger:hover {
-  color: #ffeb7be8;
+    color: #ffeb7be8;
 }
 
 .btn-outline-warning:hover {
-  color: rgb(0, 129, 0);
+    color: rgb(0, 129, 0);
 }
 
 .opt {
-  width: 50%;
+    width: 50%;
 }
 
 .card-header {
-  background-color: #b9a569;
+    background-color: #b9a569;
 }
 
 .card-body {
-  background-color: #ffeb7be8;
+    background-color: #ffeb7be8;
 }
 
 .btn-link {
-  color: darkcyan;
+    color: darkcyan;
 }
 
 .btn-link:hover {
-  color: orange;
+    color: orange;
 }

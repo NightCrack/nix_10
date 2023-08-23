@@ -33,7 +33,7 @@ public class BookInstancesDAOImpl extends BaseDaoImpl implements BookInstancesDA
             "inner join books as b on bi.book_id = b.isbn ";
     private final String FIND_ALL_BOOK_INSTANCES_QUERY =
             FIND_ALL_BOOK_INSTANCES_QUERY_SELECT +
-            FIND_ALL_BOOK_INSTANCES_QUERY_BODY;
+                    FIND_ALL_BOOK_INSTANCES_QUERY_BODY;
 
 
     public BookInstancesDAOImpl(JpaConfig jpaConfig) {
